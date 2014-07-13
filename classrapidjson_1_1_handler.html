@@ -81,27 +81,27 @@ $(document).ready(function(){initNavTree('classrapidjson_1_1_handler.html','');}
 </div><!--header-->
 <div class="contents">
 
-<p>Concept for receiving events from <a class="el" href="classrapidjson_1_1_generic_reader.html" title="SAX-style JSON parser. Use Reader for UTF8 encoding and default allocator. ">GenericReader</a> upon parsing.  
+<p>Concept for receiving events from <a class="el" href="classrapidjson_1_1_generic_reader.html" title="SAX-style JSON parser. Use Reader for UTF8 encoding and default allocator. ">GenericReader</a> upon parsing. The functions return true if no error occurs. If they return false, the event publisher should terminate the process.  
  <a href="classrapidjson_1_1_handler.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="reader_8h_source.html">reader.h</a>&gt;</code></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Concept for receiving events from <a class="el" href="classrapidjson_1_1_generic_reader.html" title="SAX-style JSON parser. Use Reader for UTF8 encoding and default allocator. ">GenericReader</a> upon parsing. </p>
+<div class="textblock"><p>Concept for receiving events from <a class="el" href="classrapidjson_1_1_generic_reader.html" title="SAX-style JSON parser. Use Reader for UTF8 encoding and default allocator. ">GenericReader</a> upon parsing. The functions return true if no error occurs. If they return false, the event publisher should terminate the process. </p>
 <div class="fragment"><div class="line">concept Handler {</div>
 <div class="line">    <span class="keyword">typename</span> Ch;</div>
 <div class="line"></div>
-<div class="line">    <span class="keywordtype">void</span> Null();</div>
-<div class="line">    <span class="keywordtype">void</span> Bool(<span class="keywordtype">bool</span> b);</div>
-<div class="line">    <span class="keywordtype">void</span> Int(<span class="keywordtype">int</span> i);</div>
-<div class="line">    <span class="keywordtype">void</span> Uint(<span class="keywordtype">unsigned</span> i);</div>
-<div class="line">    <span class="keywordtype">void</span> Int64(int64_t i);</div>
-<div class="line">    <span class="keywordtype">void</span> Uint64(uint64_t i);</div>
-<div class="line">    <span class="keywordtype">void</span> Double(<span class="keywordtype">double</span> d);</div>
-<div class="line">    <span class="keywordtype">void</span> String(<span class="keyword">const</span> Ch* str, <a class="code" href="namespacerapidjson.html#a44eb33eaa523e36d466b1ced64b85c84">SizeType</a> length, <span class="keywordtype">bool</span> copy);</div>
-<div class="line">    <span class="keywordtype">void</span> StartObject();</div>
-<div class="line">    <span class="keywordtype">void</span> EndObject(<a class="code" href="namespacerapidjson.html#a44eb33eaa523e36d466b1ced64b85c84">SizeType</a> memberCount);</div>
-<div class="line">    <span class="keywordtype">void</span> StartArray();</div>
-<div class="line">    <span class="keywordtype">void</span> EndArray(<a class="code" href="namespacerapidjson.html#a44eb33eaa523e36d466b1ced64b85c84">SizeType</a> elementCount);</div>
+<div class="line">    <span class="keywordtype">bool</span> Null();</div>
+<div class="line">    <span class="keywordtype">bool</span> Bool(<span class="keywordtype">bool</span> b);</div>
+<div class="line">    <span class="keywordtype">bool</span> Int(<span class="keywordtype">int</span> i);</div>
+<div class="line">    <span class="keywordtype">bool</span> Uint(<span class="keywordtype">unsigned</span> i);</div>
+<div class="line">    <span class="keywordtype">bool</span> Int64(int64_t i);</div>
+<div class="line">    <span class="keywordtype">bool</span> Uint64(uint64_t i);</div>
+<div class="line">    <span class="keywordtype">bool</span> Double(<span class="keywordtype">double</span> d);</div>
+<div class="line">    <span class="keywordtype">bool</span> String(<span class="keyword">const</span> Ch* str, <a class="code" href="namespacerapidjson.html#a44eb33eaa523e36d466b1ced64b85c84">SizeType</a> length, <span class="keywordtype">bool</span> copy);</div>
+<div class="line">    <span class="keywordtype">bool</span> StartObject();</div>
+<div class="line">    <span class="keywordtype">bool</span> EndObject(<a class="code" href="namespacerapidjson.html#a44eb33eaa523e36d466b1ced64b85c84">SizeType</a> memberCount);</div>
+<div class="line">    <span class="keywordtype">bool</span> StartArray();</div>
+<div class="line">    <span class="keywordtype">bool</span> EndArray(<a class="code" href="namespacerapidjson.html#a44eb33eaa523e36d466b1ced64b85c84">SizeType</a> elementCount);</div>
 <div class="line">};</div>
 </div><!-- fragment --> </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/rapidjson/<a class="el" href="reader_8h_source.html">reader.h</a></li>

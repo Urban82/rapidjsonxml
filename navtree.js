@@ -59,7 +59,17 @@ var NAVTREE =
         [ "User Buffer", "md_doc_dom.html#UserBuffer", null ]
       ] ]
     ] ],
-    [ "SAX", "md_doc_sax.html", null ],
+    [ "SAX", "md_doc_sax.html", [
+      [ "Reader", "md_doc_sax.html#Reader", [
+        [ "Handler", "md_doc_sax.html#Handler", null ],
+        [ "GenericReader", "md_doc_sax.html#GenericReader", null ]
+      ] ],
+      [ "Writer", "md_doc_sax.html#Writer", [
+        [ "PrettyWriter", "md_doc_sax.html#PrettyWriter", null ],
+        [ "Parsing JSON to Custom Data Structure", "md_doc_sax.html#CustomDataStructure", null ],
+        [ "Filtering of JSON", "md_doc_sax.html#Filtering", null ]
+      ] ]
+    ] ],
     [ "Performance", "md_doc_performance.html", null ],
     [ "Internals", "md_doc_internals.html", null ],
     [ "FAQ", "md_doc_faq.html", null ],
@@ -95,7 +105,7 @@ var NAVTREEINDEX =
 [
 "allocators_8h_source.html",
 "classrapidjson_1_1_memory_pool_allocator.html#aa1d5b36c67611937e8ad6b2be53a483e",
-"structrapidjson_1_1_u_t_f8.html"
+"structrapidjson_1_1_parse_result.html#ad15710045513f13ba526753c4a2cb59b"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
