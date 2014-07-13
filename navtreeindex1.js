@@ -100,8 +100,9 @@ var NAVTREEINDEX1 =
 "md_doc_internals.html":[7],
 "md_doc_performance.html":[6],
 "md_doc_sax.html":[5],
-"md_doc_sax.html#CustomDataStructure":[5,1,1],
-"md_doc_sax.html#Filtering":[5,1,2],
+"md_doc_sax.html#CompletenessReset":[5,1,1],
+"md_doc_sax.html#CustomDataStructure":[5,1,2],
+"md_doc_sax.html#Filtering":[5,1,3],
 "md_doc_sax.html#GenericReader":[5,0,1],
 "md_doc_sax.html#Handler":[5,0,0],
 "md_doc_sax.html#PrettyWriter":[5,1,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "structrapidjson_1_1_parse_result.html#a40c0bd4d6c535c57acbb5c2e656bea38":[11,0,0,23,9],
 "structrapidjson_1_1_parse_result.html#a51cfd45c07e28aa4fdd78b55d86f0591":[11,0,0,23,3],
 "structrapidjson_1_1_parse_result.html#a58c9982e833d1c74686506ac7449200c":[11,0,0,23,10],
-"structrapidjson_1_1_parse_result.html#a5ab5548c7a7776f4da20eac09fe57c1b":[11,0,0,23,4],
-"structrapidjson_1_1_parse_result.html#ac8865f9231951740a99d3f3ab10f9a4e":[11,0,0,23,6]
+"structrapidjson_1_1_parse_result.html#a5ab5548c7a7776f4da20eac09fe57c1b":[11,0,0,23,4]
 };

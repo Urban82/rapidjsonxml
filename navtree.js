@@ -66,6 +66,7 @@ var NAVTREE =
       ] ],
       [ "Writer", "md_doc_sax.html#Writer", [
         [ "PrettyWriter", "md_doc_sax.html#PrettyWriter", null ],
+        [ "Completeness and Reset", "md_doc_sax.html#CompletenessReset", null ],
         [ "Parsing JSON to Custom Data Structure", "md_doc_sax.html#CustomDataStructure", null ],
         [ "Filtering of JSON", "md_doc_sax.html#Filtering", null ]
       ] ]
@@ -105,7 +106,7 @@ var NAVTREEINDEX =
 [
 "allocators_8h_source.html",
 "classrapidjson_1_1_memory_pool_allocator.html#aa1d5b36c67611937e8ad6b2be53a483e",
-"structrapidjson_1_1_parse_result.html#ad15710045513f13ba526753c4a2cb59b"
+"structrapidjson_1_1_parse_result.html#ac8865f9231951740a99d3f3ab10f9a4e"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

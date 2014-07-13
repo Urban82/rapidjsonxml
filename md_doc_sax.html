@@ -86,6 +86,7 @@ $(document).ready(function(){initNavTree('md_doc_sax.html','');});
 </ul>
 </li>
 <li class="level1"><a href="#Writer">Writer</a><ul><li class="level2"><a href="#PrettyWriter">PrettyWriter</a></li>
+<li class="level2"><a href="#CompletenessReset">Completeness and Reset</a></li>
 <li class="level2"><a href="#CustomDataStructure">Parsing JSON to Custom Data Structure</a></li>
 <li class="level2"><a href="#Filtering">Filtering of JSON</a></li>
 </ul>
@@ -107,7 +108,7 @@ Reader</h1>
 <div class="line">    <span class="stringliteral">&quot;pi&quot;</span>: 3.1416,</div>
 <div class="line">    <span class="stringliteral">&quot;a&quot;</span>: [1, 2, 3, 4]</div>
 <div class="line">}</div>
-</div><!-- fragment --><p>While a <code>Reader</code> parses the JSON, it will publish the following events to the handler sequentially:</p>
+</div><!-- fragment --><p>While a <code>Reader</code> parses this JSON, it publishes the following events to the handler sequentially:</p>
 <div class="fragment"><div class="line">BeginObject()</div>
 <div class="line">String(&quot;hello&quot;, 5, true)</div>
 <div class="line">String(&quot;world&quot;, 5, true)</div>
@@ -129,7 +130,7 @@ Reader</h1>
 <div class="line">Uint(4)</div>
 <div class="line">EndArray(4)</div>
 <div class="line">EndObject(7)</div>
-</div><!-- fragment --><p>These events can be easily match up with the JSON, except some event parameters need further explanation. Let's see the <code>simplereader</code> example which produces exactly the same output as above:</p>
+</div><!-- fragment --><p>These events can be easily matched with the JSON, except some event parameters need further explanation. Let's see the <code>simplereader</code> example which produces exactly the same output as above:</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;rapidjson/reader.h&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"></div>
@@ -165,8 +166,8 @@ Reader</h1>
 </div><!-- fragment --><p>Note that, RapidJSON uses template to statically bind the <code>Reader</code> type and the handler type, instead of using class with virtual functions. This paradigm can improve the performance by inlining functions.</p>
 <h2><a class="anchor" id="Handler"></a>
 Handler</h2>
-<p>As the previous example showed, user needs to implement a handler, which consumes the events (function calls) from <code>Reader</code>. The handler concept has the following member type and member functions.</p>
-<div class="fragment"><div class="line">concept Handler {</div>
+<p>As the previous example showed, user needs to implement a handler, which consumes the events (function calls) from <code>Reader</code>. The handler must contain the following member functions.</p>
+<div class="fragment"><div class="line"><span class="keyword">class </span>Handler {</div>
 <div class="line">    <span class="keywordtype">bool</span> Null();</div>
 <div class="line">    <span class="keywordtype">bool</span> Bool(<span class="keywordtype">bool</span> b);</div>
 <div class="line">    <span class="keywordtype">bool</span> Int(<span class="keywordtype">int</span> i);</div>
@@ -218,7 +219,7 @@ Parsing</h2>
 <h1><a class="anchor" id="Writer"></a>
 Writer</h1>
 <p><code>Reader</code> converts (parses) JSON into events. <code>Writer</code> does exactly the opposite. It converts events into JSON.</p>
-<p><code>Writer</code> is very easy to use. If your application only need to converts some data into JSON, it may be a good choice of using <code>Writer</code> directly, instead of building a <code>Document</code> and then stringifying it with a <code>Writer</code>.</p>
+<p><code>Writer</code> is very easy to use. If your application only need to converts some data into JSON, it may be a good choice to use <code>Writer</code> directly, instead of building a <code>Document</code> and then stringifying it with a <code>Writer</code>.</p>
 <p>In <code>simplewriter</code> example, we do exactly the reverse of <code>simplereader</code>.</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;rapidjson/writer.h&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &quot;rapidjson/stringbuffer.h&quot;</span></div>
@@ -256,16 +257,11 @@ Writer</h1>
 </div><!-- fragment --><div class="fragment"><div class="line">{<span class="stringliteral">&quot;hello&quot;</span>:<span class="stringliteral">&quot;world&quot;</span>,<span class="stringliteral">&quot;t&quot;</span>:<span class="keyword">true</span>,<span class="stringliteral">&quot;f&quot;</span>:<span class="keyword">false</span>,<span class="stringliteral">&quot;n&quot;</span>:null,<span class="stringliteral">&quot;i&quot;</span>:123,<span class="stringliteral">&quot;pi&quot;</span>:3.1416,<span class="stringliteral">&quot;a&quot;</span>:[0,1,2,3]}</div>
 </div><!-- fragment --><p>There is two <code>String()</code> overloads. One is the same as defined in handler concept with 3 parameters. It can handle string with null characters. Another one is the simpler version used in the above example.</p>
 <p>Note that, the example code does not pass any parameters in <code>EndArray()</code> and <code>EndObject()</code>. An <code>SizeType</code> can be passed but it will be simply ignored by <code>Writer</code>.</p>
-<p>You may doubt that,</p>
-<blockquote class="doxtable">
-<p>"why not just using `sprintf()` or `std::stringstream` to build a JSON?" </p>
-</blockquote>
+<p>You may doubt that, why not just using <code>sprintf()</code> or <code>std::stringstream</code> to build a JSON?</p>
 <p>There are various reasons:</p><ol type="1">
 <li><code>Writer</code> must output a well-formed JSON. If there is incorrect event sequence (e.g. <code>Int()</code> just after <code>StartObject()</code>), it generates assertion fail in debug mode.</li>
 <li><code>Writer::String()</code> can handle string escaping (e.g. converting code point <code>U+000A</code> to <code>\n</code>) and Unicode transcoding.</li>
 <li><code>Writer</code> handles number output consistently. For example, user can set precision for <code>Double()</code>.</li>
-</ol>
-<ol type="1">
 <li><code>Writer</code> implements the event handler concept. It can be used to handle events from <code>Reader</code>, <code>Document</code> or other event publisher.</li>
 <li><code>Writer</code> can be optimized for different platforms.</li>
 </ol>
@@ -300,6 +296,10 @@ PrettyWriter</h2>
 <p>While the output of <code>Writer</code> is the most condensed JSON without white-spaces, suitable for network transfer or storage, it is not easily readable by human.</p>
 <p>Therefore, RapidJSON provides a <code>PrettyWriter</code>, which adds indentation and line feeds in the output.</p>
 <p>The usage of <code>PrettyWriter</code> is exactly the same as <code>Writer</code>, expect that <code>PrettyWriter</code> provides a <code>SetIndent(Ch indentChar, unsigned indentCharCount)</code> function. The default is 4 spaces.</p>
+<h2><a class="anchor" id="CompletenessReset"></a>
+Completeness and Reset</h2>
+<p>A <code>Writer</code> can only output a single JSON, which can be either an object or array at the root. Once the last matching <code>EndObject()</code> or <code>EndArray()</code> event is handled, the output JSON is well-formed and complete. User can detect this state by calling <code>Writer::IsComplete()</code>.</p>
+<p>When a JSON is complete, the <code>Writer</code> cannot accept any new events. Otherwise the output will be invalid (i.e. having more than one root). To reuse the <code>Writer</code> object, user can call <code>Writer::Reset(OutputStream&amp; os)</code> to reset all internal states of the <code>Writer</code> with a new output stream.</p>
 <h1><a class="anchor" id="Techniques"></a>
 Techniques</h1>
 <h2><a class="anchor" id="CustomDataStructure"></a>
@@ -399,7 +399,7 @@ Parsing JSON to Custom Data Structure</h2>
 <div class="line">{ <span class="stringliteral">&quot;greeting&quot;</span> : <span class="stringliteral">&quot;Hello!&quot;</span>, <span class="stringliteral">&quot;farewell&quot;</span> : <span class="stringliteral">&quot;bye-bye!&quot;</span>, <span class="stringliteral">&quot;foo&quot;</span> : {} }</div>
 <div class="line">Error: Terminate parsing due to Handler error.</div>
 <div class="line"> at offset 59 near <span class="stringliteral">&#39;} }...&#39;</span></div>
-</div><!-- fragment --><p>The first JSON (<code>json1</code>) was successfully parsed into <code>MessageMap</code>. Since it is a <code>std::map</code>, the print out are sorted by the key, which is different from the JSON's order.</p>
+</div><!-- fragment --><p>The first JSON (<code>json1</code>) was successfully parsed into <code>MessageMap</code>. Since <code>MessageMap</code> is a <code>std::map</code>, the printing order are sorted by the key. This order is different from the JSON's order.</p>
 <p>In the second JSON (<code>json2</code>), <code>foo</code>'s value is an empty object. As it is an object, <code>MessageHandler::StartObject()</code> will be called. However, at that moment <code>state_ = kExpectValue</code>, so that function returns <code>false</code> and cause the parsing process be terminated. The error code is <code>kParseErrorTermination</code>.</p>
 <h2><a class="anchor" id="Filtering"></a>
 Filtering of JSON</h2>
@@ -462,9 +462,9 @@ Filtering of JSON</h2>
 <div class="line"></div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
-</div><!-- fragment --><p>Note that, it is incorrect to simply capitalize the JSON as a string. For example: </p><div class="fragment"><div class="line">[<span class="stringliteral">&quot;Hello\\nWorld&quot;</span>]</div>
-</div><!-- fragment --><p>Simply capitalizing the whole JSON would contain incorrect escape character: </p><div class="fragment"><div class="line">[<span class="stringliteral">&quot;HELLO\\NWORLD&quot;</span>]</div>
-</div><!-- fragment --><p>The correct result by <code>capitalize</code>: </p><div class="fragment"><div class="line">[<span class="stringliteral">&quot;HELLO\\nWORLD&quot;</span>]</div>
+</div><!-- fragment --><p>Note that, it is incorrect to simply capitalize the JSON as a string. For example: </p><div class="fragment"><div class="line">[<span class="stringliteral">&quot;Hello\nWorld&quot;</span>]</div>
+</div><!-- fragment --><p>Simply capitalizing the whole JSON would contain incorrect escape character: </p><div class="fragment"><div class="line">[<span class="stringliteral">&quot;HELLO\NWORLD&quot;</span>]</div>
+</div><!-- fragment --><p>The correct result by <code>capitalize</code>: </p><div class="fragment"><div class="line">[<span class="stringliteral">&quot;HELLO\nWORLD&quot;</span>]</div>
 </div><!-- fragment --><p>More complicated filters can be developed. However, since SAX-style API can only provide information about a single event at a time, user may need to book-keeping the contextual information (e.g. the path from root value, storage of other related values). Some processing may be easier to be implemented in DOM than SAX. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
