@@ -180,6 +180,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a08171b32315cb764f5073a99b1399a1c inherit pub_methods_classrapidjson_1_1_writer"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapidjson_1_1_writer.html#a08171b32315cb764f5073a99b1399a1c">Writer</a> (OutputStream &amp;os, <a class="el" href="classrapidjson_1_1_allocator.html">Allocator</a> *allocator=0, size_t levelDepth=kDefaultLevelDepth)</td></tr>
 <tr class="memdesc:a08171b32315cb764f5073a99b1399a1c inherit pub_methods_classrapidjson_1_1_writer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a08171b32315cb764f5073a99b1399a1c">More...</a><br /></td></tr>
 <tr class="separator:a08171b32315cb764f5073a99b1399a1c inherit pub_methods_classrapidjson_1_1_writer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa649612c16f79c38122cd6f818b265f1 inherit pub_methods_classrapidjson_1_1_writer"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapidjson_1_1_writer.html#aa649612c16f79c38122cd6f818b265f1">Reset</a> (OutputStream &amp;os)</td></tr>
+<tr class="memdesc:aa649612c16f79c38122cd6f818b265f1 inherit pub_methods_classrapidjson_1_1_writer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the writer with a new stream.  <a href="#aa649612c16f79c38122cd6f818b265f1">More...</a><br /></td></tr>
+<tr class="separator:aa649612c16f79c38122cd6f818b265f1 inherit pub_methods_classrapidjson_1_1_writer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a999ae6a4365236877b15bd4797c144 inherit pub_methods_classrapidjson_1_1_writer"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapidjson_1_1_writer.html#a6a999ae6a4365236877b15bd4797c144">IsComplete</a> () const </td></tr>
+<tr class="memdesc:a6a999ae6a4365236877b15bd4797c144 inherit pub_methods_classrapidjson_1_1_writer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether the output is a complete JSON.  <a href="#a6a999ae6a4365236877b15bd4797c144">More...</a><br /></td></tr>
+<tr class="separator:a6a999ae6a4365236877b15bd4797c144 inherit pub_methods_classrapidjson_1_1_writer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae85dcf5e22d04e125e2f2cc317c87429 inherit pub_methods_classrapidjson_1_1_writer"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrapidjson_1_1_writer.html">Writer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapidjson_1_1_writer.html#ae85dcf5e22d04e125e2f2cc317c87429">SetDoublePrecision</a> (int p=kDefaultDoublePrecision)</td></tr>
 <tr class="memdesc:ae85dcf5e22d04e125e2f2cc317c87429 inherit pub_methods_classrapidjson_1_1_writer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the number of significant digits for <code>double</code> values.  <a href="#ae85dcf5e22d04e125e2f2cc317c87429">More...</a><br /></td></tr>
 <tr class="separator:ae85dcf5e22d04e125e2f2cc317c87429 inherit pub_methods_classrapidjson_1_1_writer"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -286,15 +292,18 @@ Ch&#160;</td><td class="memItemRight" valign="bottom"><b>indentChar_</b></td></t
 unsigned&#160;</td><td class="memItemRight" valign="bottom"><b>indentCharCount_</b></td></tr>
 <tr class="separator:a7b1c81e63eba5b09f7c3bcae0f02717e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classrapidjson_1_1_writer"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classrapidjson_1_1_writer')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classrapidjson_1_1_writer.html">rapidjson::Writer&lt; OutputStream, SourceEncoding, TargetEncoding, Allocator &gt;</a></td></tr>
-<tr class="memitem:aa71ac3cf86149f68e27fb126424e6d43 inherit pro_attribs_classrapidjson_1_1_writer"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa71ac3cf86149f68e27fb126424e6d43"></a>
-OutputStream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>os_</b></td></tr>
-<tr class="separator:aa71ac3cf86149f68e27fb126424e6d43 inherit pro_attribs_classrapidjson_1_1_writer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a137d8e682860f454758d9dc0fb047603 inherit pro_attribs_classrapidjson_1_1_writer"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a137d8e682860f454758d9dc0fb047603"></a>
+OutputStream *&#160;</td><td class="memItemRight" valign="bottom"><b>os_</b></td></tr>
+<tr class="separator:a137d8e682860f454758d9dc0fb047603 inherit pro_attribs_classrapidjson_1_1_writer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09c3372f1423f21e77cfea1ac6fa0183 inherit pro_attribs_classrapidjson_1_1_writer"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a09c3372f1423f21e77cfea1ac6fa0183"></a>
 internal::Stack&lt; <a class="el" href="classrapidjson_1_1_allocator.html">Allocator</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>level_stack_</b></td></tr>
 <tr class="separator:a09c3372f1423f21e77cfea1ac6fa0183 inherit pro_attribs_classrapidjson_1_1_writer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6bab5a66f22cff85e76645f9e9ed0f8f inherit pro_attribs_classrapidjson_1_1_writer"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6bab5a66f22cff85e76645f9e9ed0f8f"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>doublePrecision_</b></td></tr>
 <tr class="separator:a6bab5a66f22cff85e76645f9e9ed0f8f inherit pro_attribs_classrapidjson_1_1_writer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8c6fcf877b5724a0fb7ce9b287503d7 inherit pro_attribs_classrapidjson_1_1_writer"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa8c6fcf877b5724a0fb7ce9b287503d7"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasRoot_</b></td></tr>
+<tr class="separator:aa8c6fcf877b5724a0fb7ce9b287503d7 inherit pro_attribs_classrapidjson_1_1_writer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>

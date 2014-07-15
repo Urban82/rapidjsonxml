@@ -11,8 +11,10 @@ var classrapidjson_1_1_writer =
     [ "GetDoublePrecision", "classrapidjson_1_1_writer.html#ae10a165f6ee2d7099e82c9ae7eb98e08", null ],
     [ "Int", "classrapidjson_1_1_writer.html#a41b6b077f8b2394846bbea73a4bcc981", null ],
     [ "Int64", "classrapidjson_1_1_writer.html#ae022aadf4bcae176656f4dc9dd2bd629", null ],
+    [ "IsComplete", "classrapidjson_1_1_writer.html#a6a999ae6a4365236877b15bd4797c144", null ],
     [ "Null", "classrapidjson_1_1_writer.html#a5edefe4c4dda63c358b52e53fec5ba6c", null ],
     [ "Prefix", "classrapidjson_1_1_writer.html#aed43edf92031702342482d7e7070eed5", null ],
+    [ "Reset", "classrapidjson_1_1_writer.html#aa649612c16f79c38122cd6f818b265f1", null ],
     [ "SetDoublePrecision", "classrapidjson_1_1_writer.html#ae85dcf5e22d04e125e2f2cc317c87429", null ],
     [ "StartArray", "classrapidjson_1_1_writer.html#adaf36896d3c3b192c597be91044af180", null ],
     [ "StartObject", "classrapidjson_1_1_writer.html#af5cde5b44f984aea1cd3c5b71c54f83c", null ],
@@ -33,6 +35,7 @@ var classrapidjson_1_1_writer =
     [ "WriteUint", "classrapidjson_1_1_writer.html#afab9148f2998596ec7fb7467fb3b6b8d", null ],
     [ "WriteUint64", "classrapidjson_1_1_writer.html#a5610c8f75db37aaf6ca161230d0dfed5", null ],
     [ "doublePrecision_", "classrapidjson_1_1_writer.html#a6bab5a66f22cff85e76645f9e9ed0f8f", null ],
+    [ "hasRoot_", "classrapidjson_1_1_writer.html#aa8c6fcf877b5724a0fb7ce9b287503d7", null ],
     [ "level_stack_", "classrapidjson_1_1_writer.html#a09c3372f1423f21e77cfea1ac6fa0183", null ],
-    [ "os_", "classrapidjson_1_1_writer.html#aa71ac3cf86149f68e27fb126424e6d43", null ]
+    [ "os_", "classrapidjson_1_1_writer.html#a137d8e682860f454758d9dc0fb047603", null ]
 ];
