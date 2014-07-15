@@ -1,6 +1,7 @@
 var namespacerapidjson =
 [
     [ "Allocator", "classrapidjson_1_1_allocator.html", null ],
+    [ "ASCII", "structrapidjson_1_1_a_s_c_i_i.html", "structrapidjson_1_1_a_s_c_i_i" ],
     [ "AutoUTF", "structrapidjson_1_1_auto_u_t_f.html", "structrapidjson_1_1_auto_u_t_f" ],
     [ "AutoUTFInputStream", "classrapidjson_1_1_auto_u_t_f_input_stream.html", "classrapidjson_1_1_auto_u_t_f_input_stream" ],
     [ "AutoUTFOutputStream", "classrapidjson_1_1_auto_u_t_f_output_stream.html", "classrapidjson_1_1_auto_u_t_f_output_stream" ],

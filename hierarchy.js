@@ -1,6 +1,7 @@
 var hierarchy =
 [
     [ "rapidjson::Allocator", "classrapidjson_1_1_allocator.html", null ],
+    [ "rapidjson::ASCII< CharType >", "structrapidjson_1_1_a_s_c_i_i.html", null ],
     [ "rapidjson::AutoUTF< CharType >", "structrapidjson_1_1_auto_u_t_f.html", null ],
     [ "rapidjson::AutoUTFInputStream< CharType, InputByteStream >", "classrapidjson_1_1_auto_u_t_f_input_stream.html", null ],
     [ "rapidjson::AutoUTFOutputStream< CharType, OutputByteStream >", "classrapidjson_1_1_auto_u_t_f_output_stream.html", null ],
