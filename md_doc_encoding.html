@@ -98,9 +98,8 @@ $(document).ready(function(){initNavTree('md_doc_encoding.html','');});
 </blockquote>
 <p>The earlier <a href="http://www.ietf.org/rfc/rfc4627.txt">RFC4627</a> stated that,</p>
 <blockquote class="doxtable">
-<p>(in §3) JSON text SHALL be encoded in Unicode. The default encoding is </p>
+<p>(in §3) JSON text SHALL be encoded in Unicode. The default encoding is UTF-8. </p>
 </blockquote>
-<p>UTF-8.</p>
 <blockquote class="doxtable">
 <p>(in §6) JSON may be represented using UTF-8, UTF-16, or UTF-32. When JSON is written in UTF-8, JSON is 8bit compatible. When JSON is written in UTF-16 or UTF-32, the binary content-transfer-encoding must be used. </p>
 </blockquote>
@@ -115,9 +114,9 @@ Unicode</h1>
 Unicode Transformation Format</h2>
 <p>There are various encodings for storing Unicode code points. These are called Unicode Transformation Format (UTF). RapidJSON supports the most commonly used UTFs, including</p>
 <ul>
-<li>UTF-8: 8-bit variable-width encoding. It maps a code point to 1-4 bytes.</li>
-<li>UTF-16: 16-bit variable-width encoding. It maps a code point to 1-2 16-bit code units (i.e., 2-4 bytes).</li>
-<li>UTF-32: 32-bit fixed-width encoding. It directly maps a code point to 1 32-bit code unit (i.e. 4 bytes).</li>
+<li>UTF-8: 8-bit variable-width encoding. It maps a code point to 1–4 bytes.</li>
+<li>UTF-16: 16-bit variable-width encoding. It maps a code point to 1–2 16-bit code units (i.e., 2–4 bytes).</li>
+<li>UTF-32: 32-bit fixed-width encoding. It directly maps a code point to a single 32-bit code unit (i.e. 4 bytes).</li>
 </ul>
 <p>For UTF-16 and UTF-32, the byte order (endianness) does matter. Within computer memory, they are often stored in the computer's endianness. However, when it is stored in file or transferred over network, we need to state the byte order of the byte sequence, either little-endian (LE) or big-endian (BE).</p>
 <p>RapidJSON provide these encodings via the structs in <code><a class="el" href="encodings_8h_source.html">rapidjson/encodings.h</a></code>:</p>
@@ -153,7 +152,7 @@ Unicode Transformation Format</h2>
 </div><!-- fragment --><p>For a detail example, please check the example in <a href="doc/stream.md#Encoding">DOM's Encoding</a> section.</p>
 <h2><a class="anchor" id="CharacterType"></a>
 Character Type</h2>
-<p>As shown in the declaration, each encoding has a <code>CharType</code> template parameter. Actually, it may be a little bit confusing, but each <code>CharType</code> stores a code unit, not a character (code point). As mentioned in previous section, a code point may be encoded to 1-4 code units for UTF-8.</p>
+<p>As shown in the declaration, each encoding has a <code>CharType</code> template parameter. Actually, it may be a little bit confusing, but each <code>CharType</code> stores a code unit, not a character (code point). As mentioned in previous section, a code point may be encoded to 1–4 code units for UTF-8.</p>
 <p>For <code>UTF16(LE|BE)</code>, <code>UTF32(LE|BE)</code>, the <code>CharType</code> must be integer type of at least 2 and 4 bytes respectively.</p>
 <p>Note that C++11 introduces <code>char16_t</code> and <code>char32_t</code>, which can be used for <code>UTF16</code> and <code>UTF32</code> respectively.</p>
 <h2><a class="anchor" id="AutoUTF"></a>
