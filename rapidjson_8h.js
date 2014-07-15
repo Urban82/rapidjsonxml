@@ -8,7 +8,6 @@ var rapidjson_8h =
     [ "RAPIDJSON_ALIGN", "rapidjson_8h.html#a583915242504c7fdb36e826f02f76242", null ],
     [ "RAPIDJSON_ASSERT", "rapidjson_8h.html#abeba18d612187bad2ac62aed9276d47c", null ],
     [ "RAPIDJSON_BIGENDIAN", "rapidjson_8h.html#ac7951ebf8a2624ab85d2dcd3ec7af974", null ],
-    [ "RAPIDJSON_ENDIAN", "rapidjson_8h.html#aba2445f582142cf918e74c2d22d1aa07", null ],
     [ "RAPIDJSON_FORCEINLINE", "rapidjson_8h.html#a08de57ba55122753d43b6b62d0b4deff", null ],
     [ "RAPIDJSON_LITTLEENDIAN", "rapidjson_8h.html#addcc0c3607c5790f35cc4c15885ff97c", null ],
     [ "RAPIDJSON_STATIC_ASSERT", "rapidjson_8h.html#af95188da1d8eb6d4b148fe9ce71cd7c4", null ],

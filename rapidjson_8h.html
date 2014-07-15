@@ -133,11 +133,8 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rapidjson_8h.html#ac7951ebf8a2624ab85d2dcd3ec7af974">RAPIDJSON_BIGENDIAN</a>&#160;&#160;&#160;1</td></tr>
 <tr class="memdesc:ac7951ebf8a2624ab85d2dcd3ec7af974"><td class="mdescLeft">&#160;</td><td class="mdescRight">Big endian machine. <br /></td></tr>
 <tr class="separator:ac7951ebf8a2624ab85d2dcd3ec7af974"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba2445f582142cf918e74c2d22d1aa07"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rapidjson_8h.html#aba2445f582142cf918e74c2d22d1aa07">RAPIDJSON_ENDIAN</a>&#160;&#160;&#160;<a class="el" href="rapidjson_8h.html#addcc0c3607c5790f35cc4c15885ff97c">RAPIDJSON_LITTLEENDIAN</a></td></tr>
-<tr class="memdesc:aba2445f582142cf918e74c2d22d1aa07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Endianness of the machine.  <a href="#aba2445f582142cf918e74c2d22d1aa07">More...</a><br /></td></tr>
-<tr class="separator:aba2445f582142cf918e74c2d22d1aa07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a583915242504c7fdb36e826f02f76242"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rapidjson_8h.html#a583915242504c7fdb36e826f02f76242">RAPIDJSON_ALIGN</a>(x)&#160;&#160;&#160;((x + 3u) &amp; ~3u)</td></tr>
-<tr class="memdesc:a583915242504c7fdb36e826f02f76242"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data alignment of the machine.  <a href="#a583915242504c7fdb36e826f02f76242">More...</a><br /></td></tr>
+<tr class="memdesc:a583915242504c7fdb36e826f02f76242"><td class="mdescLeft">&#160;</td><td class="mdescRight">Endianness of the machine.  <a href="#a583915242504c7fdb36e826f02f76242">More...</a><br /></td></tr>
 <tr class="separator:a583915242504c7fdb36e826f02f76242"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abeba18d612187bad2ac62aed9276d47c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rapidjson_8h.html#abeba18d612187bad2ac62aed9276d47c">RAPIDJSON_ASSERT</a>(x)&#160;&#160;&#160;assert(x)</td></tr>
 <tr class="memdesc:abeba18d612187bad2ac62aed9276d47c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assertion.  <a href="#abeba18d612187bad2ac62aed9276d47c">More...</a><br /></td></tr>
@@ -205,7 +202,9 @@ template&lt;typename Stream , typename Ch &gt; </td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Data alignment of the machine. </p>
+<p>Endianness of the machine. </p>
+<p>GCC 4.6 provided macro for detecting endianness of the target machine. But other compilers may not have this. User can define RAPIDJSON_ENDIAN to either <a class="el" href="rapidjson_8h.html#addcc0c3607c5790f35cc4c15885ff97c">RAPIDJSON_LITTLEENDIAN</a> or <a class="el" href="rapidjson_8h.html#ac7951ebf8a2624ab85d2dcd3ec7af974">RAPIDJSON_BIGENDIAN</a>.</p>
+<p>Implemented with reference to <a href="https://gcc.gnu.org/onlinedocs/gcc-4.6.0/cpp/Common-Predefined-Macros.html">https://gcc.gnu.org/onlinedocs/gcc-4.6.0/cpp/Common-Predefined-Macros.html</a> <a href="http://www.boost.org/doc/libs/1_42_0/boost/detail/endian.hppData">http://www.boost.org/doc/libs/1_42_0/boost/detail/endian.hppData</a> alignment of the machine.</p>
 <p>Some machine requires strict data alignment. Currently the default uses 4 bytes alignment. User can customize this. </p>
 
 </div>
@@ -226,21 +225,6 @@ template&lt;typename Stream , typename Ch &gt; </td></tr>
 
 <p>Assertion. </p>
 <p>By default, rapidjson uses C assert() for assertion. User can override it by defining <a class="el" href="rapidjson_8h.html#abeba18d612187bad2ac62aed9276d47c" title="Assertion. ">RAPIDJSON_ASSERT(x)</a> macro. </p>
-
-</div>
-</div>
-<a class="anchor" id="aba2445f582142cf918e74c2d22d1aa07"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define RAPIDJSON_ENDIAN&#160;&#160;&#160;<a class="el" href="rapidjson_8h.html#addcc0c3607c5790f35cc4c15885ff97c">RAPIDJSON_LITTLEENDIAN</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Endianness of the machine. </p>
-<p>GCC provided macro for detecting endianness of the target machine. But other compilers may not have this. User can define RAPIDJSON_ENDIAN to either <a class="el" href="rapidjson_8h.html#addcc0c3607c5790f35cc4c15885ff97c">RAPIDJSON_LITTLEENDIAN</a> or <a class="el" href="rapidjson_8h.html#ac7951ebf8a2624ab85d2dcd3ec7af974">RAPIDJSON_BIGENDIAN</a>. </p>
 
 </div>
 </div>
