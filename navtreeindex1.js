@@ -98,6 +98,13 @@ var NAVTREEINDEX1 =
 "md_doc_dom.html#TranscodingAndValidation":[4,1,2],
 "md_doc_dom.html#UserBuffer":[4,2,0],
 "md_doc_encoding.html":[3],
+"md_doc_encoding.html#ASCII":[3,0,3],
+"md_doc_encoding.html#AutoUTF":[3,0,2],
+"md_doc_encoding.html#CharacterType":[3,0,1],
+"md_doc_encoding.html#Transcoder":[3,1,0],
+"md_doc_encoding.html#UTF":[3,0,0],
+"md_doc_encoding.html#Unicode":[3,0],
+"md_doc_encoding.html#ValidationTranscoding":[3,1],
 "md_doc_faq.html":[8],
 "md_doc_features.html":[0],
 "md_doc_internals.html":[7],
@@ -242,12 +249,5 @@ var NAVTREEINDEX1 =
 "structrapidjson_1_1_generic_string_stream.html#a56bb2351836bace23555f4dc5abf57b1":[11,0,0,20,7],
 "structrapidjson_1_1_generic_string_stream.html#a5c7a3e097eb461b9cec5976576ecb9e4":[11,0,0,20,2],
 "structrapidjson_1_1_generic_string_stream.html#a70ad06c96ddf8349be59f3d4f6bbadc8":[11,0,0,20,0],
-"structrapidjson_1_1_generic_string_stream.html#a9a38a9d5b1ce782cacd4ec1bdf87fc2d":[11,0,0,20,10],
-"structrapidjson_1_1_generic_string_stream.html#a9a515c0ba83ad9029d1560952584cd2e":[11,0,0,20,4],
-"structrapidjson_1_1_generic_string_stream.html#ab160d646f4560d7b95f3fd816c3aac9a":[11,0,0,20,1],
-"structrapidjson_1_1_generic_string_stream.html#aca059ce7c89211420513940db8a52668":[11,0,0,20,5],
-"structrapidjson_1_1_parse_result.html":[11,0,0,24],
-"structrapidjson_1_1_parse_result.html#a056e5792c1554fbc05b5f1cc168d82ae":[11,0,0,24,5],
-"structrapidjson_1_1_parse_result.html#a0f03679d5fa2736d9e351541e767fac1":[11,0,0,24,0],
-"structrapidjson_1_1_parse_result.html#a11595b2d573f0299422678c5e3695479":[11,0,0,24,8]
+"structrapidjson_1_1_generic_string_stream.html#a9a38a9d5b1ce782cacd4ec1bdf87fc2d":[11,0,0,20,10]
 };

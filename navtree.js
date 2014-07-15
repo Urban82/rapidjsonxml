@@ -44,7 +44,17 @@ var NAVTREE =
       ] ],
       [ "Summary", "md_doc_stream.html#Summary", null ]
     ] ],
-    [ "Encoding", "md_doc_encoding.html", null ],
+    [ "Encoding", "md_doc_encoding.html", [
+      [ "Unicode", "md_doc_encoding.html#Unicode", [
+        [ "Unicode Transformation Format", "md_doc_encoding.html#UTF", null ],
+        [ "Character Type", "md_doc_encoding.html#CharacterType", null ],
+        [ "AutoUTF", "md_doc_encoding.html#AutoUTF", null ],
+        [ "ASCII", "md_doc_encoding.html#ASCII", null ]
+      ] ],
+      [ "Validation & Transcoding", "md_doc_encoding.html#ValidationTranscoding", [
+        [ "Transcoder", "md_doc_encoding.html#Transcoder", null ]
+      ] ]
+    ] ],
     [ "DOM", "md_doc_dom.html", [
       [ "Template", "md_doc_dom.html#Template", [
         [ "Encoding", "md_doc_dom.html#Encoding", null ],
@@ -106,7 +116,7 @@ var NAVTREEINDEX =
 [
 "allocators_8h_source.html",
 "classrapidjson_1_1_memory_pool_allocator.html#aa1d5b36c67611937e8ad6b2be53a483e",
-"structrapidjson_1_1_parse_result.html#a17c9f7f81675283393222658d613000f"
+"structrapidjson_1_1_generic_string_stream.html#a9a515c0ba83ad9029d1560952584cd2e"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

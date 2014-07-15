@@ -80,6 +80,18 @@ $(document).ready(function(){initNavTree('md_doc_encoding.html','');});
 <div class="title">Encoding </div>  </div>
 </div><!--header-->
 <div class="contents">
+<div class="toc"><h3>Table of Contents</h3>
+<ul><li class="level1"><a href="#Unicode">Unicode</a><ul><li class="level2"><a href="#UTF">Unicode Transformation Format</a></li>
+<li class="level2"><a href="#CharacterType">Character Type</a></li>
+<li class="level2"><a href="#AutoUTF">AutoUTF</a></li>
+<li class="level2"><a href="#ASCII">ASCII</a></li>
+</ul>
+</li>
+<li class="level1"><a href="#ValidationTranscoding">Validation & Transcoding</a><ul><li class="level2"><a href="#Transcoder">Transcoder</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <div class="textblock"><p>According to <a href="http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf">ECMA-404</a>,</p>
 <blockquote class="doxtable">
 <p>(in Introduction) JSON text is a sequence of Unicode code points. </p>
@@ -93,12 +105,14 @@ $(document).ready(function(){initNavTree('md_doc_encoding.html','');});
 <p>(in §6) JSON may be represented using UTF-8, UTF-16, or UTF-32. When JSON is written in UTF-8, JSON is 8bit compatible. When JSON is written in UTF-16 or UTF-32, the binary content-transfer-encoding must be used. </p>
 </blockquote>
 <p>RapidJSON supports various encodings. It can also validate the encodings of JSON, and transconding JSON among encodings. All these features are implemented internally, without the need for external libraries (e.g. <a href="http://site.icu-project.org/">ICU</a>).</p>
-<h1>Unicode {Unicode}</h1>
+<h1><a class="anchor" id="Unicode"></a>
+Unicode</h1>
 <p>From <a href="http://www.unicode.org/standard/WhatIsUnicode.html">Unicode's official website</a>: </p><blockquote class="doxtable">
 <p>Unicode provides a unique number for every character, no matter what the platform, no matter what the program, no matter what the language. </p>
 </blockquote>
 <p>Those unique numbers are called code points, which is in the range <code>0x0</code> to <code>0x10FFFF</code>.</p>
-<h2>Unicode Transformation Format {UTF}</h2>
+<h2><a class="anchor" id="UTF"></a>
+Unicode Transformation Format</h2>
 <p>There are various encodings for storing Unicode code points. These are called Unicode Transformation Format (UTF). RapidJSON supports the most commonly used UTFs, including</p>
 <ul>
 <li>UTF-8: 8-bit variable-width encoding. It maps a code point to 1-4 bytes.</li>
@@ -137,14 +151,17 @@ $(document).ready(function(){initNavTree('md_doc_encoding.html','');});
 <div class="fragment"><div class="line"><span class="keyword">typedef</span> GenericDocument&lt;UTF16&lt;&gt; &gt; WDocument;</div>
 <div class="line"><span class="keyword">typedef</span> GenericValue&lt;UTF16&lt;&gt; &gt; WValue;</div>
 </div><!-- fragment --><p>For a detail example, please check the example in <a href="doc/stream.md#Encoding">DOM's Encoding</a> section.</p>
-<h2>Character Type {CharacterType}</h2>
+<h2><a class="anchor" id="CharacterType"></a>
+Character Type</h2>
 <p>As shown in the declaration, each encoding has a <code>CharType</code> template parameter. Actually, it may be a little bit confusing, but each <code>CharType</code> stores a code unit, not a character (code point). As mentioned in previous section, a code point may be encoded to 1-4 code units for UTF-8.</p>
 <p>For <code>UTF16(LE|BE)</code>, <code>UTF32(LE|BE)</code>, the <code>CharType</code> must be integer type of at least 2 and 4 bytes respectively.</p>
 <p>Note that C++11 introduces <code>char16_t</code> and <code>char32_t</code>, which can be used for <code>UTF16</code> and <code>UTF32</code> respectively.</p>
-<h2>AutoUTF {AutoUTF}</h2>
+<h2><a class="anchor" id="AutoUTF"></a>
+AutoUTF</h2>
 <p>Previous encodings are statically bound in compile-time. In other words, user must know exactly which encodings will be used in the memory or streams. However, sometimes we may need to read/write files of different encodings. The encoding needed to be decided in runtime.</p>
 <p><code>AutoUTF</code> is an encoding designed for this purpose. It chooses which encoding to be used according to the input or output stream. Currently, it should be used with <code>EncodedInputStream</code> and <code>EncodedOutputStream</code>.</p>
-<h2>ASCII {ASCII}</h2>
+<h2><a class="anchor" id="ASCII"></a>
+ASCII</h2>
 <p>Although the JSON standards did not mention about <a href="http://en.wikipedia.org/wiki/ASCII">ASCII</a>, sometimes we would like to write 7-bit ASCII JSON for applications that cannot handle UTF-8. Since any JSON can represent unicode characters in escaped sequence <code>\uXXXX</code>, JSON can always be encoded in ASCII.</p>
 <p>Here is an example for writing a UTF-8 DOM into ASCII:</p>
 <div class="fragment"><div class="line"><span class="keyword">using namespace </span>rapidjson;</div>
@@ -156,10 +173,12 @@ $(document).ready(function(){initNavTree('md_doc_encoding.html','');});
 <div class="line">std::cout &lt;&lt; buffer.GetString();</div>
 </div><!-- fragment --><p>ASCII can be used in input stream. If the input stream contains bytes with values above 127, it will cause <code>kParseErrorStringInvalidEncoding</code> error.</p>
 <p>ASCII <em>cannot</em> be used in memory (encoding of <code>Document</code> or target encoding of <code>Reader</code>), as it cannot represent Unicode code points.</p>
-<h1>Validation &amp; Transcoding {ValidationTranscoding}</h1>
+<h1><a class="anchor" id="ValidationTranscoding"></a>
+Validation &amp; Transcoding</h1>
 <p>When RapidJSON parses a JSON, it can validate the input JSON, whether it is a valid sequence of a specified encoding. This option can be turned on by adding <code>kParseValidateEncodingFlag</code> in <code>parseFlags</code> template parameter.</p>
 <p>If the input encoding and output encoding is different, <code>Reader</code> and <code>Writer</code> will automatically transcode (convert) the text. In this case, <code>kParseValidateEncodingFlag</code> is not necessary, as it must decode the input sequence. And if the sequence was unable to be decoded, it must be invalid.</p>
-<h2>Transcoder {Transcoder}</h2>
+<h2><a class="anchor" id="Transcoder"></a>
+Transcoder</h2>
 <p>Although the encoding functions in RapidJSON are designed for JSON parsing/generation, user may abuse them for transcoding of non-JSON strings.</p>
 <p>Here is an example for transcoding a string from UTF-8 to UTF-16:</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;rapidjson/encodings.h&quot;</span></div>
