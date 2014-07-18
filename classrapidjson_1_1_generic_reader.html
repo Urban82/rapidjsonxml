@@ -100,9 +100,9 @@ typedef SourceEncoding::Ch&#160;</td><td class="memItemRight" valign="bottom"><a
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa7a114cd5bb7cc5d75020fe5a1f139c9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapidjson_1_1_generic_reader.html#aa7a114cd5bb7cc5d75020fe5a1f139c9">GenericReader</a> (<a class="el" href="classrapidjson_1_1_allocator.html">Allocator</a> *allocator=0, size_t stackCapacity=kDefaultStackCapacity)</td></tr>
-<tr class="memdesc:aa7a114cd5bb7cc5d75020fe5a1f139c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#aa7a114cd5bb7cc5d75020fe5a1f139c9">More...</a><br /></td></tr>
-<tr class="separator:aa7a114cd5bb7cc5d75020fe5a1f139c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4afe7d3c207c47966f71aab0a39d6303"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapidjson_1_1_generic_reader.html#a4afe7d3c207c47966f71aab0a39d6303">GenericReader</a> (size_t limit=0, <a class="el" href="classrapidjson_1_1_allocator.html">Allocator</a> *allocator=0, size_t stackCapacity=kDefaultStackCapacity)</td></tr>
+<tr class="memdesc:a4afe7d3c207c47966f71aab0a39d6303"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a4afe7d3c207c47966f71aab0a39d6303">More...</a><br /></td></tr>
+<tr class="separator:a4afe7d3c207c47966f71aab0a39d6303"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c05995d4e4fcd650bb0a80a9b0ec11f"><td class="memTemplParams" colspan="2">template&lt;unsigned parseFlags, typename InputStream , typename Handler &gt; </td></tr>
 <tr class="memitem:a7c05995d4e4fcd650bb0a80a9b0ec11f"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structrapidjson_1_1_parse_result.html">ParseResult</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classrapidjson_1_1_generic_reader.html#a7c05995d4e4fcd650bb0a80a9b0ec11f">Parse</a> (InputStream &amp;is, <a class="el" href="classrapidjson_1_1_handler.html">Handler</a> &amp;handler)</td></tr>
 <tr class="memdesc:a7c05995d4e4fcd650bb0a80a9b0ec11f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse JSON text.  <a href="#a7c05995d4e4fcd650bb0a80a9b0ec11f">More...</a><br /></td></tr>
@@ -142,7 +142,7 @@ class rapidjson::GenericReader&lt; SourceEncoding, TargetEncoding, Allocator &gt
   </dd>
 </dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="aa7a114cd5bb7cc5d75020fe5a1f139c9"></a>
+<a class="anchor" id="a4afe7d3c207c47966f71aab0a39d6303"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -154,6 +154,12 @@ template&lt;typename SourceEncoding, typename TargetEncoding, typename Allocator
         <tr>
           <td class="memname"><a class="el" href="classrapidjson_1_1_generic_reader.html">rapidjson::GenericReader</a>&lt; SourceEncoding, TargetEncoding, <a class="el" href="classrapidjson_1_1_allocator.html">Allocator</a> &gt;::<a class="el" href="classrapidjson_1_1_generic_reader.html">GenericReader</a> </td>
           <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>limit</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype"><a class="el" href="classrapidjson_1_1_allocator.html">Allocator</a> *&#160;</td>
           <td class="paramname"><em>allocator</em> = <code>0</code>, </td>
         </tr>
@@ -179,6 +185,7 @@ template&lt;typename SourceEncoding, typename TargetEncoding, typename Allocator
 <p>Constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">limit</td><td>Parsing stack size limit(in bytes). Pass 0 means no limit. </td></tr>
     <tr><td class="paramname">allocator</td><td>Optional allocator for allocating stack memory. (Only use for non-destructive parsing) </td></tr>
     <tr><td class="paramname">stackCapacity</td><td>stack capacity in bytes for storing a single decoded string. (Only use for non-destructive parsing) </td></tr>
   </table>

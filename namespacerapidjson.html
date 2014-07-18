@@ -284,7 +284,9 @@ Enumerations</h2></td></tr>
 <a class="el" href="namespacerapidjson.html#a7d3acf640886b1f2552dc8c4cd6dea60ac840ece3ba6874fe6f16c01ebb71031f">kParseErrorNumberMissFraction</a>, 
 <br />
 &#160;&#160;<a class="el" href="namespacerapidjson.html#a7d3acf640886b1f2552dc8c4cd6dea60a28a1c720ae63560780ccd992dc999ab7">kParseErrorNumberMissExponent</a>, 
-<a class="el" href="namespacerapidjson.html#a7d3acf640886b1f2552dc8c4cd6dea60ab250f87c3d8454c579364b5a0f697a50">kParseErrorTermination</a>
+<a class="el" href="namespacerapidjson.html#a7d3acf640886b1f2552dc8c4cd6dea60ab250f87c3d8454c579364b5a0f697a50">kParseErrorTermination</a>, 
+<a class="el" href="namespacerapidjson.html#a7d3acf640886b1f2552dc8c4cd6dea60a7abf1a337294d984a3f4d18b5843fb24">kParseErrorUnspecificSyntaxError</a>, 
+<a class="el" href="namespacerapidjson.html#a7d3acf640886b1f2552dc8c4cd6dea60a8fb01e7f928deb206318a6dd6950215d">kParseErrorStackSizeLimitExceeded</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a7d3acf640886b1f2552dc8c4cd6dea60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error code of parsing.  <a href="namespacerapidjson.html#a7d3acf640886b1f2552dc8c4cd6dea60">More...</a><br /></td></tr>
@@ -304,7 +306,8 @@ Enumerations</h2></td></tr>
 <tr class="separator:ae79a4751c1c460ff0de5ecc07874f3e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81379eb4e94a0386d71d15fda882ebc9"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerapidjson.html#a81379eb4e94a0386d71d15fda882ebc9">ParseFlag</a> { <a class="el" href="namespacerapidjson.html#a81379eb4e94a0386d71d15fda882ebc9a5640cb00db7814b7f22be3683dda9835">kParseDefaultFlags</a> = 0, 
 <a class="el" href="namespacerapidjson.html#a81379eb4e94a0386d71d15fda882ebc9a02748971d6ea0c5e22c69b8aa7f344ea">kParseInsituFlag</a> = 1, 
-<a class="el" href="namespacerapidjson.html#a81379eb4e94a0386d71d15fda882ebc9a3df81f75479da8e052393f92cbec394b">kParseValidateEncodingFlag</a> = 2
+<a class="el" href="namespacerapidjson.html#a81379eb4e94a0386d71d15fda882ebc9a3df81f75479da8e052393f92cbec394b">kParseValidateEncodingFlag</a> = 2, 
+<a class="el" href="namespacerapidjson.html#a81379eb4e94a0386d71d15fda882ebc9a7923686c8bdb7614699f1fb1bb615bb2">kParseIterativeFlag</a> = 4
  }</td></tr>
 <tr class="memdesc:a81379eb4e94a0386d71d15fda882ebc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Combination of parseFlags.  <a href="namespacerapidjson.html#a81379eb4e94a0386d71d15fda882ebc9">More...</a><br /></td></tr>
 <tr class="separator:a81379eb4e94a0386d71d15fda882ebc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -445,6 +448,12 @@ template&lt;&gt; </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a7d3acf640886b1f2552dc8c4cd6dea60ab250f87c3d8454c579364b5a0f697a50"></a>kParseErrorTermination&#160;</td><td class="fielddoc">
 <p>Parsing was terminated. </p>
 </td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a7d3acf640886b1f2552dc8c4cd6dea60a7abf1a337294d984a3f4d18b5843fb24"></a>kParseErrorUnspecificSyntaxError&#160;</td><td class="fielddoc">
+<p>Unspecific syntax error. </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a7d3acf640886b1f2552dc8c4cd6dea60a8fb01e7f928deb206318a6dd6950215d"></a>kParseErrorStackSizeLimitExceeded&#160;</td><td class="fielddoc">
+<p>Parsing stack size limit is exceeded. </p>
+</td></tr>
 </table>
 
 </div>
@@ -460,7 +469,7 @@ template&lt;&gt; </td></tr>
 </div><div class="memdoc">
 
 <p>Combination of parseFlags. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classrapidjson_1_1_generic_reader.html#a7c05995d4e4fcd650bb0a80a9b0ec11f" title="Parse JSON text. ">Reader::Parse</a>, <a class="el" href="classrapidjson_1_1_generic_document.html#aed942fafd833c88f52b535daef620f8d" title="Parse JSON text from a read-only string (with Encoding conversion) ">Document::Parse</a>, <a class="el" href="classrapidjson_1_1_generic_document.html#a2ff22dfd062893f6d5cadf37f441a29a" title="Parse JSON text from a mutable string (with Encoding conversion) ">Document::ParseInsitu</a>, <a class="el" href="classrapidjson_1_1_generic_document.html#aaf77c5c76453b1a04e2df4658ff00757" title="Parse JSON text from an input stream (with Encoding conversion) ">Document::ParseStream</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classrapidjson_1_1_generic_reader.html#a7c05995d4e4fcd650bb0a80a9b0ec11f" title="Parse JSON text. ">Reader::Parse</a>, <a class="el" href="classrapidjson_1_1_generic_document.html#a6c9bf8d0e3630f15657a536a1fd82c65" title="Parse JSON text from a read-only string (with Encoding conversion) ">Document::Parse</a>, <a class="el" href="classrapidjson_1_1_generic_document.html#aa48a7a21b0788976a6ea7e4dfa687df6" title="Parse JSON text from a mutable string (with Encoding conversion) ">Document::ParseInsitu</a>, <a class="el" href="classrapidjson_1_1_generic_document.html#a9f93b17d173383b04521139575365d2a" title="Parse JSON text from an input stream (with Encoding conversion) ">Document::ParseStream</a> </dd></dl>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a81379eb4e94a0386d71d15fda882ebc9a5640cb00db7814b7f22be3683dda9835"></a>kParseDefaultFlags&#160;</td><td class="fielddoc">
 <p>Default parse flags. Non-destructive parsing. Text strings are decoded into allocated buffer. </p>
@@ -470,6 +479,9 @@ template&lt;&gt; </td></tr>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a81379eb4e94a0386d71d15fda882ebc9a3df81f75479da8e052393f92cbec394b"></a>kParseValidateEncodingFlag&#160;</td><td class="fielddoc">
 <p>Validate encoding of JSON strings. </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a81379eb4e94a0386d71d15fda882ebc9a7923686c8bdb7614699f1fb1bb615bb2"></a>kParseIterativeFlag&#160;</td><td class="fielddoc">
+<p>Iterative(constant complexity in terms of function call stack size) parsing. </p>
 </td></tr>
 </table>
 
