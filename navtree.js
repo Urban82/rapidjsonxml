@@ -82,7 +82,25 @@ var NAVTREE =
       ] ]
     ] ],
     [ "Performance", "md_doc_performance.html", null ],
-    [ "Internals", "md_doc_internals.html", null ],
+    [ "Internals", "md_doc_internals.html", [
+      [ "Value", "md_doc_internals.html#Value", [
+        [ "Data Layout", "md_doc_internals.html#DataLayout", null ],
+        [ "Flags", "md_doc_internals.html#Flags", null ],
+        [ "MemoryPoolAllocator", "md_doc_internals.html#MemoryPoolAllocator", null ]
+      ] ],
+      [ "Parsing Optimization", "md_doc_internals.html#ParsingOptimization", [
+        [ "Skip Whitespace with SIMD", "md_doc_internals.html#SkipwhitespaceWithSIMD", null ],
+        [ "Pow10()", "md_doc_internals.html#Pow10", null ],
+        [ "Local Stream Copy", "md_doc_internals.html#LocalStreamCopy", null ]
+      ] ],
+      [ "Parser", "md_doc_internals.html#Parser", [
+        [ "Iterative Parser", "md_doc_internals.html#IterativeParser", [
+          [ "Grammar", "md_doc_internals.html#IterativeParserGrammar", null ],
+          [ "Parsing Table", "md_doc_internals.html#IterativeParserParsingTable", null ],
+          [ "Implementation", "md_doc_internals.html#IterativeParserImplementation", null ]
+        ] ]
+      ] ]
+    ] ],
     [ "FAQ", "md_doc_faq.html", null ],
     [ "Todo List", "todo.html", null ],
     [ "Namespace Members", "namespacemembers.html", [
@@ -116,7 +134,7 @@ var NAVTREEINDEX =
 [
 "allocators_8h_source.html",
 "classrapidjson_1_1_memory_pool_allocator.html#aa1d5b36c67611937e8ad6b2be53a483e",
-"structrapidjson_1_1_generic_string_stream.html#a9a515c0ba83ad9029d1560952584cd2e"
+"structrapidjson_1_1_generic_string_ref.html#aa6b9fd9f6aa49405a574c362ba9af6b5"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
