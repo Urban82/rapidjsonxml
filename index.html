@@ -111,11 +111,11 @@ $(document).ready(function(){initNavTree('index.html','');});
 <p>To build the tests and examples:</p>
 <ol type="1">
 <li>Obtain <a href="http://industriousone.com/premake/download">premake4</a>.</li>
-<li>Copy premake4 executable to RapidJSON/build (or system path).</li>
-<li>Run <code>rapidjson/build/premake.bat</code> on Windows, <code>RapidJSON/build/premake.sh</code> on Linux or other platforms.</li>
+<li>Copy premake4 executable to <code>rapidjson/build</code> (or system path).</li>
+<li>Change directory to <code>rapidjson/build/</code>, run <code>premake.bat</code> on Windows, <code>premake.sh</code> on Linux or other platforms.</li>
 <li>On Windows, build the solution at <code>rapidjson/build/vs2008/</code> or <code>/vs2010/</code>.</li>
-<li>On other platforms, run GNU make at <code>rapidjson/build/gmake/</code> (e.g., <code>make -f test.make config=release32</code>; <code>make -f example.make config=debug32</code>).</li>
-<li>On success, the executable are generated at <code>rapidjson/bin</code>.</li>
+<li>On other platforms, run GNU <code>make</code> at <code>rapidjson/build/gmake/</code> (e.g., <code>make -f test.make config=release32</code>; <code>make -f example.make config=debug32</code>).</li>
+<li>On success, the executables are generated at <code>rapidjson/bin</code>.</li>
 </ol>
 <p>To build the <a href="http://doxygen.org">Doxygen</a> documentation:</p>
 <ol type="1">
