@@ -1,5 +1,15 @@
 var NAVTREEINDEX2 =
 {
+"structrapidjson_1_1_generic_string_buffer.html#aa848ba1b8220afb4103d8099cbd6d3ff":[11,0,0,18,7],
+"structrapidjson_1_1_generic_string_buffer.html#aabe024dd7fc2ea0a0c929d7eea3d0b32":[11,0,0,18,3],
+"structrapidjson_1_1_generic_string_buffer.html#ace0bc8bee07187577116892b566a61d9":[11,0,0,18,5],
+"structrapidjson_1_1_generic_string_buffer.html#afb41bae09405ddd9aa9250ac47ab235e":[11,0,0,18,6],
+"structrapidjson_1_1_generic_string_ref.html":[11,0,0,19],
+"structrapidjson_1_1_generic_string_ref.html#a001276ee57cbcbd3c14449045c71e994":[11,0,0,19,8],
+"structrapidjson_1_1_generic_string_ref.html#a29cf407c6aa2313f13dff78d6ce02687":[11,0,0,19,2],
+"structrapidjson_1_1_generic_string_ref.html#a578c51ab574a50a9c760b9da7c7562f2":[11,0,0,19,6],
+"structrapidjson_1_1_generic_string_ref.html#a8953a29062e23c7c6bd11a3464bca1de":[11,0,0,19,1],
+"structrapidjson_1_1_generic_string_ref.html#aa2a8eccae3d7eb14c30bc21afb7d6fba":[11,0,0,19,0],
 "structrapidjson_1_1_generic_string_ref.html#aa6b9fd9f6aa49405a574c362ba9af6b5":[11,0,0,19,5],
 "structrapidjson_1_1_generic_string_ref.html#ad9eb120a58cee500ff3bd5706779c4e4":[11,0,0,19,3],
 "structrapidjson_1_1_generic_string_ref.html#ae223535ec20edf0c1db44a40b7735111":[11,0,0,19,7],
