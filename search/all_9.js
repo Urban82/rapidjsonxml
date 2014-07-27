@@ -18,7 +18,6 @@ var searchData=
   ['kparseerrorobjectmisscolon',['kParseErrorObjectMissColon',['../namespacerapidjson.html#a7d3acf640886b1f2552dc8c4cd6dea60a58e952084a0dfdbc5630f624252aef5c',1,'rapidjson']]],
   ['kparseerrorobjectmisscommaorcurlybracket',['kParseErrorObjectMissCommaOrCurlyBracket',['../namespacerapidjson.html#a7d3acf640886b1f2552dc8c4cd6dea60a2a81a684f39fc882ec99f07e86343f73',1,'rapidjson']]],
   ['kparseerrorobjectmissname',['kParseErrorObjectMissName',['../namespacerapidjson.html#a7d3acf640886b1f2552dc8c4cd6dea60ab707b848425668e765def25554735242',1,'rapidjson']]],
-  ['kparseerrorstacksizelimitexceeded',['kParseErrorStackSizeLimitExceeded',['../namespacerapidjson.html#a7d3acf640886b1f2552dc8c4cd6dea60a8fb01e7f928deb206318a6dd6950215d',1,'rapidjson']]],
   ['kparseerrorstringescapeinvalid',['kParseErrorStringEscapeInvalid',['../namespacerapidjson.html#a7d3acf640886b1f2552dc8c4cd6dea60a8dd0af5e6103a6503c61c38cb2b0bab9',1,'rapidjson']]],
   ['kparseerrorstringinvalidencoding',['kParseErrorStringInvalidEncoding',['../namespacerapidjson.html#a7d3acf640886b1f2552dc8c4cd6dea60a62ce0f5c74e4ab34ac325d2adda8fa8f',1,'rapidjson']]],
   ['kparseerrorstringmissquotationmark',['kParseErrorStringMissQuotationMark',['../namespacerapidjson.html#a7d3acf640886b1f2552dc8c4cd6dea60af7daa91caa53abb881ea231a874a4f40',1,'rapidjson']]],
