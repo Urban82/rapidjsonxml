@@ -142,6 +142,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapidjson_1_1_generic_member_iterator.html">GenericMemberIterator</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">(Constant) member iterator for a JSON object value  <a href="classrapidjson_1_1_generic_member_iterator.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrapidjson_1_1_generic_memory_buffer.html">GenericMemoryBuffer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents an in-memory output byte stream.  <a href="structrapidjson_1_1_generic_memory_buffer.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapidjson_1_1_generic_reader.html">GenericReader</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">SAX-style JSON parser. Use <a class="el" href="md_doc_sax.html#Reader">Reader</a> for <a class="el" href="structrapidjson_1_1_u_t_f8.html" title="UTF-8 encoding. ">UTF8</a> encoding and default allocator.  <a href="classrapidjson_1_1_generic_reader.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -162,6 +165,9 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapidjson_1_1_memory_pool_allocator.html">MemoryPoolAllocator</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default memory allocator used by the parser and DOM.  <a href="classrapidjson_1_1_memory_pool_allocator.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrapidjson_1_1_memory_stream.html">MemoryStream</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents an in-memory input byte stream.  <a href="structrapidjson_1_1_memory_stream.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrapidjson_1_1_parse_result.html">ParseResult</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of parsing (wraps ParseErrorCode)  <a href="structrapidjson_1_1_parse_result.html#details">More...</a><br /></td></tr>
@@ -224,6 +230,9 @@ typedef <a class="el" href="classrapidjson_1_1_generic_document.html">GenericDoc
 RAPIDJSON_ERROR_CHARTYPE *(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerapidjson.html#a4e77e464ec8abe1111ee581fc2cb00de">GetParseErrorFunc</a> )(<a class="el" href="namespacerapidjson.html#a7d3acf640886b1f2552dc8c4cd6dea60">ParseErrorCode</a>)</td></tr>
 <tr class="memdesc:a4e77e464ec8abe1111ee581fc2cb00de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function pointer type of GetParseError().  <a href="#a4e77e464ec8abe1111ee581fc2cb00de">More...</a><br /></td></tr>
 <tr class="separator:a4e77e464ec8abe1111ee581fc2cb00de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb643b9055e7988f4cb89ce4f7e6b115"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acb643b9055e7988f4cb89ce4f7e6b115"></a>
+typedef <a class="el" href="structrapidjson_1_1_generic_memory_buffer.html">GenericMemoryBuffer</a>&#160;</td><td class="memItemRight" valign="bottom"><b>MemoryBuffer</b></td></tr>
+<tr class="separator:acb643b9055e7988f4cb89ce4f7e6b115"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44eb33eaa523e36d466b1ced64b85c84"><td class="memItemLeft" align="right" valign="top">typedef unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerapidjson.html#a44eb33eaa523e36d466b1ced64b85c84">SizeType</a></td></tr>
 <tr class="memdesc:a44eb33eaa523e36d466b1ced64b85c84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use 32-bit array/string indices even for 64-bit platform, instead of using size_t.  <a href="#a44eb33eaa523e36d466b1ced64b85c84">More...</a><br /></td></tr>
 <tr class="separator:a44eb33eaa523e36d466b1ced64b85c84"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -329,6 +338,11 @@ template&lt;&gt; </td></tr>
 <tr class="memitem:a1ac13bac5976fc06587e00fc0bcfb32a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacerapidjson.html#a1ac13bac5976fc06587e00fc0bcfb32a">PutN</a> (<a class="el" href="classrapidjson_1_1_file_write_stream.html">FileWriteStream</a> &amp;stream, char c, size_t n)</td></tr>
 <tr class="memdesc:a1ac13bac5976fc06587e00fc0bcfb32a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implement specialized version of <a class="el" href="namespacerapidjson.html#a1ac13bac5976fc06587e00fc0bcfb32a" title="Implement specialized version of PutN() with memset() for better performance. ">PutN()</a> with memset() for better performance. <br /></td></tr>
 <tr class="separator:a1ac13bac5976fc06587e00fc0bcfb32a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba27b0c8dcf724aa2b288a24fda0811b"><td class="memTemplParams" colspan="2"><a class="anchor" id="aba27b0c8dcf724aa2b288a24fda0811b"></a>
+template&lt;&gt; </td></tr>
+<tr class="memitem:aba27b0c8dcf724aa2b288a24fda0811b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacerapidjson.html#aba27b0c8dcf724aa2b288a24fda0811b">PutN</a> (<a class="el" href="structrapidjson_1_1_generic_memory_buffer.html">MemoryBuffer</a> &amp;memoryBuffer, char c, size_t n)</td></tr>
+<tr class="memdesc:aba27b0c8dcf724aa2b288a24fda0811b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implement specialized version of <a class="el" href="namespacerapidjson.html#a1ac13bac5976fc06587e00fc0bcfb32a" title="Implement specialized version of PutN() with memset() for better performance. ">PutN()</a> with memset() for better performance. <br /></td></tr>
+<tr class="separator:aba27b0c8dcf724aa2b288a24fda0811b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d49d2cab617858b53a1db23b1759f43"><td class="memTemplParams" colspan="2"><a class="anchor" id="a1d49d2cab617858b53a1db23b1759f43"></a>
 template&lt;typename Stream , typename Ch &gt; </td></tr>
 <tr class="memitem:a1d49d2cab617858b53a1db23b1759f43"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacerapidjson.html#a1d49d2cab617858b53a1db23b1759f43">PutN</a> (<a class="el" href="classrapidjson_1_1_stream.html">Stream</a> &amp;stream, Ch c, size_t n)</td></tr>
