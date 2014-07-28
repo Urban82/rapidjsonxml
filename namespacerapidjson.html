@@ -312,10 +312,14 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:ae79a4751c1c460ff0de5ecc07874f3e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of JSON value.  <a href="namespacerapidjson.html#ae79a4751c1c460ff0de5ecc07874f3e4">More...</a><br /></td></tr>
 <tr class="separator:ae79a4751c1c460ff0de5ecc07874f3e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81379eb4e94a0386d71d15fda882ebc9"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerapidjson.html#a81379eb4e94a0386d71d15fda882ebc9">ParseFlag</a> { <a class="el" href="namespacerapidjson.html#a81379eb4e94a0386d71d15fda882ebc9a5640cb00db7814b7f22be3683dda9835">kParseDefaultFlags</a> = 0, 
+<tr class="memitem:a81379eb4e94a0386d71d15fda882ebc9"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerapidjson.html#a81379eb4e94a0386d71d15fda882ebc9">ParseFlag</a> { <br />
+&#160;&#160;<a class="el" href="namespacerapidjson.html#a81379eb4e94a0386d71d15fda882ebc9a5640cb00db7814b7f22be3683dda9835">kParseDefaultFlags</a> = 0, 
 <a class="el" href="namespacerapidjson.html#a81379eb4e94a0386d71d15fda882ebc9a02748971d6ea0c5e22c69b8aa7f344ea">kParseInsituFlag</a> = 1, 
 <a class="el" href="namespacerapidjson.html#a81379eb4e94a0386d71d15fda882ebc9a3df81f75479da8e052393f92cbec394b">kParseValidateEncodingFlag</a> = 2, 
-<a class="el" href="namespacerapidjson.html#a81379eb4e94a0386d71d15fda882ebc9a7923686c8bdb7614699f1fb1bb615bb2">kParseIterativeFlag</a> = 4
+<a class="el" href="namespacerapidjson.html#a81379eb4e94a0386d71d15fda882ebc9a7923686c8bdb7614699f1fb1bb615bb2">kParseIterativeFlag</a> = 4, 
+<br />
+&#160;&#160;<a class="el" href="namespacerapidjson.html#a81379eb4e94a0386d71d15fda882ebc9af84c60868704433b80aa51a62e042bb1">kParseStopWhenDoneFlag</a> = 8
+<br />
  }</td></tr>
 <tr class="memdesc:a81379eb4e94a0386d71d15fda882ebc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Combination of parseFlags.  <a href="namespacerapidjson.html#a81379eb4e94a0386d71d15fda882ebc9">More...</a><br /></td></tr>
 <tr class="separator:a81379eb4e94a0386d71d15fda882ebc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -492,6 +496,9 @@ template&lt;&gt; </td></tr>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a81379eb4e94a0386d71d15fda882ebc9a7923686c8bdb7614699f1fb1bb615bb2"></a>kParseIterativeFlag&#160;</td><td class="fielddoc">
 <p>Iterative(constant complexity in terms of function call stack size) parsing. </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a81379eb4e94a0386d71d15fda882ebc9af84c60868704433b80aa51a62e042bb1"></a>kParseStopWhenDoneFlag&#160;</td><td class="fielddoc">
+<p>After parsing a complete JSON root from stream, stop further processing the rest of stream. When this flag is used, parser will not generate kParseErrorDocumentRootNotSingular error. </p>
 </td></tr>
 </table>
 
