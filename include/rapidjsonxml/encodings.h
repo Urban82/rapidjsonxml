@@ -1,23 +1,23 @@
-#ifndef RAPIDJSON_ENCODINGS_H_
-#define RAPIDJSON_ENCODINGS_H_
+#ifndef RAPIDJSONXML_ENCODINGS_H_
+#define RAPIDJSONXML_ENCODINGS_H_
 
-#include "rapidjson.h"
+#include "rapidjsonxml.h"
 
 #ifdef _MSC_VER
-RAPIDJSON_DIAG_PUSH
-RAPIDJSON_DIAG_OFF(4244) // conversion from 'type1' to 'type2', possible loss of data
-RAPIDJSON_DIAG_OFF(4702)  // unreachable code
+RAPIDJSONXML_DIAG_PUSH
+RAPIDJSONXML_DIAG_OFF(4244) // conversion from 'type1' to 'type2', possible loss of data
+RAPIDJSONXML_DIAG_OFF(4702)  // unreachable code
 #elif defined(__GNUC__)
-RAPIDJSON_DIAG_PUSH
-RAPIDJSON_DIAG_OFF(effc++)
+RAPIDJSONXML_DIAG_PUSH
+RAPIDJSONXML_DIAG_OFF(effc++)
 #endif
 
-namespace rapidjson {
+namespace rapidjsonxml {
 
 ///////////////////////////////////////////////////////////////////////////////
 // Encoding
 
-/*! \class rapidjson::Encoding
+/*! \class rapidjsonxml::Encoding
 	\brief Concept for encoding of Unicode characters.
 
 \code
@@ -97,7 +97,7 @@ struct UTF8 {
 			os.Put(static_cast<Ch>(0x80 | (codepoint & 0x3F)));
 		}
 		else {
-			RAPIDJSON_ASSERT(codepoint <= 0x10FFFF);
+			RAPIDJSONXML_ASSERT(codepoint <= 0x10FFFF);
 			os.Put(static_cast<Ch>(0xF0 | ((codepoint >> 18) & 0xFF)));
 			os.Put(static_cast<Ch>(0x80 | ((codepoint >> 12) & 0x3F)));
 			os.Put(static_cast<Ch>(0x80 | ((codepoint >> 6) & 0x3F)));
@@ -180,7 +180,7 @@ struct UTF8 {
 
 	template <typename InputByteStream>
 	static CharType TakeBOM(InputByteStream& is) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
 		Ch c = Take(is);
 		if ((unsigned char)c != 0xEFu) return c;
 		c = is.Take();
@@ -193,19 +193,19 @@ struct UTF8 {
 
 	template <typename InputByteStream>
 	static Ch Take(InputByteStream& is) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
 		return is.Take();
 	}
 
 	template <typename OutputByteStream>
 	static void PutBOM(OutputByteStream& os) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
 		os.Put(0xEFu); os.Put(0xBBu); os.Put(0xBFu);
 	}
 
 	template <typename OutputByteStream>
 	static void Put(OutputByteStream& os, Ch c) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
 		os.Put(static_cast<typename OutputByteStream::Ch>(c));
 	}
 };
@@ -225,19 +225,19 @@ struct UTF8 {
 template<typename CharType = wchar_t>
 struct UTF16 {
 	typedef CharType Ch;
-	RAPIDJSON_STATIC_ASSERT(sizeof(Ch) >= 2);
+	RAPIDJSONXML_STATIC_ASSERT(sizeof(Ch) >= 2);
 
 	enum { supportUnicode = 1 };
 
 	template<typename OutputStream>
 	static void Encode(OutputStream& os, unsigned codepoint) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename OutputStream::Ch) >= 2);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename OutputStream::Ch) >= 2);
 		if (codepoint <= 0xFFFF) {
-			RAPIDJSON_ASSERT(codepoint < 0xD800 || codepoint > 0xDFFF); // Code point itself cannot be surrogate pair 
+			RAPIDJSONXML_ASSERT(codepoint < 0xD800 || codepoint > 0xDFFF); // Code point itself cannot be surrogate pair 
 			os.Put(static_cast<typename OutputStream::Ch>(codepoint));
 		}
 		else {
-			RAPIDJSON_ASSERT(codepoint <= 0x10FFFF);
+			RAPIDJSONXML_ASSERT(codepoint <= 0x10FFFF);
 			unsigned v = codepoint - 0x10000;
 			os.Put(static_cast<typename OutputStream::Ch>((v >> 10) | 0xD800));
 			os.Put((v & 0x3FF) | 0xDC00);
@@ -246,7 +246,7 @@ struct UTF16 {
 
 	template <typename InputStream>
 	static bool Decode(InputStream& is, unsigned* codepoint) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename InputStream::Ch) >= 2);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename InputStream::Ch) >= 2);
 		Ch c = is.Take();
 		if (c < 0xD800 || c > 0xDFFF) {
 			*codepoint = c;
@@ -264,8 +264,8 @@ struct UTF16 {
 
 	template <typename InputStream, typename OutputStream>
 	static bool Validate(InputStream& is, OutputStream& os) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename InputStream::Ch) >= 2);
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename OutputStream::Ch) >= 2);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename InputStream::Ch) >= 2);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename OutputStream::Ch) >= 2);
 		Ch c;
 		os.Put(c = is.Take());
 		if (c < 0xD800 || c > 0xDFFF)
@@ -283,14 +283,14 @@ template<typename CharType = wchar_t>
 struct UTF16LE : UTF16<CharType> {
 	template <typename InputByteStream>
 	static CharType TakeBOM(InputByteStream& is) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
 		CharType c = Take(is);
 		return (unsigned short)c == 0xFEFFu ? Take(is) : c;
 	}
 
 	template <typename InputByteStream>
 	static CharType Take(InputByteStream& is) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
 		CharType c = (unsigned char)is.Take();
 		c |= (unsigned char)is.Take() << 8;
 		return c;
@@ -298,13 +298,13 @@ struct UTF16LE : UTF16<CharType> {
 
 	template <typename OutputByteStream>
 	static void PutBOM(OutputByteStream& os) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
 		os.Put(0xFFu); os.Put(0xFEu);
 	}
 
 	template <typename OutputByteStream>
 	static void Put(OutputByteStream& os, CharType c) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
 		os.Put(c & 0xFFu);
 		os.Put((c >> 8) & 0xFFu);
 	}
@@ -315,14 +315,14 @@ template<typename CharType = wchar_t>
 struct UTF16BE : UTF16<CharType> {
 	template <typename InputByteStream>
 	static CharType TakeBOM(InputByteStream& is) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
 		CharType c = Take(is);
 		return (unsigned short)c == 0xFEFFu ? Take(is) : c;
 	}
 
 	template <typename InputByteStream>
 	static CharType Take(InputByteStream& is) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
 		CharType c = (unsigned char)is.Take() << 8;
 		c |= (unsigned char)is.Take();
 		return c;
@@ -330,13 +330,13 @@ struct UTF16BE : UTF16<CharType> {
 
 	template <typename OutputByteStream>
 	static void PutBOM(OutputByteStream& os) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
 		os.Put(0xFEu); os.Put(0xFFu);
 	}
 
 	template <typename OutputByteStream>
 	static void Put(OutputByteStream& os, CharType c) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
 		os.Put((c >> 8) & 0xFFu);
 		os.Put(c & 0xFFu);
 	}
@@ -356,20 +356,20 @@ struct UTF16BE : UTF16<CharType> {
 template<typename CharType = unsigned>
 struct UTF32 {
 	typedef CharType Ch;
-	RAPIDJSON_STATIC_ASSERT(sizeof(Ch) >= 4);
+	RAPIDJSONXML_STATIC_ASSERT(sizeof(Ch) >= 4);
 
 	enum { supportUnicode = 1 };
 
 	template<typename OutputStream>
 	static void Encode(OutputStream& os, unsigned codepoint) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename OutputStream::Ch) >= 4);
-		RAPIDJSON_ASSERT(codepoint <= 0x10FFFF);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename OutputStream::Ch) >= 4);
+		RAPIDJSONXML_ASSERT(codepoint <= 0x10FFFF);
 		os.Put(codepoint);
 	}
 
 	template <typename InputStream>
 	static bool Decode(InputStream& is, unsigned* codepoint) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename InputStream::Ch) >= 4);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename InputStream::Ch) >= 4);
 		Ch c = is.Take();
 		*codepoint = c;
 		return c <= 0x10FFFF;
@@ -377,7 +377,7 @@ struct UTF32 {
 
 	template <typename InputStream, typename OutputStream>
 	static bool Validate(InputStream& is, OutputStream& os) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename InputStream::Ch) >= 4);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename InputStream::Ch) >= 4);
 		Ch c;
 		os.Put(c = is.Take());
 		return c <= 0x10FFFF;
@@ -389,14 +389,14 @@ template<typename CharType = unsigned>
 struct UTF32LE : UTF32<CharType> {
 	template <typename InputByteStream>
 	static CharType TakeBOM(InputByteStream& is) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
 		CharType c = Take(is);
 		return (unsigned)c == 0x0000FEFFu ? Take(is) : c;
 	}
 
 	template <typename InputByteStream>
 	static CharType Take(InputByteStream& is) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
 		CharType c = (unsigned char)is.Take();
 		c |= (unsigned char)is.Take() << 8;
 		c |= (unsigned char)is.Take() << 16;
@@ -406,13 +406,13 @@ struct UTF32LE : UTF32<CharType> {
 
 	template <typename OutputByteStream>
 	static void PutBOM(OutputByteStream& os) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
 		os.Put(0xFFu); os.Put(0xFEu); os.Put(0x00u); os.Put(0x00u);
 	}
 
 	template <typename OutputByteStream>
 	static void Put(OutputByteStream& os, CharType c) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
 		os.Put(c & 0xFFu);
 		os.Put((c >> 8) & 0xFFu);
 		os.Put((c >> 16) & 0xFFu);
@@ -425,14 +425,14 @@ template<typename CharType = unsigned>
 struct UTF32BE : UTF32<CharType> {
 	template <typename InputByteStream>
 	static CharType TakeBOM(InputByteStream& is) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
 		CharType c = Take(is);
 		return (unsigned)c == 0x0000FEFFu ? Take(is) : c; 
 	}
 
 	template <typename InputByteStream>
 	static CharType Take(InputByteStream& is) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
 		CharType c = (unsigned char)is.Take() << 24;
 		c |= (unsigned char)is.Take() << 16;
 		c |= (unsigned char)is.Take() << 8;
@@ -442,13 +442,13 @@ struct UTF32BE : UTF32<CharType> {
 
 	template <typename OutputByteStream>
 	static void PutBOM(OutputByteStream& os) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
 		os.Put(0x00u); os.Put(0x00u); os.Put(0xFEu); os.Put(0xFFu);
 	}
 
 	template <typename OutputByteStream>
 	static void Put(OutputByteStream& os, CharType c) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
 		os.Put((c >> 24) & 0xFFu);
 		os.Put((c >> 16) & 0xFFu);
 		os.Put((c >> 8) & 0xFFu);
@@ -472,7 +472,7 @@ struct ASCII {
 
 	template<typename OutputStream>
 	static void Encode(OutputStream& os, unsigned codepoint) {
-		RAPIDJSON_ASSERT(codepoint <= 0x7F);
+		RAPIDJSONXML_ASSERT(codepoint <= 0x7F);
 		os.Put(static_cast<Ch>(codepoint & 0xFF));
 	}
 
@@ -492,26 +492,26 @@ struct ASCII {
 
 	template <typename InputByteStream>
 	static CharType TakeBOM(InputByteStream& is) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
 		Ch c = Take(is);
 		return c;
 	}
 
 	template <typename InputByteStream>
 	static Ch Take(InputByteStream& is) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
 		return is.Take();
 	}
 
 	template <typename OutputByteStream>
 	static void PutBOM(OutputByteStream& os) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
 		(void)os;
 	}
 
 	template <typename OutputByteStream>
 	static void Put(OutputByteStream& os, Ch c) {
-		RAPIDJSON_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
+		RAPIDJSONXML_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
 		os.Put(static_cast<typename OutputByteStream::Ch>(c));
 	}
 };
@@ -537,30 +537,30 @@ struct AutoUTF {
 
 	enum { supportUnicode = 1 };
 
-#define RAPIDJSON_ENCODINGS_FUNC(x) UTF8<Ch>::x, UTF16LE<Ch>::x, UTF16BE<Ch>::x, UTF32LE<Ch>::x, UTF32BE<Ch>::x
+#define RAPIDJSONXML_ENCODINGS_FUNC(x) UTF8<Ch>::x, UTF16LE<Ch>::x, UTF16BE<Ch>::x, UTF32LE<Ch>::x, UTF32BE<Ch>::x
 
 	template<typename OutputStream>
-	RAPIDJSON_FORCEINLINE static void Encode(OutputStream& os, unsigned codepoint) {
+	RAPIDJSONXML_FORCEINLINE static void Encode(OutputStream& os, unsigned codepoint) {
 		typedef void (*EncodeFunc)(OutputStream&, unsigned);
-		static const EncodeFunc f[] = { RAPIDJSON_ENCODINGS_FUNC(Encode) };
+		static const EncodeFunc f[] = { RAPIDJSONXML_ENCODINGS_FUNC(Encode) };
 		(*f[os.GetType()])(os, codepoint);
 	}
 
 	template <typename InputStream>
-	RAPIDJSON_FORCEINLINE static bool Decode(InputStream& is, unsigned* codepoint) {
+	RAPIDJSONXML_FORCEINLINE static bool Decode(InputStream& is, unsigned* codepoint) {
 		typedef bool (*DecodeFunc)(InputStream&, unsigned*);
-		static const DecodeFunc f[] = { RAPIDJSON_ENCODINGS_FUNC(Decode) };
+		static const DecodeFunc f[] = { RAPIDJSONXML_ENCODINGS_FUNC(Decode) };
 		return (*f[is.GetType()])(is, codepoint);
 	}
 
 	template <typename InputStream, typename OutputStream>
-	RAPIDJSON_FORCEINLINE static bool Validate(InputStream& is, OutputStream& os) {
+	RAPIDJSONXML_FORCEINLINE static bool Validate(InputStream& is, OutputStream& os) {
 		typedef bool (*ValidateFunc)(InputStream&, OutputStream&);
-		static const ValidateFunc f[] = { RAPIDJSON_ENCODINGS_FUNC(Validate) };
+		static const ValidateFunc f[] = { RAPIDJSONXML_ENCODINGS_FUNC(Validate) };
 		return (*f[is.GetType()])(is, os);
 	}
 
-#undef RAPIDJSON_ENCODINGS_FUNC
+#undef RAPIDJSONXML_ENCODINGS_FUNC
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -571,7 +571,7 @@ template<typename SourceEncoding, typename TargetEncoding>
 struct Transcoder {
 	//! Take one Unicode codepoint from source encoding, convert it to target encoding and put it to the output stream.
 	template<typename InputStream, typename OutputStream>
-	RAPIDJSON_FORCEINLINE static bool Transcode(InputStream& is, OutputStream& os) {
+	RAPIDJSONXML_FORCEINLINE static bool Transcode(InputStream& is, OutputStream& os) {
 		unsigned codepoint;
 		if (!SourceEncoding::Decode(is, &codepoint))
 			return false;
@@ -581,7 +581,7 @@ struct Transcoder {
 
 	//! Validate one Unicode codepoint from an encoded stream.
 	template<typename InputStream, typename OutputStream>
-	RAPIDJSON_FORCEINLINE static bool Validate(InputStream& is, OutputStream& os) {
+	RAPIDJSONXML_FORCEINLINE static bool Validate(InputStream& is, OutputStream& os) {
 		return Transcode(is, os);	// Since source/target encoding is different, must transcode.
 	}
 };
@@ -590,21 +590,21 @@ struct Transcoder {
 template<typename Encoding>
 struct Transcoder<Encoding, Encoding> {
 	template<typename InputStream, typename OutputStream>
-	RAPIDJSON_FORCEINLINE static bool Transcode(InputStream& is, OutputStream& os) {
+	RAPIDJSONXML_FORCEINLINE static bool Transcode(InputStream& is, OutputStream& os) {
 		os.Put(is.Take());	// Just copy one code unit. This semantic is different from primary template class.
 		return true;
 	}
 	
 	template<typename InputStream, typename OutputStream>
-	RAPIDJSON_FORCEINLINE static bool Validate(InputStream& is, OutputStream& os) {
+	RAPIDJSONXML_FORCEINLINE static bool Validate(InputStream& is, OutputStream& os) {
 		return Encoding::Validate(is, os);	// source/target encoding are the same
 	}
 };
 
-} // namespace rapidjson
+} // namespace rapidjsonxml
 
 #if defined(__GNUC__) || defined(_MSV_VER)
-RAPIDJSON_DIAG_POP
+RAPIDJSONXML_DIAG_POP
 #endif
 
-#endif // RAPIDJSON_ENCODINGS_H_
+#endif // RAPIDJSONXML_ENCODINGS_H_

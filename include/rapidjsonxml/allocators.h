@@ -1,14 +1,14 @@
-#ifndef RAPIDJSON_ALLOCATORS_H_
-#define RAPIDJSON_ALLOCATORS_H_
+#ifndef RAPIDJSONXML_ALLOCATORS_H_
+#define RAPIDJSONXML_ALLOCATORS_H_
 
-#include "rapidjson.h"
+#include "rapidjsonxml.h"
 
-namespace rapidjson {
+namespace rapidjsonxml {
 
 ///////////////////////////////////////////////////////////////////////////////
 // Allocator
 
-/*! \class rapidjson::Allocator
+/*! \class rapidjsonxml::Allocator
 	\brief Concept for allocating, resizing and freeing memory block.
 	
 	Note that Malloc() and Realloc() are non-static but Free() is static.
@@ -102,8 +102,8 @@ public:
 	MemoryPoolAllocator(void *buffer, size_t size, size_t chunkSize = kDefaultChunkCapacity, BaseAllocator* baseAllocator = 0) :
 		chunkHead_(0), chunk_capacity_(chunkSize), userBuffer_(buffer), baseAllocator_(baseAllocator), ownBaseAllocator_(0)
 	{
-		RAPIDJSON_ASSERT(buffer != 0);
-		RAPIDJSON_ASSERT(size > sizeof(ChunkHeader));
+		RAPIDJSONXML_ASSERT(buffer != 0);
+		RAPIDJSONXML_ASSERT(size > sizeof(ChunkHeader));
 		chunkHead_ = reinterpret_cast<ChunkHeader*>(buffer);
 		chunkHead_->capacity = size - sizeof(ChunkHeader);
 		chunkHead_->size = 0;
@@ -149,7 +149,7 @@ public:
 
 	//! Allocates a memory block. (concept Allocator)
 	void* Malloc(size_t size) {
-		size = RAPIDJSON_ALIGN(size);
+		size = RAPIDJSONXML_ALIGN(size);
 		if (chunkHead_->size + size > chunkHead_->capacity)
 			AddChunk(chunk_capacity_ > size ? chunk_capacity_ : size);
 
@@ -170,7 +170,7 @@ public:
 		// Simply expand it if it is the last allocation and there is sufficient space
 		if (originalPtr == (char *)(chunkHead_ + 1) + chunkHead_->size - originalSize) {
 			size_t increment = static_cast<size_t>(newSize - originalSize);
-			increment = RAPIDJSON_ALIGN(increment);
+			increment = RAPIDJSONXML_ALIGN(increment);
 			if (chunkHead_->size + increment <= chunkHead_->capacity) {
 				chunkHead_->size += increment;
 				return originalPtr;
@@ -179,7 +179,7 @@ public:
 
 		// Realloc process: allocate and copy memory, do not free original buffer.
 		void* newBuffer = Malloc(newSize);
-		RAPIDJSON_ASSERT(newBuffer != 0);	// Do not handle out-of-memory explicitly.
+		RAPIDJSONXML_ASSERT(newBuffer != 0);	// Do not handle out-of-memory explicitly.
 		return memcpy(newBuffer, originalPtr, originalSize);
 	}
 
@@ -221,6 +221,6 @@ private:
 	BaseAllocator* ownBaseAllocator_;	//!< base allocator created by this object.
 };
 
-} // namespace rapidjson
+} // namespace rapidjsonxml
 
-#endif // RAPIDJSON_ENCODINGS_H_
+#endif // RAPIDJSONXML_ENCODINGS_H_

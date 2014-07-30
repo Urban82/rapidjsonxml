@@ -1,9 +1,9 @@
-#ifndef RAPIDJSON_MEMORYSTREAM_H_
-#define RAPIDJSON_MEMORYSTREAM_H_
+#ifndef RAPIDJSONXML_MEMORYSTREAM_H_
+#define RAPIDJSONXML_MEMORYSTREAM_H_
 
-#include "rapidjson.h"
+#include "rapidjsonxml.h"
 
-namespace rapidjson {
+namespace rapidjsonxml {
 
 //! Represents an in-memory input byte stream.
 /*!
@@ -26,10 +26,10 @@ struct MemoryStream {
 	Ch Take() { return (src_ == end_) ? '\0' : *src_++; }
 	size_t Tell() const { return static_cast<size_t>(src_ - begin_); }
 
-	Ch* PutBegin() { RAPIDJSON_ASSERT(false); return 0; }
-	void Put(Ch) { RAPIDJSON_ASSERT(false); }
-	void Flush() { RAPIDJSON_ASSERT(false); }
-	size_t PutEnd(Ch*) { RAPIDJSON_ASSERT(false); return 0; }
+	Ch* PutBegin() { RAPIDJSONXML_ASSERT(false); return 0; }
+	void Put(Ch) { RAPIDJSONXML_ASSERT(false); }
+	void Flush() { RAPIDJSONXML_ASSERT(false); }
+	size_t PutEnd(Ch*) { RAPIDJSONXML_ASSERT(false); return 0; }
 
 	// For encoding detection only.
 	const Ch* Peek4() const {
@@ -42,6 +42,6 @@ struct MemoryStream {
 	size_t size_;		//!< Size of the stream.
 };
 
-} // namespace rapidjson
+} // namespace rapidjsonxml
 
-#endif // RAPIDJSON_MEMORYBUFFER_H_
+#endif // RAPIDJSONXML_MEMORYBUFFER_H_

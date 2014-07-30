@@ -1,7 +1,7 @@
-#ifndef RAPIDJSON_WRITER_H_
-#define RAPIDJSON_WRITER_H_
+#ifndef RAPIDJSONXML_WRITER_H_
+#define RAPIDJSONXML_WRITER_H_
 
-#include "rapidjson.h"
+#include "rapidjsonxml.h"
 #include "internal/stack.h"
 #include "internal/strfunc.h"
 #include "internal/itoa.h"
@@ -10,11 +10,11 @@
 #include <new>		// placement new
 
 #ifdef _MSC_VER
-RAPIDJSON_DIAG_PUSH
-RAPIDJSON_DIAG_OFF(4127) // conditional expression is constant
+RAPIDJSONXML_DIAG_PUSH
+RAPIDJSONXML_DIAG_OFF(4127) // conditional expression is constant
 #endif
 
-namespace rapidjson {
+namespace rapidjsonxml {
 
 //! JSON writer
 /*! Writer implements the concept Handler.
@@ -137,8 +137,8 @@ public:
 
 	bool EndObject(SizeType memberCount = 0) {
 		(void)memberCount;
-		RAPIDJSON_ASSERT(level_stack_.GetSize() >= sizeof(Level));
-		RAPIDJSON_ASSERT(!level_stack_.template Top<Level>()->inArray);
+		RAPIDJSONXML_ASSERT(level_stack_.GetSize() >= sizeof(Level));
+		RAPIDJSONXML_ASSERT(!level_stack_.template Top<Level>()->inArray);
 		level_stack_.template Pop<Level>(1);
 		bool ret = WriteEndObject();
 		if (level_stack_.Empty())	// end of json text
@@ -154,8 +154,8 @@ public:
 
 	bool EndArray(SizeType elementCount = 0) {
 		(void)elementCount;
-		RAPIDJSON_ASSERT(level_stack_.GetSize() >= sizeof(Level));
-		RAPIDJSON_ASSERT(level_stack_.template Top<Level>()->inArray);
+		RAPIDJSONXML_ASSERT(level_stack_.GetSize() >= sizeof(Level));
+		RAPIDJSONXML_ASSERT(level_stack_.template Top<Level>()->inArray);
 		level_stack_.template Pop<Level>(1);
 		bool ret = WriteEndArray();
 		if (level_stack_.Empty())	// end of json text
@@ -246,21 +246,21 @@ protected:
 	}
 
 #ifdef _MSC_VER
-#define RAPIDJSON_SNPRINTF sprintf_s
+#define RAPIDJSONXML_SNPRINTF sprintf_s
 #else
-#define RAPIDJSON_SNPRINTF snprintf
+#define RAPIDJSONXML_SNPRINTF snprintf
 #endif
 
 	//! \todo Optimization with custom double-to-string converter.
 	bool WriteDouble(double d) {
 		char buffer[100];
-		int ret = RAPIDJSON_SNPRINTF(buffer, sizeof(buffer), "%.*g", doublePrecision_, d);
-		RAPIDJSON_ASSERT(ret >= 1);
+		int ret = RAPIDJSONXML_SNPRINTF(buffer, sizeof(buffer), "%.*g", doublePrecision_, d);
+		RAPIDJSONXML_ASSERT(ret >= 1);
 		for (int i = 0; i < ret; i++)
 			os_->Put(buffer[i]);
 		return true;
 	}
-#undef RAPIDJSON_SNPRINTF
+#undef RAPIDJSONXML_SNPRINTF
 
 	bool WriteString(const Ch* str, SizeType length)  {
 		static const char hexDigits[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
@@ -346,12 +346,12 @@ protected:
 					os_->Put((level->valueCount % 2 == 0) ? ',' : ':');
 			}
 			if (!level->inArray && level->valueCount % 2 == 0)
-				RAPIDJSON_ASSERT(type == kStringType);  // if it's in object, then even number should be a name
+				RAPIDJSONXML_ASSERT(type == kStringType);  // if it's in object, then even number should be a name
 			level->valueCount++;
 		}
 		else {
-			RAPIDJSON_ASSERT(type == kObjectType || type == kArrayType);
-			RAPIDJSON_ASSERT(!hasRoot_);	// Should only has one and only one root.
+			RAPIDJSONXML_ASSERT(type == kObjectType || type == kArrayType);
+			RAPIDJSONXML_ASSERT(!hasRoot_);	// Should only has one and only one root.
 			hasRoot_ = true;
 		}
 	}
@@ -403,10 +403,10 @@ inline bool Writer<StringBuffer>::WriteUint64(uint64_t u) {
 	return true;
 }
 
-} // namespace rapidjson
+} // namespace rapidjsonxml
 
 #ifdef _MSC_VER
-RAPIDJSON_DIAG_POP
+RAPIDJSONXML_DIAG_POP
 #endif
 
-#endif // RAPIDJSON_RAPIDJSON_H_
+#endif // RAPIDJSONXML_RAPIDJSONXML_H_

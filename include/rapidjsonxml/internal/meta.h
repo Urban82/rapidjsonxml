@@ -1,8 +1,8 @@
-#ifndef RAPIDJSON_INTERNAL_META_H_
-#define RAPIDJSON_INTERNAL_META_H_
+#ifndef RAPIDJSONXML_INTERNAL_META_H_
+#define RAPIDJSONXML_INTERNAL_META_H_
 
-//@cond RAPIDJSON_INTERNAL
-namespace rapidjson {
+//@cond RAPIDJSONXML_INTERNAL
+namespace rapidjsonxml {
 namespace internal {
 
 template <int N> struct IntegralC { enum { Value = N }; };
@@ -59,19 +59,19 @@ struct SfinaeResultTag {};
 template <typename T> struct RemoveSfinaeFptr {};
 template <typename T> struct RemoveSfinaeFptr<SfinaeResultTag&(*)(T)> { typedef T Type; };
 
-#define RAPIDJSON_REMOVEFPTR_(type) \
-	typename ::rapidjson::internal::RemoveSfinaeFptr \
-		< ::rapidjson::internal::SfinaeResultTag&(*) type>::Type
+#define RAPIDJSONXML_REMOVEFPTR_(type) \
+	typename ::rapidjsonxml::internal::RemoveSfinaeFptr \
+		< ::rapidjsonxml::internal::SfinaeResultTag&(*) type>::Type
 
-#define RAPIDJSON_ENABLEIF(cond) \
-	typename ::rapidjson::internal::EnableIf \
-		<RAPIDJSON_REMOVEFPTR_(cond)>::Type * = NULL
+#define RAPIDJSONXML_ENABLEIF(cond) \
+	typename ::rapidjsonxml::internal::EnableIf \
+		<RAPIDJSONXML_REMOVEFPTR_(cond)>::Type * = NULL
 
-#define RAPIDJSON_DISABLEIF_RETURN(cond,returntype) \
-	typename ::rapidjson::internal::DisableIf<cond,returntype>::Type
+#define RAPIDJSONXML_DISABLEIF_RETURN(cond,returntype) \
+	typename ::rapidjsonxml::internal::DisableIf<cond,returntype>::Type
 
 } // namespace internal
-} // namespace rapidjson
+} // namespace rapidjsonxml
 //@endcond
 
-#endif // RAPIDJSON_INTERNAL_META_H_
+#endif // RAPIDJSONXML_INTERNAL_META_H_

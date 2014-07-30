@@ -1,7 +1,7 @@
-#ifndef RAPIDJSON_ITOA_
-#define RAPIDJSON_ITOA_
+#ifndef RAPIDJSONXML_ITOA_
+#define RAPIDJSONXML_ITOA_
 
-namespace rapidjson {
+namespace rapidjsonxml {
 namespace internal {
 
 // Modified from https://github.com/miloyip/itoa-benchmark/blob/master/src/branchlut.cpp
@@ -275,6 +275,6 @@ inline char* i64toa(int64_t value, char* buffer) {
 }
 
 } // namespace internal
-} // namespace rapidjson
+} // namespace rapidjsonxml
 
-#endif // RAPIDJSON_ITOA_
+#endif // RAPIDJSONXML_ITOA_

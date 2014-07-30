@@ -1,14 +1,14 @@
-#ifndef RAPIDJSON_PRETTYWRITER_H_
-#define RAPIDJSON_PRETTYWRITER_H_
+#ifndef RAPIDJSONXML_PRETTYWRITER_H_
+#define RAPIDJSONXML_PRETTYWRITER_H_
 
 #include "writer.h"
 
 #ifdef __GNUC__
-RAPIDJSON_DIAG_PUSH
-RAPIDJSON_DIAG_OFF(effc++)
+RAPIDJSONXML_DIAG_PUSH
+RAPIDJSONXML_DIAG_OFF(effc++)
 #endif
 
-namespace rapidjson {
+namespace rapidjsonxml {
 
 //! Writer with indentation and spacing.
 /*!
@@ -40,7 +40,7 @@ public:
 		\note The default indentation is 4 spaces.
 	*/
 	PrettyWriter& SetIndent(Ch indentChar, unsigned indentCharCount) {
-		RAPIDJSON_ASSERT(indentChar == ' ' || indentChar == '\t' || indentChar == '\n' || indentChar == '\r');
+		RAPIDJSONXML_ASSERT(indentChar == ' ' || indentChar == '\t' || indentChar == '\n' || indentChar == '\r');
 		indentChar_ = indentChar;
 		indentCharCount_ = indentCharCount;
 		return *this;
@@ -73,8 +73,8 @@ public:
 
 	bool EndObject(SizeType memberCount = 0) {
 		(void)memberCount;
-		RAPIDJSON_ASSERT(Base::level_stack_.GetSize() >= sizeof(typename Base::Level));
-		RAPIDJSON_ASSERT(!Base::level_stack_.template Top<typename Base::Level>()->inArray);
+		RAPIDJSONXML_ASSERT(Base::level_stack_.GetSize() >= sizeof(typename Base::Level));
+		RAPIDJSONXML_ASSERT(!Base::level_stack_.template Top<typename Base::Level>()->inArray);
 		bool empty = Base::level_stack_.template Pop<typename Base::Level>(1)->valueCount == 0;
 
 		if (!empty) {
@@ -96,8 +96,8 @@ public:
 
 	bool EndArray(SizeType memberCount = 0) {
 		(void)memberCount;
-		RAPIDJSON_ASSERT(Base::level_stack_.GetSize() >= sizeof(typename Base::Level));
-		RAPIDJSON_ASSERT(Base::level_stack_.template Top<typename Base::Level>()->inArray);
+		RAPIDJSONXML_ASSERT(Base::level_stack_.GetSize() >= sizeof(typename Base::Level));
+		RAPIDJSONXML_ASSERT(Base::level_stack_.template Top<typename Base::Level>()->inArray);
 		bool empty = Base::level_stack_.template Pop<typename Base::Level>(1)->valueCount == 0;
 
 		if (!empty) {
@@ -162,12 +162,12 @@ protected:
 					WriteIndent();
 			}
 			if (!level->inArray && level->valueCount % 2 == 0)
-				RAPIDJSON_ASSERT(type == kStringType);  // if it's in object, then even number should be a name
+				RAPIDJSONXML_ASSERT(type == kStringType);  // if it's in object, then even number should be a name
 			level->valueCount++;
 		}
 		else {
-			RAPIDJSON_ASSERT(type == kObjectType || type == kArrayType);
-			RAPIDJSON_ASSERT(!Base::hasRoot_);	// Should only has one and only one root.
+			RAPIDJSONXML_ASSERT(type == kObjectType || type == kArrayType);
+			RAPIDJSONXML_ASSERT(!Base::hasRoot_);	// Should only has one and only one root.
 			Base::hasRoot_ = true;
 		}
 	}
@@ -186,10 +186,10 @@ private:
 	PrettyWriter& operator=(const PrettyWriter&);
 };
 
-} // namespace rapidjson
+} // namespace rapidjsonxml
 
 #ifdef __GNUC__
-RAPIDJSON_DIAG_POP
+RAPIDJSONXML_DIAG_POP
 #endif
 
-#endif // RAPIDJSON_RAPIDJSON_H_
+#endif // RAPIDJSONXML_RAPIDJSONXML_H_

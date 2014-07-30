@@ -1,31 +1,31 @@
-#ifndef RAPIDJSON_ERROR_ERROR_H__
-#define RAPIDJSON_ERROR_ERROR_H__
+#ifndef RAPIDJSONXML_ERROR_ERROR_H__
+#define RAPIDJSONXML_ERROR_ERROR_H__
 
 ///////////////////////////////////////////////////////////////////////////////
-// RAPIDJSON_ERROR_CHARTYPE
+// RAPIDJSONXML_ERROR_CHARTYPE
 
 //! Character type of error messages.
 /*! The default charater type is char.
 	On Windows, user can define this macro as TCHAR for supporting both
 	unicode/non-unicode settings.
 */
-#ifndef RAPIDJSON_ERROR_CHARTYPE
-#define RAPIDJSON_ERROR_CHARTYPE char
+#ifndef RAPIDJSONXML_ERROR_CHARTYPE
+#define RAPIDJSONXML_ERROR_CHARTYPE char
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
-// RAPIDJSON_ERROR_STRING
+// RAPIDJSONXML_ERROR_STRING
 
-//! Macro for converting string literial to RAPIDJSON_ERROR_CHARTYPE[].
+//! Macro for converting string literial to RAPIDJSONXML_ERROR_CHARTYPE[].
 /*! By default this conversion macro does nothing.
 	On Windows, user can define this macro as _T(x) for supporting both 
 	unicode/non-unicode settings.
 */
-#ifndef RAPIDJSON_ERROR_STRING
-#define RAPIDJSON_ERROR_STRING(x) x
+#ifndef RAPIDJSONXML_ERROR_STRING
+#define RAPIDJSONXML_ERROR_STRING(x) x
 #endif
 
-namespace rapidjson {
+namespace rapidjsonxml {
 
 ///////////////////////////////////////////////////////////////////////////////
 // ParseErrorCode
@@ -112,12 +112,12 @@ private:
 
 \code
 	GetParseErrorFunc GetParseError = GetParseError_En; // or whatever
-	const RAPIDJSON_ERROR_CHARTYPE* s = GetParseError(document.GetParseErrorCode());
+	const RAPIDJSONXML_ERROR_CHARTYPE* s = GetParseError(document.GetParseErrorCode());
 \endcode
 */
 
-typedef const RAPIDJSON_ERROR_CHARTYPE* (*GetParseErrorFunc)(ParseErrorCode);
+typedef const RAPIDJSONXML_ERROR_CHARTYPE* (*GetParseErrorFunc)(ParseErrorCode);
 
-} // namespace rapidjson
+} // namespace rapidjsonxml
 
-#endif // RAPIDJSON_ERROR_ERROR_H__
+#endif // RAPIDJSONXML_ERROR_ERROR_H__

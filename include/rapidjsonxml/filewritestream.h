@@ -1,10 +1,10 @@
-#ifndef RAPIDJSON_FILEWRITESTREAM_H_
-#define RAPIDJSON_FILEWRITESTREAM_H_
+#ifndef RAPIDJSONXML_FILEWRITESTREAM_H_
+#define RAPIDJSONXML_FILEWRITESTREAM_H_
 
-#include "rapidjson.h"
+#include "rapidjsonxml.h"
 #include <cstdio>
 
-namespace rapidjson {
+namespace rapidjsonxml {
 
 //! Wrapper of C file stream for input using fread().
 /*!
@@ -15,7 +15,7 @@ public:
 	typedef char Ch;	//!< Character type. Only support char.
 
 	FileWriteStream(FILE* fp, char* buffer, size_t bufferSize) : fp_(fp), buffer_(buffer), bufferEnd_(buffer + bufferSize), current_(buffer_) { 
-		RAPIDJSON_ASSERT(fp_ != 0);
+		RAPIDJSONXML_ASSERT(fp_ != 0);
 	}
 
 	void Put(char c) { 
@@ -49,11 +49,11 @@ public:
 	}
 
 	// Not implemented
-	char Peek() const { RAPIDJSON_ASSERT(false); return 0; }
-	char Take() { RAPIDJSON_ASSERT(false); return 0; }
-	size_t Tell() const { RAPIDJSON_ASSERT(false); return 0; }
-	char* PutBegin() { RAPIDJSON_ASSERT(false); return 0; }
-	size_t PutEnd(char*) { RAPIDJSON_ASSERT(false); return 0; }
+	char Peek() const { RAPIDJSONXML_ASSERT(false); return 0; }
+	char Take() { RAPIDJSONXML_ASSERT(false); return 0; }
+	size_t Tell() const { RAPIDJSONXML_ASSERT(false); return 0; }
+	char* PutBegin() { RAPIDJSONXML_ASSERT(false); return 0; }
+	size_t PutEnd(char*) { RAPIDJSONXML_ASSERT(false); return 0; }
 
 private:
 	// Prohibit copy constructor & assignment operator.
@@ -72,6 +72,6 @@ inline void PutN(FileWriteStream& stream, char c, size_t n) {
 	stream.PutN(c, n);
 }
 
-} // namespace rapidjson
+} // namespace rapidjsonxml
 
-#endif // RAPIDJSON_FILESTREAM_H_
+#endif // RAPIDJSONXML_FILESTREAM_H_

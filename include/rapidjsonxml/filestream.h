@@ -1,10 +1,10 @@
-#ifndef RAPIDJSON_FILESTREAM_H_
-#define RAPIDJSON_FILESTREAM_H_
+#ifndef RAPIDJSONXML_FILESTREAM_H_
+#define RAPIDJSONXML_FILESTREAM_H_
 
-#include "rapidjson.h"
+#include "rapidjsonxml.h"
 #include <cstdio>
 
-namespace rapidjson {
+namespace rapidjsonxml {
 
 //! (Depreciated) Wrapper of C file stream for input or output.
 /*!
@@ -33,7 +33,7 @@ private:
 	FileStream& operator=(const FileStream&);
 
 	void Read() {
-		RAPIDJSON_ASSERT(fp_ != 0);
+		RAPIDJSONXML_ASSERT(fp_ != 0);
 		int c = fgetc(fp_);
 		if (c != EOF) {
 			current_ = (char)c;
@@ -48,6 +48,6 @@ private:
 	size_t count_;
 };
 
-} // namespace rapidjson
+} // namespace rapidjsonxml
 
-#endif // RAPIDJSON_FILESTREAM_H_
+#endif // RAPIDJSONXML_FILESTREAM_H_

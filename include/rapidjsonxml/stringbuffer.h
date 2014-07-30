@@ -1,10 +1,10 @@
-#ifndef RAPIDJSON_STRINGBUFFER_H_
-#define RAPIDJSON_STRINGBUFFER_H_
+#ifndef RAPIDJSONXML_STRINGBUFFER_H_
+#define RAPIDJSONXML_STRINGBUFFER_H_
 
-#include "rapidjson.h"
+#include "rapidjsonxml.h"
 #include "internal/stack.h"
 
-namespace rapidjson {
+namespace rapidjsonxml {
 
 //! Represents an in-memory output stream.
 /*!
@@ -48,6 +48,6 @@ inline void PutN(GenericStringBuffer<UTF8<> >& stream, char c, size_t n) {
 	memset(stream.stack_.Push<char>(n), c, n * sizeof(c));
 }
 
-} // namespace rapidjson
+} // namespace rapidjsonxml
 
-#endif // RAPIDJSON_STRINGBUFFER_H_
+#endif // RAPIDJSONXML_STRINGBUFFER_H_

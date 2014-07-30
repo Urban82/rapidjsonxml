@@ -1,7 +1,7 @@
-#ifndef RAPIDJSON_INTERNAL_STRFUNC_H_
-#define RAPIDJSON_INTERNAL_STRFUNC_H_
+#ifndef RAPIDJSONXML_INTERNAL_STRFUNC_H_
+#define RAPIDJSONXML_INTERNAL_STRFUNC_H_
 
-namespace rapidjson {
+namespace rapidjsonxml {
 namespace internal {
 
 //! Custom strlen() which works on different character types.
@@ -18,6 +18,6 @@ inline SizeType StrLen(const Ch* s) {
 }
 
 } // namespace internal
-} // namespace rapidjson
+} // namespace rapidjsonxml
 
-#endif // RAPIDJSON_INTERNAL_STRFUNC_H_
+#endif // RAPIDJSONXML_INTERNAL_STRFUNC_H_

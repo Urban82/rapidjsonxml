@@ -1,24 +1,24 @@
-#ifndef RAPIDJSON_DOCUMENT_H_
-#define RAPIDJSON_DOCUMENT_H_
+#ifndef RAPIDJSONXML_DOCUMENT_H_
+#define RAPIDJSONXML_DOCUMENT_H_
 
 #include "reader.h"
 #include "internal/strfunc.h"
 #include <new>		// placement new
 
 #ifdef _MSC_VER
-RAPIDJSON_DIAG_PUSH
-RAPIDJSON_DIAG_OFF(4127) // conditional expression is constant
+RAPIDJSONXML_DIAG_PUSH
+RAPIDJSONXML_DIAG_OFF(4127) // conditional expression is constant
 #elif defined(__GNUC__)
-RAPIDJSON_DIAG_PUSH
-RAPIDJSON_DIAG_OFF(effc++)
+RAPIDJSONXML_DIAG_PUSH
+RAPIDJSONXML_DIAG_OFF(effc++)
 #endif
 
-#ifndef RAPIDJSON_NOMEMBERITERATORCLASS
+#ifndef RAPIDJSONXML_NOMEMBERITERATORCLASS
 #include "internal/meta.h"
 #include <iterator> // std::iterator, std::random_access_iterator_tag
 #endif
 
-namespace rapidjson {
+namespace rapidjsonxml {
 
 // Forward declaration.
 template <typename Encoding, typename Allocator>
@@ -36,7 +36,7 @@ struct GenericMember {
 	GenericValue<Encoding, Allocator> value;	//!< value of member.
 };
 
-#ifndef RAPIDJSON_NOMEMBERITERATORCLASS
+#ifndef RAPIDJSONXML_NOMEMBERITERATORCLASS
 
 //! (Constant) member iterator for a JSON object value
 /*!
@@ -51,7 +51,7 @@ struct GenericMember {
 		conversions from iterator values to \c NULL,
 		e.g. from GenericValue::FindMember.
 
-	\note Define \c RAPIDJSON_NOMEMBERITERATORCLASS to fall back to a
+	\note Define \c RAPIDJSONXML_NOMEMBERITERATORCLASS to fall back to a
 		pointer-based implementation, if your platform doesn't provide
 		the C++ <iterator> header.
 
@@ -152,7 +152,7 @@ private:
 	Pointer ptr_; //!< raw pointer
 };
 
-#else // RAPIDJSON_NOMEMBERITERATORCLASS
+#else // RAPIDJSONXML_NOMEMBERITERATORCLASS
 
 // class-based member iterator implementation disabled, use plain pointers
 
@@ -172,7 +172,7 @@ struct GenericMemberIterator<true,Encoding,Allocator> {
 	typedef const GenericMember<Encoding,Allocator>* Iterator;
 };
 
-#endif // RAPIDJSON_NOMEMBERITERATORCLASS
+#endif // RAPIDJSONXML_NOMEMBERITERATORCLASS
 
 ///////////////////////////////////////////////////////////////////////////////
 // GenericStringRef
@@ -265,7 +265,7 @@ struct GenericStringRef {
 		\note Constant complexity.
 	 */
 	GenericStringRef(const CharType* str, SizeType len)
-		: s(str), length(len) { RAPIDJSON_ASSERT(s != NULL); }
+		: s(str), length(len) { RAPIDJSONXML_ASSERT(s != NULL); }
 
 	//! implicit conversion to plain CharType pointer
 	operator const Ch *() const { return s; }
@@ -368,7 +368,7 @@ public:
 			kNullFlag, kFalseFlag, kTrueFlag, kObjectFlag, kArrayFlag, kConstStringFlag,
 			kNumberAnyFlag
 		};
-		RAPIDJSON_ASSERT(type <= kNumberType);
+		RAPIDJSONXML_ASSERT(type <= kNumberType);
 		flags_ = defaultFlags[type];
 	}
 
@@ -388,9 +388,9 @@ public:
 			implicitly converted types like arbitrary pointers.  Use an explicit cast
 			to \c bool, if you want to construct a boolean JSON value in such cases.
 	 */
-#ifndef RAPIDJSON_DOXYGEN_RUNNING // hide SFINAE from Doxygen
+#ifndef RAPIDJSONXML_DOXYGEN_RUNNING // hide SFINAE from Doxygen
 	template <typename T>
-	explicit GenericValue(T b, RAPIDJSON_ENABLEIF((internal::IsSame<T,bool>)))
+	explicit GenericValue(T b, RAPIDJSONXML_ENABLEIF((internal::IsSame<T,bool>)))
 #else
 	explicit GenericValue(bool b)
 #endif
@@ -489,7 +489,7 @@ public:
 	/*! \param rhs Source of the assignment. It will become a null value after assignment.
 	*/
 	GenericValue& operator=(GenericValue& rhs) {
-		RAPIDJSON_ASSERT(this != &rhs);
+		RAPIDJSONXML_ASSERT(this != &rhs);
 		this->~GenericValue();
 		RawAssign(rhs);
 		return *this;
@@ -518,7 +518,7 @@ public:
 			use \ref SetBool() instead.
 	*/
 	template <typename T>
-	RAPIDJSON_DISABLEIF_RETURN(internal::IsPointer<T>,GenericValue&)
+	RAPIDJSONXML_DISABLEIF_RETURN(internal::IsPointer<T>,GenericValue&)
 	operator=(T value) {
 		GenericValue v(value);
 		return *this = v;
@@ -532,7 +532,7 @@ public:
 	 */
 	template <typename SourceAllocator>
 	GenericValue& CopyFrom(const GenericValue<Encoding,SourceAllocator>& rhs, Allocator& allocator) {
-		RAPIDJSON_ASSERT((void*)this != (void const*)&rhs);
+		RAPIDJSONXML_ASSERT((void*)this != (void const*)&rhs);
 		this->~GenericValue();
 		new (this) GenericValue(rhs,allocator);
 		return *this;
@@ -586,7 +586,7 @@ public:
 	//!@name Bool
 	//@{
 
-	bool GetBool() const { RAPIDJSON_ASSERT(IsBool()); return flags_ == kTrueFlag; }
+	bool GetBool() const { RAPIDJSONXML_ASSERT(IsBool()); return flags_ == kTrueFlag; }
 	//!< Set boolean value
 	/*! \post IsBool() == true */
 	GenericValue& SetBool(bool b) { this->~GenericValue(); new (this) GenericValue(b); return *this; }
@@ -620,7 +620,7 @@ public:
 		if (member != MemberEnd())
 			return member->value;
 		else {
-			RAPIDJSON_ASSERT(false);	// see above note
+			RAPIDJSONXML_ASSERT(false);	// see above note
 			static GenericValue NullValue;
 			return NullValue;
 		}
@@ -629,16 +629,16 @@ public:
 
 	//! Const member iterator
 	/*! \pre IsObject() == true */
-	ConstMemberIterator MemberBegin() const	{ RAPIDJSON_ASSERT(IsObject()); return ConstMemberIterator(data_.o.members); }
+	ConstMemberIterator MemberBegin() const	{ RAPIDJSONXML_ASSERT(IsObject()); return ConstMemberIterator(data_.o.members); }
 	//! Const \em past-the-end member iterator
 	/*! \pre IsObject() == true */
-	ConstMemberIterator MemberEnd()	const	{ RAPIDJSON_ASSERT(IsObject()); return ConstMemberIterator(data_.o.members + data_.o.size); }
+	ConstMemberIterator MemberEnd()	const	{ RAPIDJSONXML_ASSERT(IsObject()); return ConstMemberIterator(data_.o.members + data_.o.size); }
 	//! Member iterator
 	/*! \pre IsObject() == true */
-	MemberIterator MemberBegin()			{ RAPIDJSON_ASSERT(IsObject()); return MemberIterator(data_.o.members); }
+	MemberIterator MemberBegin()			{ RAPIDJSONXML_ASSERT(IsObject()); return MemberIterator(data_.o.members); }
 	//! \em Past-the-end member iterator
 	/*! \pre IsObject() == true */
-	MemberIterator MemberEnd()				{ RAPIDJSON_ASSERT(IsObject()); return MemberIterator(data_.o.members + data_.o.size); }
+	MemberIterator MemberEnd()				{ RAPIDJSONXML_ASSERT(IsObject()); return MemberIterator(data_.o.members + data_.o.size); }
 
 	//! Check whether a member exists in the object.
 	/*!
@@ -656,7 +656,7 @@ public:
 		\return Iterator to member, if it exists.
 			Otherwise returns \ref MemberEnd().
 
-		\note Earlier versions of Rapidjson returned a \c NULL pointer, in case
+		\note Earlier versions of RapidJsonXml returned a \c NULL pointer, in case
 			the requested member doesn't exist. For consistency with e.g.
 			\c std::map, this has been changed to MemberEnd() now.
 	*/
@@ -670,8 +670,8 @@ public:
 	// This version is faster because it does not need a StrLen(). 
 	// It can also handle string with null character.
 	MemberIterator FindMember(const GenericValue& name) {
-		RAPIDJSON_ASSERT(IsObject());
-		RAPIDJSON_ASSERT(name.IsString());
+		RAPIDJSONXML_ASSERT(IsObject());
+		RAPIDJSONXML_ASSERT(name.IsString());
 		SizeType len = name.data_.s.length;
 		MemberIterator member = MemberBegin();
 		for ( ; member != MemberEnd(); ++member)
@@ -691,8 +691,8 @@ public:
 		\post name.IsNull() && value.IsNull()
 	*/
 	GenericValue& AddMember(GenericValue& name, GenericValue& value, Allocator& allocator) {
-		RAPIDJSON_ASSERT(IsObject());
-		RAPIDJSON_ASSERT(name.IsString());
+		RAPIDJSONXML_ASSERT(IsObject());
+		RAPIDJSONXML_ASSERT(name.IsString());
 
 		Object& o = data_.o;
 		if (o.size >= o.capacity) {
@@ -756,7 +756,7 @@ public:
 			use an explicit cast instead, if needed.
 	*/
 	template <typename T>
-	RAPIDJSON_DISABLEIF_RETURN(internal::IsPointer<T>,GenericValue&)
+	RAPIDJSONXML_DISABLEIF_RETURN(internal::IsPointer<T>,GenericValue&)
 	AddMember(StringRefType name, T value, Allocator& allocator) {
 		GenericValue n(name);
 		GenericValue v(value);
@@ -789,10 +789,10 @@ public:
 		\note Removing member is implemented by moving the last member. So the ordering of members is changed.
 	*/
 	MemberIterator RemoveMember(MemberIterator m) {
-		RAPIDJSON_ASSERT(IsObject());
-		RAPIDJSON_ASSERT(data_.o.size > 0);
-		RAPIDJSON_ASSERT(data_.o.members != 0);
-		RAPIDJSON_ASSERT(m >= MemberBegin() && m < MemberEnd());
+		RAPIDJSONXML_ASSERT(IsObject());
+		RAPIDJSONXML_ASSERT(data_.o.size > 0);
+		RAPIDJSONXML_ASSERT(data_.o.members != 0);
+		RAPIDJSONXML_ASSERT(m >= MemberBegin() && m < MemberEnd());
 
 		MemberIterator last(data_.o.members + (data_.o.size - 1));
 		if (data_.o.size > 1 && m != last) {
@@ -819,19 +819,19 @@ public:
 	GenericValue& SetArray() {	this->~GenericValue(); new (this) GenericValue(kArrayType); return *this; }
 
 	//! Get the number of elements in array.
-	SizeType Size() const { RAPIDJSON_ASSERT(IsArray()); return data_.a.size; }
+	SizeType Size() const { RAPIDJSONXML_ASSERT(IsArray()); return data_.a.size; }
 
 	//! Get the capacity of array.
-	SizeType Capacity() const { RAPIDJSON_ASSERT(IsArray()); return data_.a.capacity; }
+	SizeType Capacity() const { RAPIDJSONXML_ASSERT(IsArray()); return data_.a.capacity; }
 
 	//! Check whether the array is empty.
-	bool Empty() const { RAPIDJSON_ASSERT(IsArray()); return data_.a.size == 0; }
+	bool Empty() const { RAPIDJSONXML_ASSERT(IsArray()); return data_.a.size == 0; }
 
 	//! Remove all elements in the array.
 	/*! This function do not deallocate memory in the array, i.e. the capacity is unchanged.
 	*/
 	void Clear() {
-		RAPIDJSON_ASSERT(IsArray()); 
+		RAPIDJSONXML_ASSERT(IsArray()); 
 		for (SizeType i = 0; i < data_.a.size; ++i)
 			data_.a.elements[i].~GenericValue();
 		data_.a.size = 0;
@@ -848,15 +848,15 @@ int z = a[0u].GetInt();				// This works too.
 \endcode
 	*/
 	GenericValue& operator[](SizeType index) {
-		RAPIDJSON_ASSERT(IsArray());
-		RAPIDJSON_ASSERT(index < data_.a.size);
+		RAPIDJSONXML_ASSERT(IsArray());
+		RAPIDJSONXML_ASSERT(index < data_.a.size);
 		return data_.a.elements[index];
 	}
 	const GenericValue& operator[](SizeType index) const { return const_cast<GenericValue&>(*this)[index]; }
 
 	//! Element iterator
-	ValueIterator Begin() { RAPIDJSON_ASSERT(IsArray()); return data_.a.elements; }
-	ValueIterator End() { RAPIDJSON_ASSERT(IsArray()); return data_.a.elements + data_.a.size; }
+	ValueIterator Begin() { RAPIDJSONXML_ASSERT(IsArray()); return data_.a.elements; }
+	ValueIterator End() { RAPIDJSONXML_ASSERT(IsArray()); return data_.a.elements + data_.a.size; }
 	ConstValueIterator Begin() const { return const_cast<GenericValue&>(*this).Begin(); }
 	ConstValueIterator End() const { return const_cast<GenericValue&>(*this).End(); }
 
@@ -866,7 +866,7 @@ int z = a[0u].GetInt();				// This works too.
 		\return The value itself for fluent API.
 	*/
 	GenericValue& Reserve(SizeType newCapacity, Allocator &allocator) {
-		RAPIDJSON_ASSERT(IsArray());
+		RAPIDJSONXML_ASSERT(IsArray());
 		if (newCapacity > data_.a.capacity) {
 			data_.a.elements = (GenericValue*)allocator.Realloc(data_.a.elements, data_.a.capacity * sizeof(GenericValue), newCapacity * sizeof(GenericValue));
 			data_.a.capacity = newCapacity;
@@ -884,7 +884,7 @@ int z = a[0u].GetInt();				// This works too.
 		\note If the number of elements to be appended is known, calls Reserve() once first may be more efficient.
 	*/
 	GenericValue& PushBack(GenericValue& value, Allocator& allocator) {
-		RAPIDJSON_ASSERT(IsArray());
+		RAPIDJSONXML_ASSERT(IsArray());
 		if (data_.a.size >= data_.a.capacity)
 			Reserve(data_.a.capacity == 0 ? kDefaultArrayCapacity : data_.a.capacity * 2, allocator);
 		data_.a.elements[data_.a.size++].RawAssign(value);
@@ -920,7 +920,7 @@ int z = a[0u].GetInt();				// This works too.
 			use an explicit cast instead, if needed.
 	*/
 	template <typename T>
-	RAPIDJSON_DISABLEIF_RETURN(internal::IsPointer<T>,GenericValue&)
+	RAPIDJSONXML_DISABLEIF_RETURN(internal::IsPointer<T>,GenericValue&)
 	PushBack(T value, Allocator& allocator) {
 		GenericValue v(value);
 		return PushBack(v, allocator);
@@ -928,8 +928,8 @@ int z = a[0u].GetInt();				// This works too.
 
 	//! Remove the last element in the array.
 	GenericValue& PopBack() {
-		RAPIDJSON_ASSERT(IsArray());
-		RAPIDJSON_ASSERT(!Empty());
+		RAPIDJSONXML_ASSERT(IsArray());
+		RAPIDJSONXML_ASSERT(!Empty());
 		data_.a.elements[--data_.a.size].~GenericValue();
 		return *this;
 	}
@@ -938,18 +938,18 @@ int z = a[0u].GetInt();				// This works too.
 	//!@name Number
 	//@{
 
-	int GetInt() const			{ RAPIDJSON_ASSERT(flags_ & kIntFlag);   return data_.n.i.i;   }
-	unsigned GetUint() const	{ RAPIDJSON_ASSERT(flags_ & kUintFlag);  return data_.n.u.u;   }
-	int64_t GetInt64() const	{ RAPIDJSON_ASSERT(flags_ & kInt64Flag); return data_.n.i64; }
-	uint64_t GetUint64() const	{ RAPIDJSON_ASSERT(flags_ & kUint64Flag); return data_.n.u64; }
+	int GetInt() const			{ RAPIDJSONXML_ASSERT(flags_ & kIntFlag);   return data_.n.i.i;   }
+	unsigned GetUint() const	{ RAPIDJSONXML_ASSERT(flags_ & kUintFlag);  return data_.n.u.u;   }
+	int64_t GetInt64() const	{ RAPIDJSONXML_ASSERT(flags_ & kInt64Flag); return data_.n.i64; }
+	uint64_t GetUint64() const	{ RAPIDJSONXML_ASSERT(flags_ & kUint64Flag); return data_.n.u64; }
 
 	double GetDouble() const {
-		RAPIDJSON_ASSERT(IsNumber());
+		RAPIDJSONXML_ASSERT(IsNumber());
 		if ((flags_ & kDoubleFlag) != 0)				return data_.n.d;	// exact type, no conversion.
 		if ((flags_ & kIntFlag) != 0)					return data_.n.i.i;	// int -> double
 		if ((flags_ & kUintFlag) != 0)					return data_.n.u.u;	// unsigned -> double
 		if ((flags_ & kInt64Flag) != 0)					return (double)data_.n.i64; // int64_t -> double (may lose precision)
-		RAPIDJSON_ASSERT((flags_ & kUint64Flag) != 0);	return (double)data_.n.u64;	// uint64_t -> double (may lose precision)
+		RAPIDJSONXML_ASSERT((flags_ & kUint64Flag) != 0);	return (double)data_.n.u64;	// uint64_t -> double (may lose precision)
 	}
 
 	GenericValue& SetInt(int i)				{ this->~GenericValue(); new (this) GenericValue(i);	return *this; }
@@ -963,12 +963,12 @@ int z = a[0u].GetInt();				// This works too.
 	//!@name String
 	//@{
 
-	const Ch* GetString() const { RAPIDJSON_ASSERT(IsString()); return data_.s.str; }
+	const Ch* GetString() const { RAPIDJSONXML_ASSERT(IsString()); return data_.s.str; }
 
 	//! Get the length of string.
-	/*! Since rapidjson permits "\\u0000" in the json string, strlen(v.GetString()) may not equal to v.GetStringLength().
+	/*! Since RapidJsonXml permits "\\u0000" in the json string, strlen(v.GetString()) may not equal to v.GetStringLength().
 	*/
-	SizeType GetStringLength() const { RAPIDJSON_ASSERT(IsString()); return data_.s.length; }
+	SizeType GetStringLength() const { RAPIDJSONXML_ASSERT(IsString()); return data_.s.length; }
 
 	//! Set this value as a string without copying source string.
 	/*! This version has better performance with supplied length, and also support string containing null character.
@@ -1051,7 +1051,7 @@ int z = a[0u].GetInt();				// This works too.
 			else					return handler.Double(data_.n.d);
 	
 		default:
-			RAPIDJSON_ASSERT(false);
+			RAPIDJSONXML_ASSERT(false);
 		}
 		return false;
 	}
@@ -1100,7 +1100,7 @@ private:
 
 	// By using proper binary layout, retrieval of different integer types do not need conversions.
 	union Number {
-#if RAPIDJSON_ENDIAN == RAPIDJSON_LITTLEENDIAN
+#if RAPIDJSONXML_ENDIAN == RAPIDJSONXML_LITTLEENDIAN
 		struct I {
 			int i;
 			char padding[4];
@@ -1230,7 +1230,7 @@ public:
 		ClearStackOnExit scope(*this);
 		parseResult_ = reader.template Parse<parseFlags>(is, *this);
 		if (parseResult_) {
-			RAPIDJSON_ASSERT(stack_.GetSize() == sizeof(ValueType)); // Got one and only one root object
+			RAPIDJSONXML_ASSERT(stack_.GetSize() == sizeof(ValueType)); // Got one and only one root object
 			this->RawAssign(*stack_.template Pop<ValueType>(1));	// Add this-> to prevent issue 13.
 		}
 		return *this;
@@ -1302,7 +1302,7 @@ public:
 	*/
 	template <unsigned parseFlags, typename SourceEncoding>
 	GenericDocument& Parse(const Ch* str) {
-		RAPIDJSON_ASSERT(!(parseFlags & kParseInsituFlag));
+		RAPIDJSONXML_ASSERT(!(parseFlags & kParseInsituFlag));
 		GenericStringStream<SourceEncoding> s(str);
 		return ParseStream<parseFlags, SourceEncoding>(s);
 	}
@@ -1423,10 +1423,10 @@ GenericValue<Encoding,Allocator>::GenericValue(const GenericValue<Encoding,Sourc
 	RawAssign(*d.stack_.template Pop<GenericValue>(1));
 }
 
-} // namespace rapidjson
+} // namespace rapidjsonxml
 
 #if defined(_MSC_VER) || defined(__GNUC__)
-RAPIDJSON_DIAG_POP
+RAPIDJSONXML_DIAG_POP
 #endif
 
-#endif // RAPIDJSON_DOCUMENT_H_
+#endif // RAPIDJSONXML_DOCUMENT_H_

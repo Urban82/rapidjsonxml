@@ -1,14 +1,14 @@
-#ifndef RAPIDJSON_ENCODEDSTREAM_H_
-#define RAPIDJSON_ENCODEDSTREAM_H_
+#ifndef RAPIDJSONXML_ENCODEDSTREAM_H_
+#define RAPIDJSONXML_ENCODEDSTREAM_H_
 
-#include "rapidjson.h"
+#include "rapidjsonxml.h"
 
 #ifdef __GNUC__
-RAPIDJSON_DIAG_PUSH
-RAPIDJSON_DIAG_OFF(effc++)
+RAPIDJSONXML_DIAG_PUSH
+RAPIDJSONXML_DIAG_OFF(effc++)
 #endif
 
-namespace rapidjson {
+namespace rapidjsonxml {
 
 //! Input byte stream wrapper with a statically bound encoding.
 /*!
@@ -17,7 +17,7 @@ namespace rapidjson {
 */
 template <typename Encoding, typename InputByteStream>
 class EncodedInputStream {
-	RAPIDJSON_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
+	RAPIDJSONXML_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
 public:
 	typedef typename Encoding::Ch Ch;
 
@@ -30,10 +30,10 @@ public:
 	size_t Tell() const { return is_.Tell(); }
 
 	// Not implemented
-	void Put(Ch) { RAPIDJSON_ASSERT(false); }
-	void Flush() { RAPIDJSON_ASSERT(false); } 
-	Ch* PutBegin() { RAPIDJSON_ASSERT(false); return 0; }
-	size_t PutEnd(Ch*) { RAPIDJSON_ASSERT(false); return 0; }
+	void Put(Ch) { RAPIDJSONXML_ASSERT(false); }
+	void Flush() { RAPIDJSONXML_ASSERT(false); } 
+	Ch* PutBegin() { RAPIDJSONXML_ASSERT(false); return 0; }
+	size_t PutEnd(Ch*) { RAPIDJSONXML_ASSERT(false); return 0; }
 
 private:
 	EncodedInputStream(const EncodedInputStream&);
@@ -50,7 +50,7 @@ private:
 */
 template <typename Encoding, typename OutputByteStream>
 class EncodedOutputStream {
-	RAPIDJSON_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
+	RAPIDJSONXML_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
 public:
 	typedef typename Encoding::Ch Ch;
 
@@ -63,11 +63,11 @@ public:
 	void Flush() { os_.Flush(); }
 
 	// Not implemented
-	Ch Peek() const { RAPIDJSON_ASSERT(false); }
-	Ch Take() { RAPIDJSON_ASSERT(false);  }
-	size_t Tell() const { RAPIDJSON_ASSERT(false);  return 0; }
-	Ch* PutBegin() { RAPIDJSON_ASSERT(false); return 0; }
-	size_t PutEnd(Ch*) { RAPIDJSON_ASSERT(false); return 0; }
+	Ch Peek() const { RAPIDJSONXML_ASSERT(false); }
+	Ch Take() { RAPIDJSONXML_ASSERT(false);  }
+	size_t Tell() const { RAPIDJSONXML_ASSERT(false);  return 0; }
+	Ch* PutBegin() { RAPIDJSONXML_ASSERT(false); return 0; }
+	size_t PutEnd(Ch*) { RAPIDJSONXML_ASSERT(false); return 0; }
 
 private:
 	EncodedOutputStream(const EncodedOutputStream&);
@@ -76,7 +76,7 @@ private:
 	OutputByteStream& os_;
 };
 
-#define RAPIDJSON_ENCODINGS_FUNC(x) UTF8<Ch>::x, UTF16LE<Ch>::x, UTF16BE<Ch>::x, UTF32LE<Ch>::x, UTF32BE<Ch>::x
+#define RAPIDJSONXML_ENCODINGS_FUNC(x) UTF8<Ch>::x, UTF16LE<Ch>::x, UTF16BE<Ch>::x, UTF32LE<Ch>::x, UTF32BE<Ch>::x
 
 //! Input stream wrapper with dynamically bound encoding and automatic encoding detection.
 /*!
@@ -85,7 +85,7 @@ private:
 */
 template <typename CharType, typename InputByteStream>
 class AutoUTFInputStream {
-	RAPIDJSON_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
+	RAPIDJSONXML_STATIC_ASSERT(sizeof(typename InputByteStream::Ch) == 1);
 public:
 	typedef CharType Ch;
 
@@ -96,7 +96,7 @@ public:
 	*/
 	AutoUTFInputStream(InputByteStream& is, UTFType type = kUTF8) : is_(&is), type_(type), hasBOM_(false) {
 		DetectType();
-		static const TakeFunc f[] = { RAPIDJSON_ENCODINGS_FUNC(Take) };
+		static const TakeFunc f[] = { RAPIDJSONXML_ENCODINGS_FUNC(Take) };
 		takeFunc_ = f[type_];
 		current_ = takeFunc_(*is_);
 	}
@@ -109,10 +109,10 @@ public:
 	size_t Tell() const { return is_->Tell(); }
 
 	// Not implemented
-	void Put(Ch) { RAPIDJSON_ASSERT(false); }
-	void Flush() { RAPIDJSON_ASSERT(false); } 
-	Ch* PutBegin() { RAPIDJSON_ASSERT(false); return 0; }
-	size_t PutEnd(Ch*) { RAPIDJSON_ASSERT(false); return 0; }
+	void Put(Ch) { RAPIDJSONXML_ASSERT(false); }
+	void Flush() { RAPIDJSONXML_ASSERT(false); } 
+	Ch* PutBegin() { RAPIDJSONXML_ASSERT(false); return 0; }
+	size_t PutEnd(Ch*) { RAPIDJSONXML_ASSERT(false); return 0; }
 
 private:
 	AutoUTFInputStream(const AutoUTFInputStream&);
@@ -169,14 +169,14 @@ private:
 			break;
 		case kUTF16LE:
 		case kUTF16BE:
-			RAPIDJSON_ASSERT(sizeof(Ch) >= 2);
+			RAPIDJSONXML_ASSERT(sizeof(Ch) >= 2);
 			break;
 		case kUTF32LE:
 		case kUTF32BE:
-			RAPIDJSON_ASSERT(sizeof(Ch) >= 4);
+			RAPIDJSONXML_ASSERT(sizeof(Ch) >= 4);
 			break;
 		default:
-			RAPIDJSON_ASSERT(false);	// Invalid type
+			RAPIDJSONXML_ASSERT(false);	// Invalid type
 		}
 	}
 
@@ -195,7 +195,7 @@ private:
 */
 template <typename CharType, typename OutputByteStream>
 class AutoUTFOutputStream {
-	RAPIDJSON_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
+	RAPIDJSONXML_STATIC_ASSERT(sizeof(typename OutputByteStream::Ch) == 1);
 public:
 	typedef CharType Ch;
 
@@ -210,20 +210,20 @@ public:
 		switch (type_) {
 		case kUTF16LE:
 		case kUTF16BE:
-			RAPIDJSON_ASSERT(sizeof(Ch) >= 2);
+			RAPIDJSONXML_ASSERT(sizeof(Ch) >= 2);
 			break;
 		case kUTF32LE:
 		case kUTF32BE:
-			RAPIDJSON_ASSERT(sizeof(Ch) >= 4);
+			RAPIDJSONXML_ASSERT(sizeof(Ch) >= 4);
 			break;
 		case kUTF8:
 			// Do nothing
 			break;
 		default:
-			RAPIDJSON_ASSERT(false);	// Invalid UTFType
+			RAPIDJSONXML_ASSERT(false);	// Invalid UTFType
 		}
 
-		static const PutFunc f[] = { RAPIDJSON_ENCODINGS_FUNC(Put) };
+		static const PutFunc f[] = { RAPIDJSONXML_ENCODINGS_FUNC(Put) };
 		putFunc_ = f[type_];
 
 		if (putBOM)
@@ -236,11 +236,11 @@ public:
 	void Flush() { os_->Flush(); } 
 
 	// Not implemented
-	Ch Peek() const { RAPIDJSON_ASSERT(false); }
-	Ch Take() { RAPIDJSON_ASSERT(false); }
-	size_t Tell() const { RAPIDJSON_ASSERT(false); return 0; }
-	Ch* PutBegin() { RAPIDJSON_ASSERT(false); return 0; }
-	size_t PutEnd(Ch*) { RAPIDJSON_ASSERT(false); return 0; }
+	Ch Peek() const { RAPIDJSONXML_ASSERT(false); }
+	Ch Take() { RAPIDJSONXML_ASSERT(false); }
+	size_t Tell() const { RAPIDJSONXML_ASSERT(false); return 0; }
+	Ch* PutBegin() { RAPIDJSONXML_ASSERT(false); return 0; }
+	size_t PutEnd(Ch*) { RAPIDJSONXML_ASSERT(false); return 0; }
 
 private:
 	AutoUTFOutputStream(const AutoUTFOutputStream&);
@@ -248,7 +248,7 @@ private:
 
 	void PutBOM() { 
 		typedef void (*PutBOMFunc)(OutputByteStream&);
-		static const PutBOMFunc f[] = { RAPIDJSON_ENCODINGS_FUNC(PutBOM) };
+		static const PutBOMFunc f[] = { RAPIDJSONXML_ENCODINGS_FUNC(PutBOM) };
 		f[type_](*os_);
 	}
 
@@ -259,12 +259,12 @@ private:
 	PutFunc putFunc_;
 };
 
-#undef RAPIDJSON_ENCODINGS_FUNC
+#undef RAPIDJSONXML_ENCODINGS_FUNC
 
-} // namespace rapidjson
+} // namespace rapidjsonxml
 
 #ifdef __GNUC__
-RAPIDJSON_DIAG_POP
+RAPIDJSONXML_DIAG_POP
 #endif
 
-#endif // RAPIDJSON_FILESTREAM_H_
+#endif // RAPIDJSONXML_FILESTREAM_H_
