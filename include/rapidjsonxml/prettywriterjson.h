@@ -10,7 +10,7 @@ RAPIDJSONXML_DIAG_OFF(effc++)
 
 namespace rapidjsonxml {
 
-//! Writer with indentation and spacing.
+//! WriterJson with indentation and spacing.
 /*!
 	\tparam OutputStream Type of ouptut os.
 	\tparam SourceEncoding Encoding of source string.
@@ -18,9 +18,9 @@ namespace rapidjsonxml {
 	\tparam Allocator Type of allocator for allocating memory of stack.
 */
 template<typename OutputStream, typename SourceEncoding = UTF8<>, typename TargetEncoding = UTF8<>, typename Allocator = MemoryPoolAllocator<> >
-class PrettyWriter : public Writer<OutputStream, SourceEncoding, TargetEncoding, Allocator> {
+class PrettyWriterJson : public WriterJson<OutputStream, SourceEncoding, TargetEncoding, Allocator> {
 public:
-	typedef Writer<OutputStream, SourceEncoding, TargetEncoding, Allocator> Base;
+	typedef WriterJson<OutputStream, SourceEncoding, TargetEncoding, Allocator> Base;
 	typedef typename Base::Ch Ch;
 
 	//! Constructor
@@ -28,18 +28,18 @@ public:
 		\param allocator User supplied allocator. If it is null, it will create a private one.
 		\param levelDepth Initial capacity of stack.
 	*/
-	PrettyWriter(OutputStream& os, Allocator* allocator = 0, size_t levelDepth = Base::kDefaultLevelDepth) : 
+	PrettyWriterJson(OutputStream& os, Allocator* allocator = 0, size_t levelDepth = Base::kDefaultLevelDepth) : 
 		Base(os, allocator, levelDepth), indentChar_(' '), indentCharCount_(4) {}
 
-	//! Overridden for fluent API, see \ref Writer::SetDoublePrecision()
-	PrettyWriter& SetDoublePrecision(int p) { Base::SetDoublePrecision(p); return *this; }
+	//! Overridden for fluent API, see \ref WriterJson::SetDoublePrecision()
+	PrettyWriterJson& SetDoublePrecision(int p) { Base::SetDoublePrecision(p); return *this; }
 
 	//! Set custom indentation.
 	/*! \param indentChar		Character for indentation. Must be whitespace character (' ', '\\t', '\\n', '\\r').
 		\param indentCharCount	Number of indent characters for each indentation level.
 		\note The default indentation is 4 spaces.
 	*/
-	PrettyWriter& SetIndent(Ch indentChar, unsigned indentCharCount) {
+	PrettyWriterJson& SetIndent(Ch indentChar, unsigned indentCharCount) {
 		RAPIDJSONXML_ASSERT(indentChar == ' ' || indentChar == '\t' || indentChar == '\n' || indentChar == '\r');
 		indentChar_ = indentChar;
 		indentCharCount_ = indentCharCount;
@@ -119,7 +119,7 @@ public:
 	//! Simpler but slower overload.
 	bool String(const Ch* str) { return String(str, internal::StrLen(str)); }
 
-	//! Overridden for fluent API, see \ref Writer::Double()
+	//! Overridden for fluent API, see \ref WriterJson::Double()
 	bool Double(double d, int precision) {
 		int oldPrecision = Base::GetDoublePrecision();
 		SetDoublePrecision(precision);
@@ -182,8 +182,8 @@ protected:
 
 private:
 	// Prohibit copy constructor & assignment operator.
-	PrettyWriter(const PrettyWriter&);
-	PrettyWriter& operator=(const PrettyWriter&);
+	PrettyWriterJson(const PrettyWriterJson&);
+	PrettyWriterJson& operator=(const PrettyWriterJson&);
 };
 
 } // namespace rapidjsonxml

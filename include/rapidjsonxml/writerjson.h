@@ -17,7 +17,7 @@ RAPIDJSONXML_DIAG_OFF(4127) // conditional expression is constant
 namespace rapidjsonxml {
 
 //! JSON writer
-/*! Writer implements the concept Handler.
+/*! WriterJson implements the concept Handler.
 	It generates JSON text by events to an output os.
 
 	User may programmatically calls the functions of a writer to generate JSON text.
@@ -33,7 +33,7 @@ namespace rapidjsonxml {
 	\note implements Handler concept
 */
 template<typename OutputStream, typename SourceEncoding = UTF8<>, typename TargetEncoding = UTF8<>, typename Allocator = MemoryPoolAllocator<> >
-class Writer {
+class WriterJson {
 public:
 	typedef typename SourceEncoding::Ch Ch;
 
@@ -42,22 +42,22 @@ public:
 		\param allocator User supplied allocator. If it is null, it will create a private one.
 		\param levelDepth Initial capacity of stack.
 	*/
-	Writer(OutputStream& os, Allocator* allocator = 0, size_t levelDepth = kDefaultLevelDepth) : 
+	WriterJson(OutputStream& os, Allocator* allocator = 0, size_t levelDepth = kDefaultLevelDepth) : 
 		os_(&os), level_stack_(allocator, levelDepth * sizeof(Level)),
 		doublePrecision_(kDefaultDoublePrecision), hasRoot_(false) {}
 
-	Writer(Allocator* allocator = 0, size_t levelDepth = kDefaultLevelDepth) :
+	WriterJson(Allocator* allocator = 0, size_t levelDepth = kDefaultLevelDepth) :
 		os_(0), level_stack_(allocator, levelDepth * sizeof(Level)),
 		doublePrecision_(kDefaultDoublePrecision), hasRoot_(false) {}
 
 	//! Reset the writer with a new stream.
 	/*!
 		This function reset the writer with a new stream and default settings,
-		in order to make a Writer object reusable for output multiple JSONs.
+		in order to make a WriterJson object reusable for output multiple JSONs.
 
 		\param os New output stream.
 		\code
-		Writer<OutputStream> writer(os1);
+		WriterJson<OutputStream> writer(os1);
 		writer.StartObject();
 		// ...
 		writer.EndObject();
@@ -87,9 +87,9 @@ public:
 	/*! When writing a \c double value to the \c OutputStream, the number
 		of significant digits is limited to 6 by default.
 		\param p maximum number of significant digits (default: 6)
-		\return The Writer itself for fluent API.
+		\return The WriterJson itself for fluent API.
 	*/
-	Writer& SetDoublePrecision(int p = kDefaultDoublePrecision) {
+	WriterJson& SetDoublePrecision(int p = kDefaultDoublePrecision) {
 		if (p < 0) p = kDefaultDoublePrecision; // negative precision is ignored
 		doublePrecision_ = p;
 		return *this;
@@ -113,9 +113,9 @@ public:
 	//! Writes the given \c double value to the stream
 	/*!
 		The number of significant digits (the precision) to be written
-		can be set by \ref SetDoublePrecision() for the Writer:
+		can be set by \ref SetDoublePrecision() for the WriterJson:
 		\code
-		Writer<...> writer(...);
+		WriterJson<...> writer(...);
 		writer.SetDoublePrecision(12).Double(M_PI);
 		\endcode
 		\param d The value to be written.
@@ -365,14 +365,14 @@ protected:
 
 private:
 	// Prohibit copy constructor & assignment operator.
-	Writer(const Writer&);
-	Writer& operator=(const Writer&);
+	WriterJson(const WriterJson&);
+	WriterJson& operator=(const WriterJson&);
 };
 
 // Full specialization for StringStream to prevent memory copying
 
 template<>
-inline bool Writer<StringBuffer>::WriteInt(int i) {
+inline bool WriterJson<StringBuffer>::WriteInt(int i) {
 	char *buffer = os_->Push(11);
 	const char* end = internal::i32toa(i, buffer);
 	os_->Pop(11 - (end - buffer));
@@ -380,7 +380,7 @@ inline bool Writer<StringBuffer>::WriteInt(int i) {
 }
 
 template<>
-inline bool Writer<StringBuffer>::WriteUint(unsigned u) {
+inline bool WriterJson<StringBuffer>::WriteUint(unsigned u) {
 	char *buffer = os_->Push(10);
 	const char* end = internal::u32toa(u, buffer);
 	os_->Pop(10 - (end - buffer));
@@ -388,7 +388,7 @@ inline bool Writer<StringBuffer>::WriteUint(unsigned u) {
 }
 
 template<>
-inline bool Writer<StringBuffer>::WriteInt64(int64_t i64) {
+inline bool WriterJson<StringBuffer>::WriteInt64(int64_t i64) {
 	char *buffer = os_->Push(21);
 	const char* end = internal::i64toa(i64, buffer);
 	os_->Pop(21 - (end - buffer));
@@ -396,7 +396,7 @@ inline bool Writer<StringBuffer>::WriteInt64(int64_t i64) {
 }
 
 template<>
-inline bool Writer<StringBuffer>::WriteUint64(uint64_t u) {
+inline bool WriterJson<StringBuffer>::WriteUint64(uint64_t u) {
 	char *buffer = os_->Push(20);
 	const char* end = internal::u64toa(u, buffer);
 	os_->Pop(20 - (end - buffer));

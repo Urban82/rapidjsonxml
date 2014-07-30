@@ -1009,7 +1009,7 @@ int z = a[0u].GetInt();				// This works too.
 
 	//! Generate events of this value to a Handler.
 	/*! This function adopts the GoF visitor pattern.
-		Typical usage is to output this JSON value as JSON text via Writer, which is a Handler.
+		Typical usage is to output this value as JSON text via WriterJson or as XML text via WriterXML, which are Handler.
 		It can also be used to deep clone this value via GenericDocument, which is also a Handler.
 		\tparam Handler type of handler.
 		\param handler An object implementing concept Handler.
