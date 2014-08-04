@@ -313,6 +313,15 @@ struct GenericStringRef {
         RAPIDJSONXML_ASSERT(s != NULL);
     }
 
+    //! Create constant string reference from std::string
+    /*! \param str constant string, lifetime assumed to be longer than the use of the string in e.g. a GenericValue
+
+        \post \ref s == str
+        \note Constant complexity.
+    */
+    GenericStringRef(const std::string& str)
+        : s(str.c_str()), length(str.length()) {}
+
     //! implicit conversion to plain CharType pointer
     operator const Ch *() const {
         return s;
