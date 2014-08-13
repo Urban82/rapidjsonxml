@@ -319,7 +319,7 @@ struct GenericStringRef {
         \post \ref s == str
         \note Constant complexity.
     */
-    GenericStringRef(const std::string& str)
+    explicit GenericStringRef(const std::string& str)
         : s(str.c_str()), length(str.length()) {}
 
     //! implicit conversion to plain CharType pointer
@@ -515,6 +515,11 @@ public:
     //! Constructor for copy-string (i.e. do make a copy of string)
     GenericValue(const Ch*s, Allocator& allocator) : data_(), flags_() {
         SetStringRaw(StringRef(s), allocator);
+    }
+
+    //! Constructor for copy-string (i.e. do make a copy of string)
+    GenericValue(const std::string& s, Allocator& allocator) : data_(), flags_() {
+        SetStringRaw(StringRef(s.c_str(), s.length()), allocator);
     }
 
     //! Destructor.
@@ -874,6 +879,19 @@ public:
         GenericValue v(value);
         return AddMember(name, v, allocator);
     }
+    GenericValue& AddMember(StringRefType name, std::string& value, Allocator& allocator) {
+        GenericValue v(value, allocator);
+        return AddMember(name, v, allocator);
+    }
+    GenericValue& AddMember(StringRefType name, std::string&& value, Allocator& allocator) {
+        GenericValue v(value, allocator);
+        return AddMember(name, v, allocator);
+    }
+    GenericValue& AddMember(StringRefType name, const char value[], Allocator& allocator) {
+        StringRefType srt(value);
+        GenericValue v(srt);
+        return AddMember(name, v, allocator);
+    }
 
     //! Add any primitive value as member (name-value pair) to the object.
     /*! \tparam T Either \ref Type, \c int, \c unsigned, \c int64_t, \c uint64_t
@@ -1062,6 +1080,18 @@ public:
     */
     GenericValue& PushBack(StringRefType value, Allocator& allocator) {
         return (*this).template PushBack<StringRefType>(value, allocator);
+    }
+    GenericValue& PushBack(std::string& value, Allocator& allocator) {
+        GenericValue v(value, allocator);
+        return (*this).template PushBack(v, allocator);
+    }
+    GenericValue& PushBack(std::string&& value, Allocator& allocator) {
+        GenericValue v(value, allocator);
+        return (*this).template PushBack(v, allocator);
+    }
+    GenericValue& PushBack(const char value[], Allocator& allocator) {
+        StringRefType v(value);
+        return (*this).template PushBack<StringRefType>(v, allocator);
     }
 
     //! Append a primitive value at the end of the array(.)
