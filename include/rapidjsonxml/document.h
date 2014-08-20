@@ -879,11 +879,7 @@ public:
         GenericValue v(value);
         return AddMember(name, v, allocator);
     }
-    GenericValue& AddMember(StringRefType name, std::string& value, Allocator& allocator) {
-        GenericValue v(value, allocator);
-        return AddMember(name, v, allocator);
-    }
-    GenericValue& AddMember(StringRefType name, std::string&& value, Allocator& allocator) {
+    GenericValue& AddMember(StringRefType name, const std::string& value, Allocator& allocator) {
         GenericValue v(value, allocator);
         return AddMember(name, v, allocator);
     }
@@ -1081,11 +1077,7 @@ public:
     GenericValue& PushBack(StringRefType value, Allocator& allocator) {
         return (*this).template PushBack<StringRefType>(value, allocator);
     }
-    GenericValue& PushBack(std::string& value, Allocator& allocator) {
-        GenericValue v(value, allocator);
-        return (*this).template PushBack(v, allocator);
-    }
-    GenericValue& PushBack(std::string&& value, Allocator& allocator) {
+    GenericValue& PushBack(const std::string& value, Allocator& allocator) {
         GenericValue v(value, allocator);
         return (*this).template PushBack(v, allocator);
     }
