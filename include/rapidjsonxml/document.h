@@ -883,10 +883,11 @@ public:
         GenericValue v(value, allocator);
         return AddMember(name, v, allocator);
     }
-    GenericValue& AddMember(StringRefType name, const char value[], Allocator& allocator) {
-        StringRefType srt(value);
-        GenericValue v(srt);
-        return AddMember(name, v, allocator);
+
+    template <typename CharType, SizeType N> // match arbitrary array references
+    GenericValue& AddMember(StringRefType name, CharType (&value)[N], Allocator& allocator) {
+        RAPIDJSONXML_STATIC_ASSERT((internal::IsSame<const Ch, CharType>::Value)); // only accept const Ch[]
+        return AddMember(name, StringRef(value), allocator);
     }
 
     //! Add any primitive value as member (name-value pair) to the object.
@@ -1081,9 +1082,11 @@ public:
         GenericValue v(value, allocator);
         return (*this).template PushBack(v, allocator);
     }
-    GenericValue& PushBack(const char value[], Allocator& allocator) {
-        StringRefType v(value);
-        return (*this).template PushBack<StringRefType>(v, allocator);
+
+    template <typename CharType, SizeType N> // match arbitrary array references
+    GenericValue& PushBack(CharType (&value)[N], Allocator& allocator) {
+        RAPIDJSONXML_STATIC_ASSERT((internal::IsSame<const Ch, CharType>::Value)); // only accept const Ch[]
+        return (*this).template PushBack<StringRefType>(StringRefType(value), allocator);
     }
 
     //! Append a primitive value at the end of the array(.)
