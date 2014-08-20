@@ -1086,7 +1086,7 @@ public:
     template <typename CharType, SizeType N> // match arbitrary array references
     GenericValue& PushBack(CharType (&value)[N], Allocator& allocator) {
         RAPIDJSONXML_STATIC_ASSERT((internal::IsSame<const Ch, CharType>::Value)); // only accept const Ch[]
-        return (*this).template PushBack<StringRefType>(StringRefType(value), allocator);
+        return PushBack(StringRef(value), allocator);
     }
 
     //! Append a primitive value at the end of the array(.)
