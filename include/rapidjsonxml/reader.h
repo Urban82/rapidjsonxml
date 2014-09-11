@@ -92,6 +92,8 @@ concept Handler {
     bool EndObject(SizeType memberCount);
     bool StartArray();
     bool EndArray(SizeType elementCount);
+    bool OpenTag(const Ch* str, SizeType length, bool copy);
+    bool CloseTag(const Ch* str, SizeType length, bool copy);
 };
 \endcode
 */
@@ -143,6 +145,12 @@ struct BaseReaderHandler {
         return Default();
     }
     bool EndArray(SizeType) {
+        return Default();
+    }
+    bool OpenTag(const Ch*, SizeType, bool) {
+        return Default();
+    }
+    bool CloseTag(const Ch*, SizeType, bool) {
         return Default();
     }
 };

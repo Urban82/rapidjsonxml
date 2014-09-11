@@ -135,6 +135,14 @@ public:
         return true;
     }
 
+    bool OpenTag(const Ch* str, SizeType length, bool copy = false) {
+        (void)copy;
+        PrettyPrefix(kStringType);
+        if(!Base::WriteString(str, length))
+            return false;
+        Base::os_->Put(':');
+        return true;
+    }
     //@}
 
     /*! @name Convenience extensions */
@@ -177,7 +185,6 @@ protected:
                         Base::os_->Put('\n');
                     }
                     else {
-                        Base::os_->Put(':');
                         Base::os_->Put(' ');
                     }
                 }

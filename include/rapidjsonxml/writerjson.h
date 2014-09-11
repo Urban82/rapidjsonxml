@@ -185,6 +185,22 @@ public:
             os_->Flush();
         return ret;
     }
+
+    bool OpenTag(const Ch* str, SizeType length, bool copy = false) {
+        (void)copy;
+        Prefix(kStringType);
+        if(!WriteString(str, length))
+            return false;
+        os_->Put(':');
+        return true;
+    }
+
+    bool CloseTag(const Ch* str, SizeType length, bool copy = false) {
+        (void)str;
+        (void)length;
+        (void)copy;
+        return true;
+    }
     //@}
 
     /*! @name Convenience extensions */
@@ -388,10 +404,9 @@ protected:
         if (level_stack_.GetSize() != 0) { // this value is not at root
             Level* level = level_stack_.template Top<Level>();
             if (level->valueCount > 0) {
-                if (level->inArray)
-                    os_->Put(','); // add comma if it is not the first element in array
-                else  // in object
-                    os_->Put((level->valueCount % 2 == 0) ? ',' : ':');
+                // add comma if it is not the first element in array or in object
+                if (level->inArray || level->valueCount % 2 == 0)
+                    os_->Put(',');
             }
             if (!level->inArray && level->valueCount % 2 == 0)
                 RAPIDJSONXML_ASSERT(type == kStringType);  // if it's in object, then even number should be a name

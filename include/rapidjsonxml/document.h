@@ -1265,9 +1265,11 @@ public:
             if (!handler.StartObject())
                 return false;
             for (ConstMemberIterator m = MemberBegin(); m != MemberEnd(); ++m) {
-                if (!handler.String(m->name.data_.s.str, m->name.data_.s.length, (m->name.flags_ & kCopyFlag) != 0))
+                if (!handler.OpenTag(m->name.data_.s.str, m->name.data_.s.length, (m->name.flags_ & kCopyFlag) != 0))
                     return false;
                 if (!m->value.Accept(handler))
+                    return false;
+                if (!handler.CloseTag(m->name.data_.s.str, m->name.data_.s.length, (m->name.flags_ & kCopyFlag) != 0))
                     return false;
             }
             return handler.EndObject(data_.o.size);
@@ -1668,6 +1670,17 @@ private:
     bool EndArray(SizeType elementCount) {
         ValueType* elements = stack_.template Pop<ValueType>(elementCount);
         stack_.template Top<ValueType>()->SetArrayRaw(elements, elementCount, GetAllocator());
+        return true;
+    }
+
+    bool OpenTag(const Ch* str, SizeType length, bool copy) {
+        return String(str, length, copy);
+    }
+
+    bool CloseTag(const Ch* str, SizeType length, bool copy) {
+        (void)str;
+        (void)length;
+        (void)copy;
         return true;
     }
 
