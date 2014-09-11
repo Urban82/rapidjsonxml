@@ -1,5 +1,5 @@
-#ifndef RAPIDJSONXML_ITOA_
-#define RAPIDJSONXML_ITOA_
+#ifndef RAPIDJSONXML_INTERNAL_ITOA_
+#define RAPIDJSONXML_INTERNAL_ITOA_
 
 namespace rapidjsonxml {
 namespace internal {
@@ -277,4 +277,4 @@ inline char* i64toa(int64_t value, char* buffer) {
 } // namespace internal
 } // namespace rapidjsonxml
 
-#endif // RAPIDJSONXML_ITOA_
+#endif // RAPIDJSONXML_INTERNAL_ITOA_

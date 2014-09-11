@@ -232,4 +232,4 @@ private:
 
 } // namespace rapidjsonxml
 
-#endif // RAPIDJSONXML_ENCODINGS_H_
+#endif // RAPIDJSONXML_ALLOCATORS_H_

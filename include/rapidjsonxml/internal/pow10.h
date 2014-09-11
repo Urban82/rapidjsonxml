@@ -1,5 +1,5 @@
-#ifndef RAPIDJSONXML_POW10_
-#define RAPIDJSONXML_POW10_
+#ifndef RAPIDJSONXML_INTERNAL_POW10_
+#define RAPIDJSONXML_INTERNAL_POW10_
 
 namespace rapidjsonxml {
 namespace internal {
@@ -51,4 +51,4 @@ inline double Pow10(int n) {
 } // namespace internal
 } // namespace rapidjsonxml
 
-#endif // RAPIDJSONXML_POW10_
+#endif // RAPIDJSONXML_INTERNAL_POW10_

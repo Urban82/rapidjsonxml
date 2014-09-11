@@ -103,4 +103,4 @@ private:
 } // namespace internal
 } // namespace rapidjsonxml
 
-#endif // RAPIDJSONXML_STACK_H_
+#endif // RAPIDJSONXML_INTERNAL_STACK_H_

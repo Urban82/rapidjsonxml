@@ -89,4 +89,4 @@ private:
 
 } // namespace rapidjsonxml
 
-#endif // RAPIDJSONXML_FILESTREAM_H_
+#endif // RAPIDJSONXML_FILEREADSTREAM_H_

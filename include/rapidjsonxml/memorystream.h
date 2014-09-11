@@ -60,4 +60,4 @@ struct MemoryStream {
 
 } // namespace rapidjsonxml
 
-#endif // RAPIDJSONXML_MEMORYBUFFER_H_
+#endif // RAPIDJSONXML_MEMORYSTREAM_H_

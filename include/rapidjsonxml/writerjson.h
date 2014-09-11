@@ -1,5 +1,5 @@
-#ifndef RAPIDJSONXML_WRITER_H_
-#define RAPIDJSONXML_WRITER_H_
+#ifndef RAPIDJSONXML_WRITERJSON_H_
+#define RAPIDJSONXML_WRITERJSON_H_
 
 #include "rapidjsonxml.h"
 #include "internal/stack.h"
@@ -472,4 +472,4 @@ inline bool WriterJson<StringBuffer>::WriteUint64(uint64_t u) {
 RAPIDJSONXML_DIAG_POP
 #endif
 
-#endif // RAPIDJSONXML_RAPIDJSONXML_H_
+#endif // RAPIDJSONXML_WRITERJSON_H_

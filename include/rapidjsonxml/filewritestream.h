@@ -89,4 +89,4 @@ inline void PutN(FileWriteStream& stream, char c, size_t n) {
 
 } // namespace rapidjsonxml
 
-#endif // RAPIDJSONXML_FILESTREAM_H_
+#endif // RAPIDJSONXML_FILEWRITESTREAM_H_
