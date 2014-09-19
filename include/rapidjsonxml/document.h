@@ -376,6 +376,143 @@ inline GenericStringRef<CharType> StringRef(const CharType* str, size_t length) 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// GenericAttribute
+
+//! Represents an XML attribute for a value. Use Attribute for UTF8 encoding and default allocator.
+/*!
+    An XML attribute is a pair of strings representing a name and a value.
+
+    Use the Attribute if UTF8 and default allocator
+
+    \tparam Encoding    Encoding of the value. (Even non-string values need to have the same encoding in a document)
+*/
+template <typename Encoding, typename Allocator = MemoryPoolAllocator<> >
+class GenericAttribute {
+public:
+    typedef Encoding EncodingType;                                                                  //!< Encoding type from template parameter.
+    typedef Allocator AllocatorType;                                                                //!< Allocator type from template parameter.
+    typedef typename Encoding::Ch Ch;                                                               //!< Character type derived from Encoding.
+    typedef GenericStringRef<Ch> StringRefType;                                                     //!< Reference to a constant string
+
+    //!@name Constructors and destructor.
+    //@{
+
+    //! Default constructor creates a null value.
+    GenericAttribute() : name_(), value_(), flags_(kConstFlag) {}
+
+private:
+    //! Copy constructor is not permitted.
+    GenericAttribute(const GenericAttribute& rhs);
+
+public:
+    //! Constructor with name and value
+    GenericAttribute(StringRefType n, StringRefType v) : name_(), value_(), flags_(kConstFlag) {
+        SetNameRaw(n);
+        SetValueRaw(v);
+    }
+
+    //! Constructor for copy-string (i.e. do make a copy of string)
+    GenericAttribute(const Ch*n, const Ch*v, Allocator& allocator) : name_(), value_(), flags_(kConstFlag) {
+        SetNameRaw(StringRef(n), allocator);
+        SetValueRaw(StringRef(v), allocator);
+    }
+
+    //! Constructor for copy-string (i.e. do make a copy of string)
+    GenericAttribute(const std::string& n, const std::string& v, Allocator& allocator) : name_(), value_(), flags_(kConstFlag) {
+        SetNameRaw(StringRef(n.c_str(), n.length()), allocator);
+        SetValueRaw(StringRef(v.c_str(), v.length()), allocator);
+    }
+
+    // Destructor
+    ~GenericAttribute() {
+        if (Allocator::kNeedFree) { // Shortcut by Allocator's trait
+            if (flags_ & kCopyNameFlag)
+                Allocator::Free(const_cast<Ch*>(name_.str));
+            if (flags_ & kCopyValueFlag)
+                Allocator::Free(const_cast<Ch*>(value_.str));
+        }
+    }
+
+    //@}
+
+    GenericAttribute& operator=(GenericAttribute& rhs) {
+        name_ = rhs.name_;
+        value_ = rhs.value_;
+        flags_ = rhs.flags_;
+        rhs.flags_ = kConstFlag;
+        return *this;
+    }
+
+    const Ch* GetName() const {
+        return name_.str;
+    }
+
+    SizeType GetNameLength() const {
+        return name_.length;
+    }
+
+    const Ch* GetValue() const {
+        return value_.str;
+    }
+
+    SizeType GetValueLength() const {
+        return value_.length;
+    }
+
+private:
+    struct String {
+        const Ch* str;
+        SizeType length;
+        unsigned hashcode; //!< reserved
+    }; // 12 bytes in 32-bit mode, 16 bytes in 64-bit mode
+
+    //! Initialize this name as constant string, without calling destructor.
+    void SetNameRaw(StringRefType s) {
+        flags_ = flags_ & !kCopyNameFlag;
+        name_.str = s;
+        name_.length = s.length;
+    }
+
+    //! Initialize this name as copy string with initial data, without calling destructor.
+    void SetNameRaw(StringRefType s, Allocator& allocator) {
+        flags_ = flags_ | kCopyNameFlag;
+        name_.str = (Ch *)allocator.Malloc((s.length + 1) * sizeof(Ch));
+        name_.length = s.length;
+        memcpy(const_cast<Ch*>(name_.str), s, s.length * sizeof(Ch));
+        const_cast<Ch*>(name_.str)[s.length] = '\0';
+    }
+
+    //! Initialize this value as constant string, without calling destructor.
+    void SetValueRaw(StringRefType s) {
+        flags_ = flags_ & !kCopyValueFlag;
+        value_.str = s;
+        value_.length = s.length;
+    }
+
+    //! Initialize this value as copy string with initial data, without calling destructor.
+    void SetValueRaw(StringRefType s, Allocator& allocator) {
+        flags_ = flags_ | kCopyValueFlag;
+        value_.str = (Ch *)allocator.Malloc((s.length + 1) * sizeof(Ch));
+        value_.length = s.length;
+        memcpy(const_cast<Ch*>(value_.str), s, s.length * sizeof(Ch));
+        const_cast<Ch*>(value_.str)[s.length] = '\0';
+    }
+
+    enum {
+        kConstFlag = 0x00,
+        kCopyNameFlag = 0x01,
+        kCopyValueFlag = 0x02
+    };
+
+    String name_;
+    String value_;
+    unsigned flags_;
+};
+
+//! GenericAttribute with UTF8 encoding
+typedef GenericAttribute<UTF8<> > Attribute;
+
+///////////////////////////////////////////////////////////////////////////////
 // GenericValue
 
 //! Represents a JSON value. Use Value for UTF8 encoding and default allocator.
@@ -394,6 +531,7 @@ class GenericValue {
 public:
     //! Name-value pair in an object.
     typedef GenericMember<Encoding, Allocator> Member;
+    typedef GenericAttribute<Encoding, Allocator> AttributeType;
     typedef Encoding EncodingType;                                                                  //!< Encoding type from template parameter.
     typedef Allocator AllocatorType;                                                                //!< Allocator type from template parameter.
     typedef typename Encoding::Ch Ch;                                                               //!< Character type derived from Encoding.
@@ -402,12 +540,14 @@ public:
     typedef typename GenericMemberIterator<true,Encoding,Allocator>::Iterator ConstMemberIterator;  //!< Constant member iterator for iterating in object.
     typedef GenericValue* ValueIterator;                                                            //!< Value iterator for iterating in array.
     typedef const GenericValue* ConstValueIterator;                                                 //!< Constant value iterator for iterating in array.
+    typedef AttributeType* AttributeIterator;                                                       //!< Attribute iterator for iterating in attributes.
+    typedef const AttributeType* ConstAttributeIterator;                                            //!< Constant attribute iterator for iterating in attributes.
 
     //!@name Constructors and destructor.
     //@{
 
     //! Default constructor creates a null value.
-    GenericValue() : data_(), flags_(kNullFlag) {}
+    GenericValue() : data_(), flags_(kNullFlag), attributes_() {}
 
 private:
     //! Copy constructor is not permitted.
@@ -420,7 +560,7 @@ public:
         \param type Type of the value.
         \note Default content for number is zero.
     */
-    GenericValue(Type type) : data_(), flags_() {
+    GenericValue(Type type) : data_(), flags_(), attributes_() {
         static const unsigned defaultFlags[7] = {
             kNullFlag, kFalseFlag, kTrueFlag, kObjectFlag, kArrayFlag, kConstStringFlag,
             kNumberAnyFlag
@@ -451,24 +591,24 @@ public:
 #else
     explicit GenericValue(bool b)
 #endif
-        : data_(), flags_(b ? kTrueFlag : kFalseFlag) {}
+        : data_(), flags_(b ? kTrueFlag : kFalseFlag), attributes_() {}
 
     //! Constructor for int value.
-    explicit GenericValue(int i) : data_(), flags_(kNumberIntFlag) {
+    explicit GenericValue(int i) : data_(), flags_(kNumberIntFlag), attributes_() {
         data_.n.i64 = i;
         if (i >= 0)
             flags_ |= kUintFlag | kUint64Flag;
     }
 
     //! Constructor for unsigned value.
-    explicit GenericValue(unsigned u) : data_(), flags_(kNumberUintFlag) {
+    explicit GenericValue(unsigned u) : data_(), flags_(kNumberUintFlag), attributes_() {
         data_.n.u64 = u;
         if (!(u & 0x80000000))
             flags_ |= kIntFlag | kInt64Flag;
     }
 
     //! Constructor for int64_t value.
-    explicit GenericValue(int64_t i64) : data_(), flags_(kNumberInt64Flag) {
+    explicit GenericValue(int64_t i64) : data_(), flags_(kNumberInt64Flag), attributes_() {
         data_.n.i64 = i64;
         if (i64 >= 0) {
             flags_ |= kNumberUint64Flag;
@@ -482,7 +622,7 @@ public:
     }
 
     //! Constructor for uint64_t value.
-    explicit GenericValue(uint64_t u64) : data_(), flags_(kNumberUint64Flag) {
+    explicit GenericValue(uint64_t u64) : data_(), flags_(kNumberUint64Flag), attributes_() {
         data_.n.u64 = u64;
         if (!(u64 & UINT64_C(0x8000000000000000)))
             flags_ |= kInt64Flag;
@@ -493,32 +633,32 @@ public:
     }
 
     //! Constructor for double value.
-    explicit GenericValue(double d) : data_(), flags_(kNumberDoubleFlag) {
+    explicit GenericValue(double d) : data_(), flags_(kNumberDoubleFlag), attributes_() {
         data_.n.d = d;
     }
 
     //! Constructor for constant string (i.e. do not make a copy of string)
-    GenericValue(const Ch* s, SizeType length) : data_(), flags_() {
+    GenericValue(const Ch* s, SizeType length) : data_(), flags_(), attributes_() {
         SetStringRaw(StringRef(s, length));
     }
 
     //! Constructor for constant string (i.e. do not make a copy of string)
-    explicit GenericValue(StringRefType s) : data_(), flags_() {
+    explicit GenericValue(StringRefType s) : data_(), flags_(), attributes_() {
         SetStringRaw(s);
     }
 
     //! Constructor for copy-string (i.e. do make a copy of string)
-    GenericValue(const Ch* s, SizeType length, Allocator& allocator) : data_(), flags_() {
+    GenericValue(const Ch* s, SizeType length, Allocator& allocator) : data_(), flags_(), attributes_() {
         SetStringRaw(StringRef(s, length), allocator);
     }
 
     //! Constructor for copy-string (i.e. do make a copy of string)
-    GenericValue(const Ch*s, Allocator& allocator) : data_(), flags_() {
+    GenericValue(const Ch*s, Allocator& allocator) : data_(), flags_(), attributes_() {
         SetStringRaw(StringRef(s), allocator);
     }
 
     //! Constructor for copy-string (i.e. do make a copy of string)
-    GenericValue(const std::string& s, Allocator& allocator) : data_(), flags_() {
+    GenericValue(const std::string& s, Allocator& allocator) : data_(), flags_(), attributes_() {
         SetStringRaw(StringRef(s.c_str(), s.length()), allocator);
     }
 
@@ -549,6 +689,11 @@ public:
             default:
                 break; // Do nothing for other types.
             }
+
+            // Destroy attributes
+            for (AttributeIterator a = attributes_.elements; a != attributes_.elements + attributes_.size; ++a)
+                a->~GenericAttribute();
+            Allocator::Free(attributes_.elements);
         }
     }
 
@@ -674,6 +819,54 @@ public:
     }
     bool IsString() const {
         return (flags_ & kStringFlag) != 0;
+    }
+
+    //@}
+
+    //!@name Attributes
+    //@{
+    //! Check whether there are attributes.
+    bool HasAttributes() const {
+        return attributes_.size != 0;
+    }
+
+    //! Get the number of attributes.
+    SizeType CountAttributes() const {
+        return attributes_.size;
+    }
+
+    //! Remove all attributes.
+    /*! This function do not deallocate memory in the array, i.e. the capacity is unchanged.
+     */
+    void ClearAttributes() {
+        for (SizeType i = 0; i < attributes_.size; ++i)
+            attributes_.elements[i].~GenericAttribute();
+        attributes_.size = 0;
+    }
+
+    //! Add an attribute.
+    GenericValue& AddAttribute(AttributeType& attribute, Allocator& allocator) {
+        if (attributes_.size >= attributes_.capacity) {
+            SizeType newCapacity = attributes_.capacity == 0 ? kDefaultArrayCapacity : attributes_.capacity * 2;
+            attributes_.elements = (AttributeType*)allocator.Realloc(attributes_.elements, attributes_.capacity * sizeof(AttributeType), newCapacity * sizeof(AttributeType));
+            attributes_.capacity = newCapacity;
+        }
+        attributes_.elements[attributes_.size++] = attribute;
+        return *this;
+    }
+
+    //! Element iterator
+    AttributeIterator AttributeBegin() {
+        return attributes_.elements;
+    }
+    AttributeIterator AttributeEnd() {
+        return attributes_.elements + attributes_.size;
+    }
+    ConstAttributeIterator AttributeBegin() const {
+        return const_cast<GenericValue&>(*this).AttributeBegin();
+    }
+    ConstAttributeIterator AttributeEnd() const {
+        return const_cast<GenericValue&>(*this).AttributeEnd();
     }
 
     //@}
@@ -1265,7 +1458,7 @@ public:
             if (!handler.StartObject())
                 return false;
             for (ConstMemberIterator m = MemberBegin(); m != MemberEnd(); ++m) {
-                if (!handler.OpenTag(m->name.data_.s.str, m->name.data_.s.length, (m->name.flags_ & kCopyFlag) != 0))
+                if (!handler.OpenTag(m->name.data_.s.str, m->name.data_.s.length, m->value.AttributeBegin(), m->value.AttributeEnd(), (m->name.flags_ & kCopyFlag) != 0))
                     return false;
                 if (!m->value.Accept(handler))
                     return false;
@@ -1385,6 +1578,12 @@ private:
         Array a;
     }; // 12 bytes in 32-bit mode, 16 bytes in 64-bit mode
 
+    struct AttributeArray {
+        AttributeType* elements;
+        SizeType size;
+        SizeType capacity;
+    }; // 12 bytes in 32-bit mode, 16 bytes in 64-bit mode
+
     // Initialize this value as array with initial data, without calling destructor.
     void SetArrayRaw(GenericValue* values, SizeType count, Allocator& allocator) {
         flags_ = kArrayFlag;
@@ -1421,11 +1620,13 @@ private:
     void RawAssign(GenericValue& rhs) {
         data_ = rhs.data_;
         flags_ = rhs.flags_;
+        attributes_ = rhs.attributes_;
         rhs.flags_ = kNullFlag;
     }
 
     Data data_;
     unsigned flags_;
+    AttributeArray attributes_;
 };
 #pragma pack (pop)
 
@@ -1673,7 +1874,9 @@ private:
         return true;
     }
 
-    bool OpenTag(const Ch* str, SizeType length, bool copy) {
+    bool OpenTag(const Ch* str, SizeType length, const void* attrib_begin, const void* attrib_end, bool copy) {
+        (void) attrib_begin;
+        (void) attrib_end;
         return String(str, length, copy);
     }
 

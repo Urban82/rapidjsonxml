@@ -186,7 +186,9 @@ public:
         return ret;
     }
 
-    bool OpenTag(const Ch* str, SizeType length, bool copy = false) {
+    bool OpenTag(const Ch* str, SizeType length, const void* attrib_begin, const void* attrib_end, bool copy = false) {
+        (void)attrib_begin;
+        (void)attrib_end;
         (void)copy;
         Prefix(kStringType);
         if(!WriteString(str, length))

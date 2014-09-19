@@ -45,17 +45,19 @@ public:
     WriterXml(OutputStream& os, Allocator* allocator = 0, size_t levelDepth = kDefaultLevelDepth) :
         os_(&os), level_stack_(allocator, levelDepth * sizeof(Level)),
         doublePrecision_(kDefaultDoublePrecision), hasRoot_(false),
-        lastTag(0), lastTagSize(0) {}
+        lastTag(0), lastTagSize(0), lastAttribBegin(0), lastAttribEnd(0) {}
 
     WriterXml(Allocator* allocator = 0, size_t levelDepth = kDefaultLevelDepth) :
         os_(0), level_stack_(allocator, levelDepth * sizeof(Level)),
         doublePrecision_(kDefaultDoublePrecision), hasRoot_(false),
-        lastTag(0), lastTagSize(0) {}
+        lastTag(0), lastTagSize(0), lastAttribBegin(0), lastAttribEnd(0) {}
 
     virtual ~WriterXml() {
         delete lastTag;
         lastTag = 0;
         lastTagSize = 0;
+        lastAttribBegin = 0;
+        lastAttribEnd = 0;
     }
 
     //! Reset the writer with a new stream.
@@ -85,6 +87,9 @@ public:
         delete lastTag;
         lastTag = 0;
         lastTagSize = 0;
+
+        lastAttribBegin = 0;
+        lastAttribEnd = 0;
     }
 
     //! Checks whether the output is a complete XML.
@@ -186,9 +191,13 @@ public:
         // Copy last tag reference
         level->tag = lastTag;
         level->tagSize = lastTagSize;
+        level->attribBegin = lastAttribBegin;
+        level->attribEnd = lastAttribEnd;
         // Reset last tag reference
         lastTag = 0;
         lastTagSize = 0;
+        lastAttribBegin = 0;
+        lastAttribEnd = 0;
         return true;
     }
 
@@ -202,17 +211,27 @@ public:
         return true;
     }
 
-    bool OpenTag(const Ch* str, SizeType length, bool copy = false) {
+    bool OpenTag(const Ch* str, SizeType length, const void* attrib_begin, const void* attrib_end, bool copy = false) {
         (void)copy;
         os_->Put('<');
         if(!WriteString(str, length))
             return false;
+        for (typename GenericValue<SourceEncoding, Allocator>::AttributeIterator it = (typename GenericValue<SourceEncoding, Allocator>::AttributeIterator) attrib_begin; it != attrib_end; ++it) {
+            os_->Put(' ');
+            WriteString(it->GetName(), it->GetNameLength());
+            os_->Put('=');
+            os_->Put('"');
+            WriteString(it->GetValue(), it->GetValueLength());
+            os_->Put('"');
+        }
         os_->Put('>');
 
         // Save last tag
         delete lastTag;
         lastTag = strndup(str, length);
         lastTagSize = length;
+        lastAttribBegin = (typename GenericValue<SourceEncoding, Allocator>::AttributeIterator) attrib_begin;
+        lastAttribEnd = (typename GenericValue<SourceEncoding, Allocator>::AttributeIterator) attrib_end;
 
         return true;
     }
@@ -257,12 +276,14 @@ public:
 protected:
     //! Information for each nested level
     struct Level {
-        Level(bool inArray_) : valueCount(0), inArray(inArray_), tag(0), tagSize(0) {}
+        Level(bool inArray_) : valueCount(0), inArray(inArray_), tag(0), tagSize(0), attribBegin(0), attribEnd(0) {}
         ~Level() { delete tag; }
         size_t valueCount;  //!< number of values in this level
         bool inArray;       //!< true if in array, otherwise in object
         const Ch* tag;
         SizeType tagSize;
+        typename GenericValue<SourceEncoding, Allocator>::AttributeIterator attribBegin;
+        typename GenericValue<SourceEncoding, Allocator>::AttributeIterator attribEnd;
     };
 
     static const size_t kDefaultLevelDepth = 32;
@@ -414,7 +435,7 @@ protected:
             Level* level = level_stack_.template Top<Level>();
             if (level->inArray && level->valueCount > 0) {
                 CloseTag(level->tag, level->tagSize);
-                OpenTag(level->tag, level->tagSize);
+                OpenTag(level->tag, level->tagSize, level->attribBegin, level->attribEnd);
             }
             level->valueCount++;
         }
@@ -434,6 +455,7 @@ protected:
 
     Ch* lastTag;
     SizeType lastTagSize;
+    typename GenericValue<SourceEncoding, Allocator>::AttributeIterator lastAttribBegin, lastAttribEnd;
 
 private:
     // Prohibit copy constructor & assignment operator.
