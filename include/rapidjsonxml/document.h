@@ -869,6 +869,24 @@ public:
         return const_cast<GenericValue&>(*this).AttributeEnd();
     }
 
+    //! Clone attributes
+    template <typename SourceAllocator>
+    GenericValue& CloneAttributes(const GenericValue<Encoding,SourceAllocator>& rhs, Allocator& allocator) {
+        RAPIDJSONXML_ASSERT((void*)this != (void const*)&rhs);
+        ClearAttributes();
+        if (attributes_.capacity < rhs.attributes_.size) {
+            SizeType newCapacity = attributes_.capacity == 0 ? kDefaultArrayCapacity : attributes_.capacity * 2;
+            while (newCapacity < rhs.attributes_.size)
+                newCapacity *= 2;
+            attributes_.elements = (AttributeType*)allocator.Realloc(attributes_.elements, attributes_.capacity * sizeof(AttributeType), newCapacity * sizeof(AttributeType));
+            attributes_.capacity = newCapacity;
+        }
+        for (SizeType i = 0; i < rhs.attributes_.size; ++i)
+            attributes_.elements[i] = rhs.attributes_.elements[i];
+        attributes_.size = rhs.attributes_.size;
+        return *this;
+    }
+
     //@}
 
     //!@name Null
