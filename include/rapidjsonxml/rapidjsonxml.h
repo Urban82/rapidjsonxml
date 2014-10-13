@@ -138,9 +138,10 @@ typedef unsigned SizeType;
 // RAPIDJSONXML_ASSERT
 
 //! Assertion.
-/*! By default, RapidJsonXml uses C assert() for assertion.
+/*! By default, RapidJsonXml raises an exception for assertion.
     User can override it by defining RAPIDJSONXML_ASSERT(x) macro.
 */
+#include "assert_exception.h"
 #ifndef RAPIDJSONXML_ASSERT
 #include <cassert>
 #define RAPIDJSONXML_ASSERT(x) assert(x)
