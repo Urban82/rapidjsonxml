@@ -10,7 +10,7 @@ namespace rapidjsonxml {
         }
     };
 
-    void assert_raiser(bool expression) {
+    static inline void assert_raiser(bool expression) {
         static AssertException e;
         if (!expression)
             throw e;
