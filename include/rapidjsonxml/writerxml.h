@@ -37,6 +37,8 @@ class WriterXml {
 public:
     typedef typename SourceEncoding::Ch Ch;
     typedef typename GenericValue<SourceEncoding, Allocator>::ConstAttributeIterator ConstAttributeIterator;
+    typedef GenericAttributeIteratorPair<SourceEncoding, Allocator> AttributeIteratorPair;
+    typedef AttributeIteratorPair* AttributeIteratorPairList;
 
     //! Constructor
     /*! \param os Output stream.
@@ -46,19 +48,18 @@ public:
     WriterXml(OutputStream& os, Allocator* allocator = 0, size_t levelDepth = kDefaultLevelDepth) :
         os_(&os), level_stack_(allocator, levelDepth * sizeof(Level)),
         doublePrecision_(kDefaultDoublePrecision), hasRoot_(false),
-        lastTag(0), lastTagSize(0), lastAttribBegin(0), lastAttribEnd(0) {}
+        lastTag(0), lastTagSize(0), lastAttrib() {}
 
     WriterXml(Allocator* allocator = 0, size_t levelDepth = kDefaultLevelDepth) :
         os_(0), level_stack_(allocator, levelDepth * sizeof(Level)),
         doublePrecision_(kDefaultDoublePrecision), hasRoot_(false),
-        lastTag(0), lastTagSize(0), lastAttribBegin(0), lastAttribEnd(0) {}
+        lastTag(0), lastTagSize(0), lastAttrib() {}
 
     virtual ~WriterXml() {
         delete lastTag;
         lastTag = 0;
         lastTagSize = 0;
-        lastAttribBegin = 0;
-        lastAttribEnd = 0;
+        lastAttrib = AttributeIteratorPair();
     }
 
     //! Reset the writer with a new stream.
@@ -89,8 +90,7 @@ public:
         lastTag = 0;
         lastTagSize = 0;
 
-        lastAttribBegin = 0;
-        lastAttribEnd = 0;
+        lastAttrib = AttributeIteratorPair();
     }
 
     //! Checks whether the output is a complete XML.
@@ -170,8 +170,8 @@ public:
         return WriteString(str, length);
     }
 
-    bool StartObject(ConstAttributeIterator attrib_begin = 0, ConstAttributeIterator attrib_end = 0) {
-        Prefix(kObjectType, attrib_begin, attrib_end);
+    bool StartObject(const AttributeIteratorPair attribs) {
+        Prefix(kObjectType, attribs);
         new (level_stack_.template Push<Level>()) Level(false);
         return true;
     }
@@ -192,13 +192,11 @@ public:
         // Copy last tag reference
         level->tag = lastTag;
         level->tagSize = lastTagSize;
-        level->attribBegin = lastAttribBegin;
-        level->attribEnd = lastAttribEnd;
+        level->attrib = lastAttrib;
         // Reset last tag reference
         lastTag = 0;
         lastTagSize = 0;
-        lastAttribBegin = 0;
-        lastAttribEnd = 0;
+        lastAttrib = AttributeIteratorPair();
         return true;
     }
 
@@ -212,26 +210,24 @@ public:
         return true;
     }
 
-    bool OpenTag(const Ch* str, SizeType length, ConstAttributeIterator attrib_begin, ConstAttributeIterator attrib_end, bool copy = false, ConstAttributeIterator attrib2_begin = 0, ConstAttributeIterator attrib2_end = 0) {
+    bool OpenTag(const Ch* str, SizeType length, const AttributeIteratorPairList attribs_list, bool copy = false) {
         (void)copy;
         os_->Put('<');
         if(!WriteString(str, length))
             return false;
-        for (ConstAttributeIterator it = attrib_begin; it != attrib_end; ++it) {
-            os_->Put(' ');
-            WriteString(it->GetName(), it->GetNameLength());
-            os_->Put('=');
-            os_->Put('"');
-            WriteString(it->GetValue(), it->GetValueLength());
-            os_->Put('"');
-        }
-        for (ConstAttributeIterator it = attrib2_begin; it != attrib2_end; ++it) {
-            os_->Put(' ');
-            WriteString(it->GetName(), it->GetNameLength());
-            os_->Put('=');
-            os_->Put('"');
-            WriteString(it->GetValue(), it->GetValueLength());
-            os_->Put('"');
+        if (attribs_list) {
+            AttributeIteratorPairList a = attribs_list;
+            while (a->IsValid()) {
+                for (ConstAttributeIterator it = a->begin; it != a->end; ++it) {
+                    os_->Put(' ');
+                    WriteString(it->GetName(), it->GetNameLength());
+                    os_->Put('=');
+                    os_->Put('"');
+                    WriteString(it->GetValue(), it->GetValueLength());
+                    os_->Put('"');
+                }
+                ++a;
+            }
         }
         os_->Put('>');
 
@@ -239,8 +235,12 @@ public:
         delete lastTag;
         lastTag = strndup(str, length);
         lastTagSize = length;
-        lastAttribBegin = attrib_begin;
-        lastAttribEnd = attrib_end;
+        if (attribs_list) {
+            lastAttrib = *attribs_list;
+        }
+        else {
+            lastAttrib = AttributeIteratorPair();
+        }
 
         return true;
     }
@@ -285,14 +285,13 @@ public:
 protected:
     //! Information for each nested level
     struct Level {
-        Level(bool inArray_) : valueCount(0), inArray(inArray_), tag(0), tagSize(0), attribBegin(0), attribEnd(0) {}
+        Level(bool inArray_) : valueCount(0), inArray(inArray_), tag(0), tagSize(0), attrib() {}
         ~Level() { delete tag; }
         size_t valueCount;  //!< number of values in this level
         bool inArray;       //!< true if in array, otherwise in object
         const Ch* tag;
         SizeType tagSize;
-        ConstAttributeIterator attribBegin;
-        ConstAttributeIterator attribEnd;
+        AttributeIteratorPair attrib;
     };
 
     static const size_t kDefaultLevelDepth = 32;
@@ -438,13 +437,18 @@ protected:
         return true;
     }
 
-    void Prefix(Type type, ConstAttributeIterator attrib_begin = 0, ConstAttributeIterator attrib_end = 0) {
+    void Prefix(Type type, const AttributeIteratorPair attribs = AttributeIteratorPair()) {
         (void)type;
         if (level_stack_.GetSize() != 0) { // this value is not at root
             Level* level = level_stack_.template Top<Level>();
             if (level->inArray && level->valueCount > 0) {
                 CloseTag(level->tag, level->tagSize);
-                OpenTag(level->tag, level->tagSize, level->attribBegin, level->attribEnd, false, attrib_begin, attrib_end);
+
+                AttributeIteratorPair attribs_list[3];
+                attribs_list[0] = level->attrib;
+                attribs_list[1] = attribs;
+
+                OpenTag(level->tag, level->tagSize, attribs_list, false);
             }
             level->valueCount++;
         }
@@ -464,7 +468,7 @@ protected:
 
     Ch* lastTag;
     SizeType lastTagSize;
-    ConstAttributeIterator lastAttribBegin, lastAttribEnd;
+    AttributeIteratorPair lastAttrib;
 
 private:
     // Prohibit copy constructor & assignment operator.

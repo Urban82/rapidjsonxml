@@ -36,7 +36,8 @@ template<typename OutputStream, typename SourceEncoding = UTF8<>, typename Targe
 class WriterJson {
 public:
     typedef typename SourceEncoding::Ch Ch;
-    typedef typename GenericValue<SourceEncoding, Allocator>::ConstAttributeIterator ConstAttributeIterator;
+    typedef GenericAttributeIteratorPair<SourceEncoding, Allocator> AttributeIteratorPair;
+    typedef AttributeIteratorPair* AttributeIteratorPairList;
 
     //! Constructor
     /*! \param os Output stream.
@@ -153,9 +154,8 @@ public:
         return WriteString(str, length);
     }
 
-    bool StartObject(ConstAttributeIterator attrib_begin = 0, ConstAttributeIterator attrib_end = 0) {
-        (void)attrib_begin;
-        (void)attrib_end;
+    bool StartObject(const AttributeIteratorPair attribs) {
+        (void)attribs;
         Prefix(kObjectType);
         new (level_stack_.template Push<Level>()) Level(false);
         return WriteStartObject();
@@ -189,12 +189,9 @@ public:
         return ret;
     }
 
-    bool OpenTag(const Ch* str, SizeType length, ConstAttributeIterator attrib_begin, ConstAttributeIterator attrib_end, bool copy = false, ConstAttributeIterator attrib2_begin = 0, ConstAttributeIterator attrib2_end = 0) {
-        (void)attrib_begin;
-        (void)attrib_end;
+    bool OpenTag(const Ch* str, SizeType length, const AttributeIteratorPairList attribs_list, bool copy = false) {
+        (void)attribs_list;
         (void)copy;
-        (void)attrib2_begin;
-        (void)attrib2_end;
         Prefix(kStringType);
         if(!WriteString(str, length))
             return false;

@@ -436,6 +436,24 @@ enum Type {
     kNumberType = 6     //!< number
 };
 
+///////////////////////////////////////////////////////////////////////////////
+// Attributes iterator lists (for StartObject and Opentag use)
+
+template <typename Encoding, typename Allocator = MemoryPoolAllocator<> >
+class GenericAttribute;
+
+template <typename Encoding, typename Allocator = MemoryPoolAllocator<> >
+struct GenericAttributeIteratorPair {
+    typedef const GenericAttribute<Encoding, Allocator>* GenericAttributeIterator;
+    GenericAttributeIterator begin;
+    GenericAttributeIterator end;
+
+    GenericAttributeIteratorPair() : begin(0), end(0) {};
+    GenericAttributeIteratorPair(GenericAttributeIterator _begin, GenericAttributeIterator _end) : begin(_begin), end(_end) {};
+
+    bool IsValid() const { return (begin && end); };
+};
+
 } // namespace rapidjsonxml
 
 #endif // RAPIDJSONXML_RAPIDJSONXML_H_

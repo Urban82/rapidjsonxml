@@ -22,7 +22,8 @@ class PrettyWriterJson : public WriterJson<OutputStream, SourceEncoding, TargetE
 public:
     typedef WriterJson<OutputStream, SourceEncoding, TargetEncoding, Allocator> Base;
     typedef typename Base::Ch Ch;
-    typedef typename Base::ConstAttributeIterator ConstAttributeIterator;
+    typedef typename Base::AttributeIteratorPair AttributeIteratorPair;
+    typedef typename Base::AttributeIteratorPairList AttributeIteratorPairList;
 
     //! Constructor
     /*! \param os Output stream.
@@ -90,9 +91,8 @@ public:
         return Base::WriteString(str, length);
     }
 
-    bool StartObject(ConstAttributeIterator attrib_begin = 0, ConstAttributeIterator attrib_end = 0) {
-        (void)attrib_begin;
-        (void)attrib_end;
+    bool StartObject(const AttributeIteratorPair attribs) {
+        (void)attribs;
         PrettyPrefix(kObjectType);
         new (Base::level_stack_.template Push<typename Base::Level>()) typename Base::Level(false);
         return Base::WriteStartObject();
@@ -138,12 +138,9 @@ public:
         return true;
     }
 
-    bool OpenTag(const Ch* str, SizeType length, ConstAttributeIterator attrib_begin, ConstAttributeIterator attrib_end, bool copy = false, ConstAttributeIterator attrib2_begin = 0, ConstAttributeIterator attrib2_end = 0) {
-        (void)attrib_begin;
-        (void)attrib_end;
+    bool OpenTag(const Ch* str, SizeType length, const AttributeIteratorPairList attribs_list, bool copy = false) {
+        (void)attribs_list;
         (void)copy;
-        (void)attrib2_begin;
-        (void)attrib2_end;
         PrettyPrefix(kStringType);
         if(!Base::WriteString(str, length))
             return false;

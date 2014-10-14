@@ -1,6 +1,7 @@
 #ifndef RAPIDJSONXML_DOCUMENT_H_
 #define RAPIDJSONXML_DOCUMENT_H_
 
+#include "rapidjsonxml.h"
 #include "reader.h"
 #include "internal/strfunc.h"
 #include <new> // placement new
@@ -386,7 +387,7 @@ inline GenericStringRef<CharType> StringRef(const CharType* str, size_t length) 
 
     \tparam Encoding    Encoding of the value. (Even non-string values need to have the same encoding in a document)
 */
-template <typename Encoding, typename Allocator = MemoryPoolAllocator<> >
+template <typename Encoding, typename Allocator>
 class GenericAttribute {
 public:
     typedef Encoding EncodingType;                                                                  //!< Encoding type from template parameter.
@@ -542,6 +543,8 @@ public:
     typedef const GenericValue* ConstValueIterator;                                                 //!< Constant value iterator for iterating in array.
     typedef AttributeType* AttributeIterator;                                                       //!< Attribute iterator for iterating in attributes.
     typedef const AttributeType* ConstAttributeIterator;                                            //!< Constant attribute iterator for iterating in attributes.
+    typedef GenericAttributeIteratorPair<Encoding, Allocator> AttributeIteratorPair;
+    typedef AttributeIteratorPair* AttributeIteratorPairList;
 
     //!@name Constructors and destructor.
     //@{
@@ -1473,17 +1476,16 @@ public:
             return handler.Bool(true);
 
         case kObjectType:
-            if (!handler.StartObject(AttributeBegin(), AttributeEnd()))
+            if (!handler.StartObject(AttributeIteratorPair(AttributeBegin(), AttributeEnd())))
                 return false;
             for (ConstMemberIterator m = MemberBegin(); m != MemberEnd(); ++m) {
-                ConstAttributeIterator ab = 0;
-                ConstAttributeIterator ae = 0;
+                AttributeIteratorPair attribs_list[3];
+                attribs_list[0] = AttributeIteratorPair(m->value.AttributeBegin(), m->value.AttributeEnd());
                 if (m->value.GetType() == kArrayType && !m->value.Empty()) {
                     ConstValueIterator v = m->value.Begin();
-                    ab = v->AttributeBegin();
-                    ae = v->AttributeEnd();
+                    attribs_list[1] = AttributeIteratorPair(v->AttributeBegin(), v->AttributeEnd());
                 }
-                if (!handler.OpenTag(m->name.data_.s.str, m->name.data_.s.length, m->value.AttributeBegin(), m->value.AttributeEnd(), (m->name.flags_ & kCopyFlag) != 0, ab, ae))
+                if (!handler.OpenTag(m->name.data_.s.str, m->name.data_.s.length, attribs_list, (m->name.flags_ & kCopyFlag) != 0))
                     return false;
                 if (!m->value.Accept(handler))
                     return false;
@@ -1674,7 +1676,8 @@ public:
     typedef typename Encoding::Ch Ch;                       //!< Character type derived from Encoding.
     typedef GenericValue<Encoding, Allocator> ValueType;    //!< Value type of the document.
     typedef Allocator AllocatorType;                        //!< Allocator type from template parameter.
-    typedef typename GenericValue<Encoding, Allocator>::ConstAttributeIterator ConstAttributeIterator;
+    typedef GenericAttributeIteratorPair<Encoding, Allocator> AttributeIteratorPair;
+    typedef AttributeIteratorPair* AttributeIteratorPairList;
 
     //! Constructor
     /*! \param allocator        Optional allocator for allocating stack memory.
@@ -1878,9 +1881,8 @@ private:
         return true;
     }
 
-    bool StartObject(ConstAttributeIterator attrib_begin = 0, ConstAttributeIterator attrib_end = 0) {
-        (void) attrib_begin;
-        (void) attrib_end;
+    bool StartObject(const AttributeIteratorPair attribs) {
+        (void)attribs;
         new (stack_.template Push<ValueType>()) ValueType(kObjectType);
         return true;
     }
@@ -1902,11 +1904,8 @@ private:
         return true;
     }
 
-    bool OpenTag(const Ch* str, SizeType length, ConstAttributeIterator attrib_begin, ConstAttributeIterator attrib_end, bool copy, ConstAttributeIterator attrib2_begin = 0, ConstAttributeIterator attrib2_end = 0) {
-        (void) attrib_begin;
-        (void) attrib_end;
-        (void) attrib2_begin;
-        (void) attrib2_end;
+    bool OpenTag(const Ch* str, SizeType length, const AttributeIteratorPairList attribs_list, bool copy) {
+        (void) attribs_list;
         return String(str, length, copy);
     }
 

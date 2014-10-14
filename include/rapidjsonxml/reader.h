@@ -88,11 +88,11 @@ concept Handler {
     bool Uint64(uint64_t i);
     bool Double(double d);
     bool String(const Ch* str, SizeType length, bool copy);
-    bool StartObject(const AttributeIterator attrib_begin, const AttributeIterator attrib_end);
+    bool StartObject(const AttributeIteratorPair attribs);
     bool EndObject(SizeType memberCount);
     bool StartArray();
     bool EndArray(SizeType elementCount);
-    bool OpenTag(const Ch* str, SizeType length, const AttributeIterator attrib_begin, const AttributeIterator attrib_end, bool copy, const AttributeIterator attrib_begin, const AttributeIterator attrib_end);
+    bool OpenTag(const Ch* str, SizeType length, const AttributeIteratorPairList attribs_list, bool copy);
     bool CloseTag(const Ch* str, SizeType length, bool copy);
 };
 \endcode
@@ -108,6 +108,8 @@ template<typename Encoding = UTF8<> >
 struct BaseReaderHandler {
     typedef typename Encoding::Ch Ch;
     typedef const void* ConstAttributeIterator;
+    typedef GenericAttributeIteratorPair<Encoding> AttributeIteratorPair;
+    typedef AttributeIteratorPair* AttributeIteratorPairList;
 
     bool Default() {
         return true;
@@ -136,7 +138,7 @@ struct BaseReaderHandler {
     bool String(const Ch*, SizeType, bool) {
         return Default();
     }
-    bool StartObject(ConstAttributeIterator, ConstAttributeIterator) {
+    bool StartObject(const AttributeIteratorPair) {
         return Default();
     }
     bool EndObject(SizeType) {
@@ -148,7 +150,7 @@ struct BaseReaderHandler {
     bool EndArray(SizeType) {
         return Default();
     }
-    bool OpenTag(const Ch*, SizeType, ConstAttributeIterator, ConstAttributeIterator, bool, ConstAttributeIterator, ConstAttributeIterator) {
+    bool OpenTag(const Ch*, SizeType, const AttributeIteratorPairList, bool) {
         return Default();
     }
     bool CloseTag(const Ch*, SizeType, bool) {
