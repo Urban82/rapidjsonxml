@@ -89,7 +89,9 @@ public:
         return Base::WriteString(str, length);
     }
 
-    bool StartObject() {
+    bool StartObject(const void* attrib_begin = 0, const void* attrib_end = 0) {
+        (void)attrib_begin;
+        (void)attrib_end;
         PrettyPrefix(kObjectType);
         new (Base::level_stack_.template Push<typename Base::Level>()) typename Base::Level(false);
         return Base::WriteStartObject();
@@ -135,10 +137,12 @@ public:
         return true;
     }
 
-    bool OpenTag(const Ch* str, SizeType length, const void* attrib_begin, const void* attrib_end, bool copy = false) {
+    bool OpenTag(const Ch* str, SizeType length, const void* attrib_begin, const void* attrib_end, bool copy = false, const void* attrib2_begin = 0, const void* attrib2_end = 0) {
         (void)attrib_begin;
         (void)attrib_end;
         (void)copy;
+        (void)attrib2_begin;
+        (void)attrib2_end;
         PrettyPrefix(kStringType);
         if(!Base::WriteString(str, length))
             return false;

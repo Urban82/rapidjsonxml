@@ -152,7 +152,9 @@ public:
         return WriteString(str, length);
     }
 
-    bool StartObject() {
+    bool StartObject(const void* attrib_begin = 0, const void* attrib_end = 0) {
+        (void)attrib_begin;
+        (void)attrib_end;
         Prefix(kObjectType);
         new (level_stack_.template Push<Level>()) Level(false);
         return WriteStartObject();
@@ -186,10 +188,12 @@ public:
         return ret;
     }
 
-    bool OpenTag(const Ch* str, SizeType length, const void* attrib_begin, const void* attrib_end, bool copy = false) {
+    bool OpenTag(const Ch* str, SizeType length, const void* attrib_begin, const void* attrib_end, bool copy = false, const void* attrib2_begin = 0, const void* attrib2_end = 0) {
         (void)attrib_begin;
         (void)attrib_end;
         (void)copy;
+        (void)attrib2_begin;
+        (void)attrib2_end;
         Prefix(kStringType);
         if(!WriteString(str, length))
             return false;

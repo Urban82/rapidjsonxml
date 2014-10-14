@@ -88,11 +88,11 @@ concept Handler {
     bool Uint64(uint64_t i);
     bool Double(double d);
     bool String(const Ch* str, SizeType length, bool copy);
-    bool StartObject();
+    bool StartObject(const AttributeIterator attrib_begin, const AttributeIterator attrib_end);
     bool EndObject(SizeType memberCount);
     bool StartArray();
     bool EndArray(SizeType elementCount);
-    bool OpenTag(const Ch* str, SizeType length, const AttributeIterator attrib_begin, const AttributeIterator attrib_end, bool copy);
+    bool OpenTag(const Ch* str, SizeType length, const AttributeIterator attrib_begin, const AttributeIterator attrib_end, bool copy, const AttributeIterator attrib_begin, const AttributeIterator attrib_end);
     bool CloseTag(const Ch* str, SizeType length, bool copy);
 };
 \endcode
@@ -135,7 +135,7 @@ struct BaseReaderHandler {
     bool String(const Ch*, SizeType, bool) {
         return Default();
     }
-    bool StartObject() {
+    bool StartObject(const void*, const void*) {
         return Default();
     }
     bool EndObject(SizeType) {
@@ -147,7 +147,7 @@ struct BaseReaderHandler {
     bool EndArray(SizeType) {
         return Default();
     }
-    bool OpenTag(const Ch*, SizeType, const void*, const void*, bool) {
+    bool OpenTag(const Ch*, SizeType, const void*, const void*, bool, const void*, const void*) {
         return Default();
     }
     bool CloseTag(const Ch*, SizeType, bool) {
