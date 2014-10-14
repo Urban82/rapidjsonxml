@@ -36,6 +36,7 @@ template<typename OutputStream, typename SourceEncoding = UTF8<>, typename Targe
 class WriterJson {
 public:
     typedef typename SourceEncoding::Ch Ch;
+    typedef typename GenericValue<SourceEncoding, Allocator>::ConstAttributeIterator ConstAttributeIterator;
 
     //! Constructor
     /*! \param os Output stream.
@@ -152,7 +153,7 @@ public:
         return WriteString(str, length);
     }
 
-    bool StartObject(const void* attrib_begin = 0, const void* attrib_end = 0) {
+    bool StartObject(ConstAttributeIterator attrib_begin = 0, ConstAttributeIterator attrib_end = 0) {
         (void)attrib_begin;
         (void)attrib_end;
         Prefix(kObjectType);
@@ -188,7 +189,7 @@ public:
         return ret;
     }
 
-    bool OpenTag(const Ch* str, SizeType length, const void* attrib_begin, const void* attrib_end, bool copy = false, const void* attrib2_begin = 0, const void* attrib2_end = 0) {
+    bool OpenTag(const Ch* str, SizeType length, ConstAttributeIterator attrib_begin, ConstAttributeIterator attrib_end, bool copy = false, ConstAttributeIterator attrib2_begin = 0, ConstAttributeIterator attrib2_end = 0) {
         (void)attrib_begin;
         (void)attrib_end;
         (void)copy;

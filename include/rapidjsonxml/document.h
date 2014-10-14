@@ -1476,8 +1476,8 @@ public:
             if (!handler.StartObject(AttributeBegin(), AttributeEnd()))
                 return false;
             for (ConstMemberIterator m = MemberBegin(); m != MemberEnd(); ++m) {
-                const void* ab = 0;
-                const void* ae = 0;
+                ConstAttributeIterator ab = 0;
+                ConstAttributeIterator ae = 0;
                 if (m->value.GetType() == kArrayType && !m->value.Empty()) {
                     ConstValueIterator v = m->value.Begin();
                     ab = v->AttributeBegin();
@@ -1674,6 +1674,7 @@ public:
     typedef typename Encoding::Ch Ch;                       //!< Character type derived from Encoding.
     typedef GenericValue<Encoding, Allocator> ValueType;    //!< Value type of the document.
     typedef Allocator AllocatorType;                        //!< Allocator type from template parameter.
+    typedef typename GenericValue<Encoding, Allocator>::ConstAttributeIterator ConstAttributeIterator;
 
     //! Constructor
     /*! \param allocator        Optional allocator for allocating stack memory.
@@ -1877,7 +1878,7 @@ private:
         return true;
     }
 
-    bool StartObject(const void* attrib_begin = 0, const void* attrib_end = 0) {
+    bool StartObject(ConstAttributeIterator attrib_begin = 0, ConstAttributeIterator attrib_end = 0) {
         (void) attrib_begin;
         (void) attrib_end;
         new (stack_.template Push<ValueType>()) ValueType(kObjectType);
@@ -1901,7 +1902,7 @@ private:
         return true;
     }
 
-    bool OpenTag(const Ch* str, SizeType length, const void* attrib_begin, const void* attrib_end, bool copy, const void* attrib2_begin = 0, const void* attrib2_end = 0) {
+    bool OpenTag(const Ch* str, SizeType length, ConstAttributeIterator attrib_begin, ConstAttributeIterator attrib_end, bool copy, ConstAttributeIterator attrib2_begin = 0, ConstAttributeIterator attrib2_end = 0) {
         (void) attrib_begin;
         (void) attrib_end;
         (void) attrib2_begin;

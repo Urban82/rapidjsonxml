@@ -36,7 +36,7 @@ template<typename OutputStream, typename SourceEncoding = UTF8<>, typename Targe
 class WriterXml {
 public:
     typedef typename SourceEncoding::Ch Ch;
-    typedef typename GenericValue<SourceEncoding, Allocator>::AttributeIterator AttributeIteratorType;
+    typedef typename GenericValue<SourceEncoding, Allocator>::ConstAttributeIterator ConstAttributeIterator;
 
     //! Constructor
     /*! \param os Output stream.
@@ -170,7 +170,7 @@ public:
         return WriteString(str, length);
     }
 
-    bool StartObject(const void* attrib_begin = 0, const void* attrib_end = 0) {
+    bool StartObject(ConstAttributeIterator attrib_begin = 0, ConstAttributeIterator attrib_end = 0) {
         Prefix(kObjectType, attrib_begin, attrib_end);
         new (level_stack_.template Push<Level>()) Level(false);
         return true;
@@ -212,12 +212,12 @@ public:
         return true;
     }
 
-    bool OpenTag(const Ch* str, SizeType length, const void* attrib_begin, const void* attrib_end, bool copy = false, const void* attrib2_begin = 0, const void* attrib2_end = 0) {
+    bool OpenTag(const Ch* str, SizeType length, ConstAttributeIterator attrib_begin, ConstAttributeIterator attrib_end, bool copy = false, ConstAttributeIterator attrib2_begin = 0, ConstAttributeIterator attrib2_end = 0) {
         (void)copy;
         os_->Put('<');
         if(!WriteString(str, length))
             return false;
-        for (AttributeIteratorType it = (AttributeIteratorType) attrib_begin; it != attrib_end; ++it) {
+        for (ConstAttributeIterator it = attrib_begin; it != attrib_end; ++it) {
             os_->Put(' ');
             WriteString(it->GetName(), it->GetNameLength());
             os_->Put('=');
@@ -225,7 +225,7 @@ public:
             WriteString(it->GetValue(), it->GetValueLength());
             os_->Put('"');
         }
-        for (AttributeIteratorType it = (AttributeIteratorType) attrib2_begin; it != attrib2_end; ++it) {
+        for (ConstAttributeIterator it = attrib2_begin; it != attrib2_end; ++it) {
             os_->Put(' ');
             WriteString(it->GetName(), it->GetNameLength());
             os_->Put('=');
@@ -239,8 +239,8 @@ public:
         delete lastTag;
         lastTag = strndup(str, length);
         lastTagSize = length;
-        lastAttribBegin = (AttributeIteratorType) attrib_begin;
-        lastAttribEnd = (AttributeIteratorType) attrib_end;
+        lastAttribBegin = attrib_begin;
+        lastAttribEnd = attrib_end;
 
         return true;
     }
@@ -291,8 +291,8 @@ protected:
         bool inArray;       //!< true if in array, otherwise in object
         const Ch* tag;
         SizeType tagSize;
-        AttributeIteratorType attribBegin;
-        AttributeIteratorType attribEnd;
+        ConstAttributeIterator attribBegin;
+        ConstAttributeIterator attribEnd;
     };
 
     static const size_t kDefaultLevelDepth = 32;
@@ -438,7 +438,7 @@ protected:
         return true;
     }
 
-    void Prefix(Type type, const void* attrib_begin = 0, const void* attrib_end = 0) {
+    void Prefix(Type type, ConstAttributeIterator attrib_begin = 0, ConstAttributeIterator attrib_end = 0) {
         (void)type;
         if (level_stack_.GetSize() != 0) { // this value is not at root
             Level* level = level_stack_.template Top<Level>();
@@ -464,7 +464,7 @@ protected:
 
     Ch* lastTag;
     SizeType lastTagSize;
-    AttributeIteratorType lastAttribBegin, lastAttribEnd;
+    ConstAttributeIterator lastAttribBegin, lastAttribEnd;
 
 private:
     // Prohibit copy constructor & assignment operator.

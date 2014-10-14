@@ -22,6 +22,7 @@ class PrettyWriterJson : public WriterJson<OutputStream, SourceEncoding, TargetE
 public:
     typedef WriterJson<OutputStream, SourceEncoding, TargetEncoding, Allocator> Base;
     typedef typename Base::Ch Ch;
+    typedef typename Base::ConstAttributeIterator ConstAttributeIterator;
 
     //! Constructor
     /*! \param os Output stream.
@@ -89,7 +90,7 @@ public:
         return Base::WriteString(str, length);
     }
 
-    bool StartObject(const void* attrib_begin = 0, const void* attrib_end = 0) {
+    bool StartObject(ConstAttributeIterator attrib_begin = 0, ConstAttributeIterator attrib_end = 0) {
         (void)attrib_begin;
         (void)attrib_end;
         PrettyPrefix(kObjectType);
@@ -137,7 +138,7 @@ public:
         return true;
     }
 
-    bool OpenTag(const Ch* str, SizeType length, const void* attrib_begin, const void* attrib_end, bool copy = false, const void* attrib2_begin = 0, const void* attrib2_end = 0) {
+    bool OpenTag(const Ch* str, SizeType length, ConstAttributeIterator attrib_begin, ConstAttributeIterator attrib_end, bool copy = false, ConstAttributeIterator attrib2_begin = 0, ConstAttributeIterator attrib2_end = 0) {
         (void)attrib_begin;
         (void)attrib_end;
         (void)copy;

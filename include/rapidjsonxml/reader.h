@@ -107,6 +107,7 @@ concept Handler {
 template<typename Encoding = UTF8<> >
 struct BaseReaderHandler {
     typedef typename Encoding::Ch Ch;
+    typedef const void* ConstAttributeIterator;
 
     bool Default() {
         return true;
@@ -135,7 +136,7 @@ struct BaseReaderHandler {
     bool String(const Ch*, SizeType, bool) {
         return Default();
     }
-    bool StartObject(const void*, const void*) {
+    bool StartObject(ConstAttributeIterator, ConstAttributeIterator) {
         return Default();
     }
     bool EndObject(SizeType) {
@@ -147,7 +148,7 @@ struct BaseReaderHandler {
     bool EndArray(SizeType) {
         return Default();
     }
-    bool OpenTag(const Ch*, SizeType, const void*, const void*, bool, const void*, const void*) {
+    bool OpenTag(const Ch*, SizeType, ConstAttributeIterator, ConstAttributeIterator, bool, ConstAttributeIterator, ConstAttributeIterator) {
         return Default();
     }
     bool CloseTag(const Ch*, SizeType, bool) {
