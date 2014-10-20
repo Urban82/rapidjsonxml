@@ -481,7 +481,7 @@ private:
         RAPIDJSONXML_ASSERT(is.Peek() == '{');
         is.Take(); // Skip '{'
 
-        if (!handler.StartObject())
+        if (!handler.StartObject(GenericAttributeIteratorPair<TargetEncoding>()))
             RAPIDJSONXML_PARSE_ERROR(kParseErrorTermination, is.Tell());
 
         SkipWhitespace(is);
@@ -1185,7 +1185,7 @@ private:
             // Initialize and push the member/element count.
             *stack_.template Push<SizeType>(1) = 0;
             // Call handler
-            bool hr = (dst == IterativeParsingObjectInitialState) ? handler.StartObject() : handler.StartArray();
+            bool hr = (dst == IterativeParsingObjectInitialState) ? handler.StartObject(GenericAttributeIteratorPair<TargetEncoding>()) : handler.StartArray();
             // On handler short circuits the parsing.
             if (!hr) {
                 RAPIDJSONXML_PARSE_ERROR_NORETURN(kParseErrorTermination, is.Tell());
