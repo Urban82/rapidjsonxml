@@ -1479,7 +1479,7 @@ public:
             if (!handler.StartObject(AttributeIteratorPair(AttributeBegin(), AttributeEnd())))
                 return false;
             for (ConstMemberIterator m = MemberBegin(); m != MemberEnd(); ++m) {
-                AttributeIteratorPair attribs_list[3];
+                AttributeIteratorPair attribs_list[2];
                 attribs_list[0] = AttributeIteratorPair(m->value.AttributeBegin(), m->value.AttributeEnd());
                 if (m->value.GetType() == kArrayType && !m->value.Empty()) {
                     ConstValueIterator v = m->value.Begin();

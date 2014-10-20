@@ -216,17 +216,18 @@ public:
         if(!WriteString(str, length))
             return false;
         if (attribs_list) {
-            AttributeIteratorPairList a = attribs_list;
-            while (a->IsValid()) {
-                for (ConstAttributeIterator it = a->begin; it != a->end; ++it) {
-                    os_->Put(' ');
-                    WriteString(it->GetName(), it->GetNameLength());
-                    os_->Put('=');
-                    os_->Put('"');
-                    WriteString(it->GetValue(), it->GetValueLength());
-                    os_->Put('"');
+            for (int i = 0; i < 2; ++i) {
+                AttributeIteratorPairList a = attribs_list + i;
+                if (a->IsValid()) {
+                    for (ConstAttributeIterator it = a->begin; it != a->end; ++it) {
+                        os_->Put(' ');
+                        WriteString(it->GetName(), it->GetNameLength());
+                        os_->Put('=');
+                        os_->Put('"');
+                        WriteString(it->GetValue(), it->GetValueLength());
+                        os_->Put('"');
+                    }
                 }
-                ++a;
             }
         }
         os_->Put('>');
@@ -444,7 +445,7 @@ protected:
             if (level->inArray && level->valueCount > 0) {
                 CloseTag(level->tag, level->tagSize);
 
-                AttributeIteratorPair attribs_list[3];
+                AttributeIteratorPair attribs_list[2];
                 attribs_list[0] = level->attrib;
                 attribs_list[1] = attribs;
 
